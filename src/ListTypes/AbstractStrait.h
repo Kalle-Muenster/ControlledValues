@@ -4,15 +4,15 @@
 #include "StaticList.h"
 #include "DynamicList.h"
 
-namespace stepflow{ 
- 
+namespace stepflow{
+
 
 template<typename baseType>
-class AbstractStrait 
-	: public baseType
+class AbstractStrait
+    : public baseType
 {
 
-	
+
 };
 
 

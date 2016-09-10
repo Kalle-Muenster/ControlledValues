@@ -36,41 +36,41 @@
 
 namespace stepflow{
 
-	template<typename cT>
-	class AntiProportional : public InvertController < cT >
-	{
-	protected:
-		virtual void Init(void)
-		{
-			InvertController<cT>::Init();
-			controller->MIN = 0;
-			controller->MAX = 1;
-		}
-	public:
-		virtual cT checkVALUE(cT *VALUE)
-		{
-			return *VALUE = (InvertController<cT>::checkVALUE(VALUE) + INVERT ? controller->MAX : 0);
-		}
+    template<typename cT>
+    class AntiProportional : public InvertController < cT >
+    {
+    protected:
+        virtual void Init(void)
+        {
+            InvertController<cT>::Init();
+            controller->MIN = 0;
+            controller->MAX = 1;
+        }
+    public:
+        virtual cT checkVALUE(cT *VALUE)
+        {
+            return *VALUE = (InvertController<cT>::checkVALUE(VALUE) + INVERT ? controller->MAX : 0);
+        }
 
-	};
+    };
 
-	template<typename Type>
-	class TypeFloater : public AntiProportional < float >
-	{
-	protected:
-		long SCALE;
-		virtual void Init(void)
-		{
-			AntiProportional<float>::Init();
-			SCALE = std::numeric_limits<Type>().max();
-		}
+    template<typename Type>
+    class TypeFloater : public AntiProportional < float >
+    {
+    protected:
+        long SCALE;
+        virtual void Init(void)
+        {
+            AntiProportional<float>::Init();
+            SCALE = std::numeric_limits<Type>().max();
+        }
 
-	public:
-		virtual float checkVALUE(float *VALUE)
-		{
-			return (float)(SCALE * AntiProportional<float>::checkVALUE(VALUE));
-		}
+    public:
+        virtual float checkVALUE(float *VALUE)
+        {
+            return (float)(SCALE * AntiProportional<float>::checkVALUE(VALUE));
+        }
 
-	};
+    };
 }
 #endif
