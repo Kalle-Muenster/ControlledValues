@@ -88,7 +88,34 @@ public:
         return newSize - MAXIMUM_SIZE;
     }
 
-
+    // reorders the list so it won't contain any gaps nomore
+    // and returns the list's new size of bytes in memory
+    int Compact(void)
+    {
+        if(MAXIMUM_SIZE>numberOfMember)
+        {
+            elementType* neu = new elementType[numberOfMember];
+            unsigned cmpct=0;
+            for(unsigned id=this->First();id<=this->Last();id=this->Next(id))
+            {
+                if(id>cmpct)
+                {
+                    list[cmpct] = list[id];
+                    list[id] = Nulled;
+                    id=cmpct;
+                }
+                neu[cmpct] = list[cmpct];
+                cmpct++;
+            }
+            
+            delete list;
+            setDataArray(neu);
+            highestSlotNumberInUse=(numberOfMember-1);
+            return sizeof(elementType)*(MAXIMUM_SIZE=numberOfMember);
+        }
+    }
+    
+    
     virtual ~DynamicListType(void)
     {
         if(MemberArePointer())
