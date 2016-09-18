@@ -37,7 +37,7 @@ namespace stepflow{
     {
     public:
         DynamicList(void) : AbstractCycle<DynamicListType<elementType>, elementType>() {}
-        DynamicList(elementType nuller, unsigned capacity) : AbstractCycle<DynamicListType<elementType>, elementType>(nuller, capacity) {}
+        DynamicList(elementType nuller, unsigned capacity=4) : AbstractCycle<DynamicListType<elementType>, elementType>(nuller, capacity) {}
     };
 
 

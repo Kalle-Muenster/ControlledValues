@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ControlledVallues">
+      <UniqueIdentifier>{06c60ec2-cae9-47af-ad6a-e272e50d2795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlledVallues\inc">
+      <UniqueIdentifier>{ff636a82-23e6-47f7-9fe6-540ab85372ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlledVallues\src">
+      <UniqueIdentifier>{23de22dd-8326-4fd7-ae62-5d5c44713673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlledVallues\tst">
+      <UniqueIdentifier>{6a8c0a7f-ce43-43ce-92f6-9d030edb2ada}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\ControlledValues.h">
+      <Filter>ControlledVallues\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\StepLists.h">
+      <Filter>ControlledVallues\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ControlledValues.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ControlledVector3.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ValueController.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ValueControllerUserModes.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\AbstractCycle.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\AbstractStrait.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\AbstractTyped.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\DynamicList.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\ListBase.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\Lists.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\StaticList.h">
+      <Filter>ControlledVallues\src</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>ControlledVallues\tst</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Test.cpp">
+      <Filter>ControlledVallues\tst</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
