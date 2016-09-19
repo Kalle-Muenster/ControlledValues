@@ -6,10 +6,13 @@
 #include <Windows.h>
 #include <iostream>
 
-//#include "half.h"
 
-LARGE_INTEGER* getTimer(void);
 
+LARGE_INTEGER*
+getTimer(void);
+
+// Helper macros for scoped measurements. don't use directly, 
+// use BEGIN_MEASURE and END_MEASURE macros instead.
 #define START_CLOCK(timerName) LARGE_INTEGER* tmr = getTimer(); \
 							   QueryPerformanceCounter(tmr); \
 							   DWORD timerName = tmr->QuadPart
@@ -17,16 +20,20 @@ LARGE_INTEGER* getTimer(void);
 #define RETURN_CLOCK(timerName) QueryPerformanceCounter(tmr); \
 								return tmr->QuadPart - timerName; \
 
-
+// begins a scoped measurement in class which
+// implements iTestTimer interface
 #define BEGIN_MEASURE START_CLOCK(measure);
+
+// closes the scope and return it's amount.
 #define END_MEASURE  RETURN_CLOCK(measure);
+
+
 
 template<typename E>
 void copy(E src, E& dst)
 {
 	dst = src;
 }
-
 
 namespace stepflow{
 	namespace tests{
@@ -59,33 +66,23 @@ namespace stepflow{
 					*object = new T(parameter);
 				END_MEASURE }
 
-			template<typename T, typename P1, typename P2=P1> DWORD
-				constructProband(T** object, P1 para1, P2 para2)
+			template<typename T, typename P1, typename P2 = P1> DWORD
+				constructProband(P1 para1, P2 para2)
 			{ BEGIN_MEASURE
 					*object = new T(para1, para2);
 				END_MEASURE	}
 
-			//template<typename T, typename P1=void*, typename P2=P1, typename P3 = P2> DWORD
-			//	ConstructionMeasurement(T** object, P1 para1 = NULL, P2 para2 = NULL, P3 para3 = NULL)
-			//{
-			//if(para3) {
-			//  BEGIN_MEASURE
-			//	*object = new T(para1, para2, para3);
-			//	END_MEASURE	}
-			//else if(para2) {
-			//  BEGIN_MEASURE
-			//	 *object = new T(para1, para2);
-			//	END_MEASURE	} 
-			//else if(para1) {
-			//  BEGIN_MEASURE
-			//	 *object = new T(para1);
-			//	END_MEASURE	}
-			//else {
-			//  BEGIN_MEASURE
-			//	 *object = new T();
-			//	END_MEASURE	}
-			//}
-
+	/*		template<typename T, typename P1, typename P2, typename P3 = P2> DWORD
+				constructProband(T** object, P1 para1, P2 para2, P3 para3)
+			{
+				BEGIN_MEASURE
+					*object = new T(para1, para2, para3);
+				END_MEASURE	}
+	*/
+			// Interface which adds a high precision tick counter 
+			// to a class, so you can define scopes by BEGIN_MEASURE 
+			// and END_MEASURE in it. Such scope will return the amount
+			// on ticks when the code inside has been executed.  
 			class iTestTimer
 			{
 			protected:
@@ -100,6 +97,10 @@ namespace stepflow{
 								{ return ticksPerSecond; }
 			};
 
+			// A test case for objects with up to 3 construction parameters.
+			// choosable number of func pointers can be assigned to it, which
+			// then will be invoked on the object while measuring and logging 
+			// the amounts on execution time. 
 			template<typename T, typename E, const int TESTS_COUNT>
 			class TestCase : public iTestTimer
 			{
@@ -127,8 +128,7 @@ namespace stepflow{
 				int					testOrder[PHASEN::anzahl];
 				E*					testData;
 				T*					proband;
-				void*				ConstructionParameterA;
-				void*				ConstructionParameterB;
+				void*				CtorPrmtr[3];
 
 			public:
 				TestCase(void)
@@ -146,6 +146,8 @@ namespace stepflow{
 					testNames[PHASEN::construction] = "Constructon";
 					testOrder[PHASEN::deletion] = PHASEN::deletion;
 					testNames[PHASEN::deletion] = "Deletion";
+
+					SetConstructionParameter<void*>();
 				};
 
 				virtual ~TestCase(void)
@@ -156,29 +158,40 @@ namespace stepflow{
 					delete testData; 
 				};
 
-				
+				// functions for configuring the test
+
+			
 				void SetContainerSize(unsigned long long newSize)
 					 { elementsCount = newSize; }
 
+				// allocate a new test data block 
 				E* SetCheckDataBuffer(int elementsCount)
 				   { return SetCheckDataBuffer(new E[elementsCount], elementsCount); }
 
+				// set an already allocated data block to be used as test data.
 				E* SetCheckDataBuffer(E* allocatedBlock, int elementsCount)
 				   { this->elementsCount = elementsCount;
 					   return testData = allocatedBlock; }
 
+				// Set function that will iterate once through all the data
 				void SetIterationFunction(IterationFunc iterFunc)
 				{
 					iteration = iterFunc;
 				}
 
-				template<typename CtorP1,typename CtorP2=CtorP1>
-				void SetConstructionParameter(CtorP1* argumOne, CtorP2* argumTwo = NULL)
-				{
-					this->ConstructionParameterA = argumOne;
-					this->ConstructionParameterB = argumTwo;
+				// Set up to three construction parameters 
+				template< typename CtorP1, 
+						  typename CtorP2 = CtorP1, 
+						  typename CtorP3 = CtorP2 >
+				void SetConstructionParameter( CtorP1* argumOne = nullptr, 
+											   CtorP2* argumTwo = nullptr, 
+											   CtorP3* argumTri = nullptr ) {
+					CtorPrmtr[0] = argumOne;
+					CtorPrmtr[1] = argumTwo;
+					CtorPrmtr[2] = argumTri;
 				}
 
+				// add a function to be performed on the object.
 				void AddTestFunction(PerformAction action, const char* name, int order)
 				{
 					if(currentPhase < PHASEN::anzahl)
@@ -189,60 +202,12 @@ namespace stepflow{
 					}
 				}
 
-				template<typename CtorP1,typename CtorP2=CtorP1>
-				DWORD ConstructAndRunTests(void)
+
+
+				CONTAINER& getProband(void)
 				{
-					int numGum  = (((CtorP1*)this->ConstructionParameterA) != NULL);
-						numGum += (((CtorP2*)this->ConstructionParameterB) != NULL);
-					
-						switch(numGum)
-						{
-						case 0:
-							return RunStandardConstructor();
-						case 1:
-							return RunConstructor(*(CtorP1*)this->ConstructionParameterA);
-					/*	case 2:
-							if(proband)
-								amounts[testOrder[PHASEN::deletion]] = deleteProband();
-							proband = false;
-							BEGIN_MEASURE
-								amounts[testOrder[PHASEN::construction]] = 
-											                constructProband( &proband, 
-															*(CtorP1*)ConstructionParameterA, 
-															*(CtorP2*)ConstructionParameterB );
-								Run();
-								amounts[testOrder[PHASEN::deletion]] = deleteProband();
-								proband = false;
-								testFinished = true;
-							END_MEASURE 
-					*/
-						}
+					return *proband;
 				}
-
-				template<typename P1>
-				DWORD RunConstructor(P1 parameter)
-				{ if(proband)
-					amounts[testOrder[PHASEN::deletion]] = deleteProband();
-				  proband = false;
-				  BEGIN_MEASURE
-					amounts[testOrder[PHASEN::construction]] = constructProband<T,P1>(&proband, parameter);
-						Run();
-					amounts[testOrder[PHASEN::deletion]] = deleteProband();
-					proband = false;
-					testFinished = true;
-				  END_MEASURE }
-
-				DWORD RunStandardConstructor(void)
-				{ if(proband)
-					amounts[testOrder[PHASEN::deletion]] = deleteProband();
-				  proband = false;
-				  BEGIN_MEASURE
-					amounts[testOrder[PHASEN::construction]] = constructProband<T>(&proband);
-						Run();
-					amounts[testOrder[PHASEN::deletion]] = deleteProband();
-					proband = false;
-					testFinished = true;
-				  END_MEASURE }
 
 				unsigned long getElementCount(void)
 				{
@@ -253,15 +218,127 @@ namespace stepflow{
 				{
 					return ticksPerSecond;
 				}
+
 				double ToMilliSeconds(DWORD ticks)
 				{
 					return (double)(ticks * timeFactor);
 				}
 
-				CONTAINER& getProband(void)
+
+
+				template<typename CtorP1>
+				DWORD ConstructAndRunTests(void)
 				{
-					return *proband;
+					if(((CtorP1*)CtorPrmtr[0]) == nullptr)
+						return RunStandardConstructor();
+					else
+						return RunConstructor(*(CtorP1*)CtorPrmtr[0]);
 				}
+
+				template<typename CtorP1, typename CtorP2 = CtorP1>
+				DWORD RunTest(void)
+				{
+					if(((CtorP2*)CtorPrmtr[1] == nullptr))
+						return RunConstructor(*(CtorP1*)CtorPrmtr[0]);
+					else
+						return RunConstructor(*(CtorP1*)CtorPrmtr[0], *(CtorP2*)CtorPrmtr[1]);
+				}
+
+				template<typename CtorP1, typename CtorP2 = CtorP1, typename CtorP3 = CtorP2>
+				DWORD RunTest(void)
+				{
+					if(((CtorP3*)CtorPrmtr[2] == nullptr))
+						return RunConstructor(*(CtorP1*)CtorPrmtr[0], *(CtorP2*)CtorPrmtr[1]);
+					else
+						return RunConstructor(*(CtorP1*)CtorPrmtr[0], *(CtorP2*)CtorPrmtr[1], *(CtorP3*)CtorPrmtr[2]);
+				}
+	
+
+				DWORD RunStandardConstructor(void)
+				{ if(proband)
+					amounts[testOrder[PHASEN::deletion]] = deleteProband();
+				  proband = false;
+				  BEGIN_MEASURE
+					amounts[testOrder[PHASEN::construction]] = constructProband<T>(&proband);
+					Run();
+					amounts[testOrder[PHASEN::deletion]] = deleteProband();
+					proband = false;
+					testFinished = true;
+				  END_MEASURE }
+
+				template<typename P1>
+				DWORD RunConstructor(P1 parameter)
+				{
+					if(proband)
+						amounts[testOrder[PHASEN::deletion]] = deleteProband();
+					proband = false;
+					BEGIN_MEASURE
+						amounts[testOrder[PHASEN::construction]] = constructProband(&proband, parameter);
+						Run();
+						amounts[testOrder[PHASEN::deletion]] = deleteProband();
+						proband = false;
+						testFinished = true;
+					END_MEASURE
+				}
+				
+				template<typename P1,typename P2>
+				DWORD RunConstructor(P1 p1,P2 p2)
+				{
+					if(proband)
+						amounts[testOrder[PHASEN::deletion]] = deleteProband();
+					proband = false;
+					BEGIN_MEASURE
+						amounts[testOrder[PHASEN::construction]] = constructProband(&proband,p1,p2);
+						Run();
+						amounts[testOrder[PHASEN::deletion]] = deleteProband();
+						proband = false;
+						testFinished = true;
+					END_MEASURE
+				}
+				
+				template<typename P1, typename P2, typename P3>
+				DWORD RunConstructor(P1 p1, P2 p2, P3 p3)
+				{
+					if(proband)
+						amounts[testOrder[PHASEN::deletion]] = deleteProband();
+					proband = false;
+					BEGIN_MEASURE
+						amounts[testOrder[PHASEN::construction]] = constructProband(&proband,p1,p2,p3);
+						Run();
+						amounts[testOrder[PHASEN::deletion]] = deleteProband();
+						proband = false;
+						testFinished = true;
+					END_MEASURE
+				}
+				
+				void Run(void)
+				{
+					currentPhase = 0;
+					while(++currentPhase < PHASEN::deletion)
+						amounts[testOrder[currentPhase]] = performPhase();
+				}
+
+
+				void performforeach(T* obj, void* data)
+				{
+					iteration(obj, copy<E>, (E*)data);
+				}
+
+				DWORD performPhase(void)
+				{
+					BEGIN_MEASURE
+						tests[testOrder[currentPhase]](this, testData);
+					END_MEASURE
+				}
+
+				DWORD deleteProband(void)
+				{
+					BEGIN_MEASURE
+						delete proband;
+					END_MEASURE
+				}
+
+
 
 				char* getResult(PHASEN phase)
 				{
@@ -278,25 +355,7 @@ namespace stepflow{
 					return &txtOutBuffer[0];
 				}
 
-				DWORD deleteProband(void)
-				{ BEGIN_MEASURE
-						delete proband;
-					END_MEASURE	}
 
-				DWORD performPhase(void)
-				{ BEGIN_MEASURE
-						tests[testOrder[currentPhase]](this, testData);
-					END_MEASURE	}
-
-				void Run(void)
-				{ currentPhase = 0;
-					while(++currentPhase < PHASEN::deletion)
-						amounts[testOrder[currentPhase]] = performPhase(); }
-				
-
-				void performforeach(T* obj, void* data) {
-					iteration(obj, copy<E>, (E*)data);
-				}
 			};
 		}
 	}

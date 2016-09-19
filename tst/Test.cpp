@@ -22,15 +22,13 @@ void stepflow::tests::performances::iTestTimer::InitializeTimer(void)
 using namespace stepflow::tests::performances;
 
 
-
-template<typename Proband>
-void FillStepflowList(Proband* test, void* loade)
+// difinitions for calls on std::vector
+template<typename T, typename E>
+void StdVectorIteration(T* list, typename void(*action)(E, E&), E* dest)
 {
-	Proband::CONTAINER* p = &test->getProband();
-	Proband::DATA_TYPE* elements = (Proband::DATA_TYPE*)loade;
-	int count = test->getElementCount();
-	for(int i = 0; i < count; i++)
-		p->Add(*elements++);
+	int c = 0;
+	for(auto it = (*list).begin(); it != (*list).end(); it++)
+		action(*it, dest[c++]);
 }
 
 template<typename Proband>
@@ -44,27 +42,33 @@ void FillStdVector(Proband* test, void* loade)
 }
 
 
+template<typename Proband>
+void ClearAllDataOnStdVector(Proband* test, void* loade)
+{
+	test->getProband().clear();
+}
 
 
+
+// Definitions for calls on stepflow::ListTypes
 
 template<typename T, typename E>
-void StepflowListIteration(T* list,typename void(*action)(E,E&), E* dest)
+void StepflowListIteration(T* list, typename void(*action)(E, E&), E* dest)
 {
 	int c = 0;
-	for (unsigned id = (*list).First(); id != (*list).Last(); id = (*list).Next(id))
+	for(unsigned id = (*list).First(); id != (*list).Last(); id = (*list).Next(id))
 		action((*list)[id], dest[c++]);
 }
 
-template<typename T, typename E>
-void StdVectorIteration(T* list, typename void(*action)(E,E&), E* dest)
+template<typename Proband>
+void FillStepflowList(Proband* test, void* loade)
 {
-	int c = 0;
-	for (auto it = (*list).begin(); it != (*list).end(); it++)
-		action(*it, dest[c++]);
+	Proband::CONTAINER* p = &test->getProband();
+	Proband::DATA_TYPE* elements = (Proband::DATA_TYPE*)loade;
+	int count = test->getElementCount();
+	for(int i = 0; i < count; i++)
+		p->Add(*elements++);
 }
-
-
-
 
 template<typename Proband>
 void ForwardCycle(Proband* test, void* dataBlock)
@@ -92,7 +96,11 @@ void iterate(Proband* test,void* testData)
 	test->performforeach(&test->getProband(), testData);
 }
 
-
+template<typename Proband>
+void ClearAllDataOnStepLists(Proband* test, void* loade)
+{
+	test->getProband().Clear(false);
+}
 
 
 
@@ -111,7 +119,8 @@ TestCase<ProbandType, DataType, NUMBER_OF_ACTIONS>* CreateTestCaseFunction()
 	return testCase;
 }
 
-#define CreateTestCase(probtype,datatype,ctortype,COUNT) typedef TestCase<probtype,datatype,COUNT> ADD_SUFFIX(probtype,TestCase); ADD_SUFFIX(probtype,TestCase) *ADD_SUFFIX(probtype,Test) = CreateTestCaseFunction<probtype,datatype,ctortype,COUNT>()
+#define CreateTestCase(probtype,datatype,ctortype,COUNT) typedef TestCase<probtype,datatype,COUNT> ADD_SUFFIX(probtype,TestCase); \
+														 ADD_SUFFIX(probtype,TestCase) *ADD_SUFFIX(probtype,Test) = CreateTestCaseFunction<probtype,datatype,ctortype,COUNT>()
 
 template<class ProbandType, typename DataType, const int NUMBER_OF_ACTIONS, typename CtorP1>
 bool Evaluiere(TestCase<ProbandType, DataType, NUMBER_OF_ACTIONS>* testCase,CtorP1 ctorP1)
@@ -145,30 +154,33 @@ int main(int argc, char** argv)
 	printf( "Timer Initialized: %i ticks per second.",
 		    iTestTimer::getTicksPerSecond() );
 
-	typedef std::vector<int> StdVector;
-	CreateTestCase(StdVector, int, int, 2);
-	StdVectorTest->SetIterationFunction(&StdVectorIteration);
-	StdVectorTest->AddTestFunction(&FillStdVector, "Fill", 1);
-	StdVectorTest->AddTestFunction(&iterate, "Iteration", 2);
-	Evaluiere(StdVectorTest,0);
-
-	typedef stepflow::DynamicList<int> DynamicList;
-	CreateTestCase(DynamicList, int, int, 4);
-	DynamicListTest->SetIterationFunction(&StepflowListIteration);
-	DynamicListTest->AddTestFunction(&FillStepflowList, "Fill", 1);
-	DynamicListTest->AddTestFunction(&iterate, "Iteration", 2);
-	DynamicListTest->AddTestFunction(&ForwardCycle, "ForwardCycle", 3);
-	DynamicListTest->AddTestFunction(&BackwardCycle, "BackwardCycle", 4);
-	Evaluiere(DynamicListTest, std::numeric_limits<int>::min());// -8192);
-
 	typedef stepflow::List<int, 8192> StepList;
-	CreateTestCase(StepList,int,int,4);
+	CreateTestCase(StepList, int, int, 5);
 	StepListTest->SetIterationFunction(&StepflowListIteration);
 	StepListTest->AddTestFunction(&FillStepflowList, "Fill", 1);
 	StepListTest->AddTestFunction(&iterate, "Iteration", 2);
 	StepListTest->AddTestFunction(&ForwardCycle, "ForwardCycle", 3);
 	StepListTest->AddTestFunction(&BackwardCycle, "BackwardCycle", 4);
+	StepListTest->AddTestFunction(&ClearAllDataOnStepLists, "Clear", 5);
 	Evaluiere(StepListTest, std::numeric_limits<int>::min());// -8192);
+
+	typedef stepflow::DynamicList<int> DynamicList;
+	CreateTestCase(DynamicList, int, int, 5);
+	DynamicListTest->SetIterationFunction(&StepflowListIteration);
+	DynamicListTest->AddTestFunction(&FillStepflowList, "Fill", 1);
+	DynamicListTest->AddTestFunction(&iterate, "Iteration", 2);
+	DynamicListTest->AddTestFunction(&ForwardCycle, "ForwardCycle", 3);
+	DynamicListTest->AddTestFunction(&BackwardCycle, "BackwardCycle", 4);
+	DynamicListTest->AddTestFunction(&ClearAllDataOnStepLists, "Clear", 5);
+	Evaluiere(DynamicListTest, std::numeric_limits<int>::min());// -8192);
+
+	typedef std::vector<int> StdVector;
+	CreateTestCase(StdVector, int, int, 3);
+	StdVectorTest->SetIterationFunction(&StdVectorIteration);
+	StdVectorTest->AddTestFunction(&FillStdVector, "Fill", 1);
+	StdVectorTest->AddTestFunction(&iterate, "Iteration", 2);
+	StdVectorTest->AddTestFunction(&ClearAllDataOnStdVector, "Clear", 3);
+	Evaluiere(StdVectorTest, 0);
 
 	printf("\n\npress any key for exit...");
 	std::getchar();

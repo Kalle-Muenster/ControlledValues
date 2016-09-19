@@ -42,10 +42,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>../inc;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)/../bin/</OutDir>
+    <LibraryPath>%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)/../bin/</OutDir>
     <IncludePath>../inc;$(IncludePath)</IncludePath>
+    <LibraryPath>%ProgramFiles(x86)%\Microsoft SDKs\Windows\v7.1A\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,11 +91,6 @@
     <ClInclude Include="..\src\ListTypes\Lists.h" />
     <ClInclude Include="..\src\ListTypes\StaticList.h" />
     <ClInclude Include="Test.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\dll\soundXgame.vcxproj">
-      <Project>{e3b84b61-21d8-4c55-9d85-a3626e330646}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
