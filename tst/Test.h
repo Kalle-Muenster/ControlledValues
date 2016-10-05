@@ -1,8 +1,6 @@
 #ifndef _PERFORMANCES_
 #define _PERFORMANCES_
-#include "../inc/ControlledValues.h"
-#include "../inc/StepLists.h"
-#include <vector>
+
 #include <Windows.h>
 #include <iostream>
 
@@ -28,16 +26,54 @@ getTimer(void);
 #define END_MEASURE  RETURN_CLOCK(measure);
 
 
+// std::string but will implicit cast to const char*
+struct String : public std::string
+{
+	String(void) 
+		: std::string() {};
+	String(const char* init)
+		: std::string(init) {};
+	String(std::basic_string<char>& copy)
+		: std::string(copy) {};
 
+	operator const char*(void)
+	{ return this->c_str(); }
+
+	String operator +(String& other)
+	{ String tmp(this->c_str());
+	  tmp.append(other);
+	  return tmp; }
+
+	String operator +(const char* other)
+	{
+		String tmp(this->c_str());
+		tmp.append(other);
+		return tmp;
+	}
+
+	String operator +(char other)
+	{
+		char buf[2] = { other, '\0' };
+		String tmp(this->c_str());
+		tmp.append(&buf[0]);
+		return tmp;
+	}
+};
+
+
+
+// function that will by used when
+// performing "foreach" loops:
 template<typename E>
 void copy(E src, E& dst)
 {
 	dst = src;
 }
 
+
 namespace stepflow{
-	namespace tests{
-		namespace performances{
+	namespace Tests{
+	
 
 			typedef unsigned char		i8;
 			typedef unsigned short		i16;
@@ -52,7 +88,6 @@ namespace stepflow{
 			typedef long double			d64;
 			typedef double				f64;
 			typedef float				f32;
-	//		typedef half                f16;
 
 			template<typename T> DWORD
 				constructProband(T** object)
@@ -107,19 +142,20 @@ namespace stepflow{
 			public:
 				enum PHASEN
 				{ construction = 0,	deletion = TESTS_COUNT + 1,
-				anzahl=TESTS_COUNT+2};
+				anzahl=TESTS_COUNT+2 };
 				typedef T CONTAINER;
 				typedef E DATA_TYPE;
 				typedef void(*ElementFunc)(E, E&);
-				typedef void(*PerformAction)(TestCase*, void*);
+				typedef void(*PerformAction)(TestCase*, void**);
 				typedef void(*IterationFunc)(T*, ElementFunc, E*);
+				typedef void(*PerformDoubleAction)(TestCase*, void*, void*);
 
 			private:		
 				unsigned long long	elementsCount;
 				LARGE_INTEGER*		getTimer(void) { return &timer; }
 				IterationFunc		iteration;
-				const char*			testNames[PHASEN::anzahl];
-				void(*              tests[PHASEN::anzahl])(TestCase*, void*);
+				String				testNames[PHASEN::anzahl];
+				void(*              tests[PHASEN::anzahl])(TestCase*, void**);
 				DWORD				amounts[PHASEN::anzahl];
 				byte				currentPhase;
 				bool				printResults;
@@ -129,15 +165,15 @@ namespace stepflow{
 				E*					testData;
 				T*					proband;
 				void*				CtorPrmtr[3];
-
+				bool				dontReInstanciate;
 			public:
-				TestCase(void)
+				TestCase(bool atOnce=false)
 				{
-					proband = false;
+					proband = NULL;
 					printResults = true;
 					testFinished = false;
 					currentPhase = elementsCount = 0;
-					sprintf(&txtOutBuffer[0],"test not finished yet! :\\\n");
+					sprintf_s<128>( txtOutBuffer,"test not finished yet! :\\\n");
 			
 					for(int i = 0; i < PHASEN::anzahl; i++)
 						amounts[i] = 0;
@@ -148,30 +184,60 @@ namespace stepflow{
 					testNames[PHASEN::deletion] = "Deletion";
 
 					SetConstructionParameter<void*>();
+
+					if(dontReInstanciate = atOnce)
+						proband = new CONTAINER();
 				};
 
 				virtual ~TestCase(void)
 				{ 
 				  if(proband)
-					delete proband;
+				  {
+					  delete proband;
+					  proband = NULL;
+				  }
 				  if(testData)
-					delete testData; 
+					  delete testData;
 				};
 
 				// functions for configuring the test
 
 			
 				void SetContainerSize(unsigned long long newSize)
-					 { elementsCount = newSize; }
+					 { elementsCount = newSize;	}
 
 				// allocate a new test data block 
 				E* SetCheckDataBuffer(int elementsCount)
-				   { return SetCheckDataBuffer(new E[elementsCount], elementsCount); }
+				{ 
+					SetCheckDataBuffer(new E[elementsCount], elementsCount);
+					for(int i = 0; i < elementsCount; i++)
+						testData[i] = 0;
+					return testData;
+				}
 
 				// set an already allocated data block to be used as test data.
 				E* SetCheckDataBuffer(E* allocatedBlock, int elementsCount)
 				   { this->elementsCount = elementsCount;
 					   return testData = allocatedBlock; }
+
+				const char* getCurrentPhase(void)
+				{
+					return testNames[testOrder[currentPhase]];
+				}
+
+				E* getTestData(void)
+				{
+					return testData;
+				}
+
+				E* detachData(void)
+				{
+					if(testFinished) {
+						E* temp = testData;
+						testData = NULL;
+						return temp; 
+					} else return testData;
+				}
 
 				// Set function that will iterate once through all the data
 				void SetIterationFunction(IterationFunc iterFunc)
@@ -202,11 +268,14 @@ namespace stepflow{
 					}
 				}
 
-
-
 				CONTAINER& getProband(void)
 				{
 					return *proband;
+				}
+
+				bool dontConstruct(void)
+				{
+					return dontReInstanciate;
 				}
 
 				unsigned long getElementCount(void)
@@ -253,6 +322,18 @@ namespace stepflow{
 						return RunConstructor(*(CtorP1*)CtorPrmtr[0], *(CtorP2*)CtorPrmtr[1], *(CtorP3*)CtorPrmtr[2]);
 				}
 	
+				// Measurement functions
+
+				DWORD RunConstructorless(void)
+				{ BEGIN_MEASURE
+					Run();
+				if(dontReInstanciate)
+					amounts[testOrder[PHASEN::deletion]] = deleteInContainer();
+				else
+					amounts[testOrder[PHASEN::deletion]] = deleteProband();
+				proband = NULL;
+					testFinished = true; 
+				  END_MEASURE }
 
 				DWORD RunStandardConstructor(void)
 				{ if(proband)
@@ -262,7 +343,7 @@ namespace stepflow{
 					amounts[testOrder[PHASEN::construction]] = constructProband<T>(&proband);
 					Run();
 					amounts[testOrder[PHASEN::deletion]] = deleteProband();
-					proband = false;
+					proband = NULL;
 					testFinished = true;
 				  END_MEASURE }
 
@@ -276,7 +357,7 @@ namespace stepflow{
 						amounts[testOrder[PHASEN::construction]] = constructProband(&proband, parameter);
 						Run();
 						amounts[testOrder[PHASEN::deletion]] = deleteProband();
-						proband = false;
+						proband = NULL;
 						testFinished = true;
 					END_MEASURE
 				}
@@ -291,7 +372,7 @@ namespace stepflow{
 						amounts[testOrder[PHASEN::construction]] = constructProband(&proband,p1,p2);
 						Run();
 						amounts[testOrder[PHASEN::deletion]] = deleteProband();
-						proband = false;
+						proband = NULL;
 						testFinished = true;
 					END_MEASURE
 				}
@@ -306,28 +387,15 @@ namespace stepflow{
 						amounts[testOrder[PHASEN::construction]] = constructProband(&proband,p1,p2,p3);
 						Run();
 						amounts[testOrder[PHASEN::deletion]] = deleteProband();
-						proband = false;
+						proband = NULL;
 						testFinished = true;
 					END_MEASURE
-				}
-				
-				void Run(void)
-				{
-					currentPhase = 0;
-					while(++currentPhase < PHASEN::deletion)
-						amounts[testOrder[currentPhase]] = performPhase();
-				}
-
-
-				void performforeach(T* obj, void* data)
-				{
-					iteration(obj, copy<E>, (E*)data);
 				}
 
 				DWORD performPhase(void)
 				{
 					BEGIN_MEASURE
-						tests[testOrder[currentPhase]](this, testData);
+						tests[testOrder[currentPhase]](this, (void**)&testData);
 					END_MEASURE
 				}
 
@@ -338,14 +406,30 @@ namespace stepflow{
 					END_MEASURE
 				}
 
+				DWORD deleteInContainer(void)
+				{
+					BEGIN_MEASURE
+						proband->~CONTAINER();
+				  END_MEASURE }
 
+				void Run(void)
+				{
+					currentPhase = 0;
+					while(++currentPhase < PHASEN::deletion)
+						amounts[testOrder[currentPhase]] = performPhase();
+				}
+
+				void performforeach(T* obj, void* data)
+				{
+					iteration(obj, copy<E>, (E*)data);
+				}
 
 				char* getResult(PHASEN phase)
 				{
 					if(testFinished)
 					{
-						sprintf( &txtOutBuffer[0], "%s: %f ms, %i ticks\n",
-							     testNames[testOrder[phase]],
+						sprintf_s<128>( txtOutBuffer, "%s: %f ms, %i ticks\n",
+							     testNames[testOrder[phase]].c_str(),
 							     ToMilliSeconds(amounts[testOrder[phase]]),
 							     amounts[testOrder[phase]] );
 
@@ -359,5 +443,5 @@ namespace stepflow{
 			};
 		}
 	}
-}
+
 #endif

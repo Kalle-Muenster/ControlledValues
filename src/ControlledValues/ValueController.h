@@ -4,6 +4,22 @@
 namespace stepflow
 {
     typedef unsigned char ModeID;
+	enum CtrlMode : ModeID
+	{
+		NONE = 0,       // Indicates the controller not is being active - value will stay as is..
+		Invert = 1,     // INVERT: - The value will stay the same, but will be returned negated when getted.
+		Clamp = 2,      // CLAMP: - The value will be clamped to MIN/MAX when set.
+		Damp = 3,       // DAMP: - Value behaves like a mass thats being moved through some resistant medium - MOVE controls it's maximum speed reachable, MAX stores it's delta, MIN stores last Value
+		Compress = 4,   // COMPRESS: - If the value's delta-movement becomes over the threshold MIN or lower it's inverse -MIN, it will be amplified by factor MAX (MAX from 0 to 1 will effect reduction, MAX greater 1 effect's amplification)...
+		Expand = 5,     // EXPAND: - If delta-movement is between MIN and -MIN, it will be amplified by factor MAX (supposing MAX was given greater than 1).
+		Moderate = 6,   // MODERATE: - When delta movement is between MIN and -MIN, it will be Expanded by factor MAX. If it becomes greater then MIN or lower then -MIN, it will be Compressed by factor 1/MAX.
+		Cycle = 7,      // CYCLE:  - Every time the value is checked, it will be moved by adding MOVE to it.. If it get's greater it's MAX, it will be set back to it's MIN...
+		PingPong = 8,   // PINGPONG: - Every time the value is checked, it will move by MOVE. when reaches MAX or MIN, MOVE changes it's sign.
+		ExperimentalA,
+		ExperimentalB,
+		ExperimentalC,
+		USERMODE        // Indicates that the value is being controlled by some other controller-implemented object.
+	};
 
     template<typename ctrlType> class Controlled
     {
@@ -28,25 +44,23 @@ namespace stepflow
         {
             switch(mode)
             {
-                // OFF - value will be let as it is..
-            case 0:
+            case 0:// OFF - value will be let as it is..
                 return *_Value;
 
-                /* STILL VALUES */
+            /* STILL VALUES */
 
-                // INVERT: - the value will stay the same, but when it's requested it will be returned negated when GET!.
-            case Controlled<ctrlType>::Invert:
+            // INVERT: 
+			case CtrlMode::Invert://- the value will stay the same, but when 
+				// it's requested it will be returned negated when GET!.
                 return mode == Invert ? -(*_Value) : *_Value;
 
-                // CLAMP: - the value will be clamp to MIN/MAX when it's being SET!...
-            case Controlled<ctrlType>::Clamp:
+            // CLAMP: 
+			case CtrlMode::Clamp:// - the value will be clamp to MIN/MAX when it's being SET!...
                 *_Value = *_Value<MIN ? MIN : *_Value>MAX ? MAX : *_Value;
                 break;
 
-
-
-                /* DYNAMICS: */
-            case Controlled<ctrlType>::Damp:
+            /* DYNAMICS: */
+			case CtrlMode::Damp:
                 MAX = *_Value - MIN;
 
                                  MIN = *_Value = (MAX > 0)
@@ -56,47 +70,65 @@ namespace stepflow
                       ((MAX < -MOVE) ? MIN - MOVE : *_Value) : *_Value;
                 break;
 
-                // COMPRESS: - if the value's delta-movement becomes greater than MIN, it will be damped/Amplified by factor MAX (MAX from 0 to 1 will effect reduction, MAX greater 1 effect's amplification)...
-            case Controlled<ctrlType>::Compress:
-                MOVE = *_Value = (((*_Value - MOVE) > MIN) || ((*_Value - MOVE) < -MIN)) ?
-                                                           MOVE + ((*_Value - MOVE)*MAX) : *_Value;
-                break;
+            // COMPRESS:
+			case CtrlMode::Compress://  - if the value's delta-movement becomes greater than MIN,
+				// it will be damped/Amplified by factor MAX (MAX from 0 to 1 will effect reduction,
+				// MAX greater 1 effect's amplification)...
+				*_Value = (((*_Value>MIN) || (*_Value < -MIN)
+					    ? (*_Value / MAX) * MOVE
+						:  *_Value)* MAX) / MOVE; break;
 
-                // EXPAND: - if delta-movement will stay below MIN, it will be effected by factor MAX...
-            case Controlled<ctrlType>::Expand:
-                MOVE = *_Value = (((*_Value - MOVE) < MIN) || ((*_Value - MOVE) > -MIN)) ?
-                                                           MOVE + ((*_Value - MOVE)*MAX) : *_Value;
-                break;
+            // EXPAND:
+			case CtrlMode::Expand://  - if delta-movement will stay below MIN, 
+				// it will be effected by factor MAX...
+				*_Value = (((*_Value > MIN) || (*_Value < -MIN)
+					    ? (*_Value * MAX) / MOVE
+						:  *_Value)/ MAX) * MOVE; break;
 
-                // MODERATE: - When delta is greater MIN or lower -MIN, it will be Compressed by 1/MAX. - when delta is between MIN and -MIN, it will be Expanded by MAX...
-            case Controlled<ctrlType>::Moderate:
-                MOVE = *_Value = (((*_Value - MOVE) > MIN) || ((*_Value - MOVE) < -MIN)) ?
-                                                  MOVE + ((*_Value - MOVE)*(1.0f / MAX)) : MOVE + ((*_Value - MOVE)*MAX);
-                break;
+            // MODERATE: 
+			case CtrlMode::Moderate://- When delta is greater MIN or lower -MIN, it will be Compressed by 1/MAX.
+				// when delta is between MIN and -MIN, it will be Expanded by MAX...
+                
+				*_Value = (*_Value > MIN) || (*_Value < -MIN)
+						? (*_Value / MAX) * MOVE
+						: (*_Value * MAX) / MOVE; break;
 
 
-                /* MOTIVATORS: */
+            /* MOTIVATORS: */
 
-                // CYCLE:  - every time the value is checked, it will move by adding MOVE to it... if it get's greater MAX, it will reset to MIN...
-            case Controlled<ctrlType>::Cycle:
-                            *_Value = (*_Value < MIN)
-                                               ?
-                         MAX - (MIN - *_Value) : (*_Value > MAX)
-                                                          ?
-                                    MIN + (*_Value - MAX) : (*_Value + MOVE);
-                break;
-
-                // PINGPONG: - every time it's checked, will move by MOVE. when reaches MAX or MIN, MOVE changes it's sign. so the movement will change direction.
-            case Controlled<ctrlType>::PingPong:
+            // CYCLE: 
+			case CtrlMode::Cycle:// - every time the value is checked, it will move by adding MOVE to it... 
+				// if it get's greater MAX, it will reset to MIN...
+                            *_Value = ((*_Value < MIN)
+                                                ?
+						  MAX - (MIN - *_Value) : (*_Value > MAX)
+                                                           ?
+									 MIN + (*_Value - MAX) : *_Value) + MOVE; break;
+            // PINGPONG: 
+			case CtrlMode::PingPong: //- every time it's checked, will move by MOVE.
+				// when reaches MAX or MIN, MOVE changes it's sign. so the movement will change direction.   
                                         *_Value = (*_Value < MIN)
                                                            ?
                 (MIN + (MIN - *_Value)) + (MOVE = (-MOVE)) : (*_Value <= MAX)
                                                                        ?
-                                                      (*_Value + MOVE) : (MAX - (*_Value - MAX)) + (MOVE = (-MOVE));
-                break;
+                                                      (*_Value + MOVE) : (MAX - (*_Value - MAX)) + (MOVE = (-MOVE)); break;
 
-                // USERMODE - implement whatever you able thinking about and attach it to the controller...
-            default:
+            /* EXPERIMENTALs: */
+			case CtrlMode::ExperimentalA:
+				MOVE = *_Value = ((*_Value - MOVE) > MIN) || ((*_Value - MOVE) < -MIN) ?
+														   MOVE + (*_Value - MOVE)*MAX : *_Value; break;
+
+			case CtrlMode::ExperimentalB:
+				MOVE = *_Value = (((*_Value - MOVE) < MIN) || ((*_Value - MOVE) > -MIN)) ?
+														   MOVE + ((*_Value - MOVE)*MAX) : *_Value;	break;
+
+			case CtrlMode::ExperimentalC:
+				MOVE = *_Value = (((*_Value - MOVE) > MIN) || ((*_Value - MOVE) < -MIN)) ?
+				                                  MOVE + ((*_Value - MOVE)*(1.0f / MAX)) : MOVE + ((*_Value - MOVE)*MAX); break;
+
+            // USERMODE
+            default://  - implement whatever you able thinking about
+				// and attach it to the controller...
                 if(UserMode != NULL)
                     return UserMode->checkVALUE(_Value);
             }
@@ -129,19 +161,24 @@ namespace stepflow
         bool ControllerActive;
         ctrlType MIN, MAX, MOVE;
 
+        typedef ctrlType TYPE;
+
         //The selectable modes...
-        enum ControllMode : ModeID
+		enum ControllMode : ModeID
         {
-            NONE = 0,       // Indicates the controller not is being active - value will stay as is..
-            Invert = 1,     // INVERT: - The value will stay the same, but will be returned negated when getted.
-            Clamp = 2,      // CLAMP: - The value will be clamped to MIN/MAX when set.
-            Damp = 3,       // DAMP: - Value behaves like a mass thats being moved through some resistant medium - MOVE controls it's maximum speed reachable, MAX stores it's delta, MIN stores last Value
-            Compress = 4,   // COMPRESS: - If the value's delta-movement becomes over the threshold MIN or lower it's inverse -MIN, it will be amplified by factor MAX (MAX from 0 to 1 will effect reduction, MAX greater 1 effect's amplification)...
-            Expand = 5,     // EXPAND: - If delta-movement is between MIN and -MIN, it will be amplified by factor MAX (supposing MAX was given greater than 1).
-            Moderate = 6,   // MODERATE: - When delta movement is between MIN and -MIN, it will be Expanded by factor MAX. If it becomes greater then MIN or lower then -MIN, it will be Compressed by factor 1/MAX.
-            Cycle = 7,      // CYCLE:  - Every time the value is checked, it will be moved by adding MOVE to it.. If it get's greater it's MAX, it will be set back to it's MIN...
-            PingPong = 8,   // PINGPONG: - Every time the value is checked, it will move by MOVE. when reaches MAX or MIN, MOVE changes it's sign.
-            USERMODE        // Indicates that the value is being controlled by some other controller-implemented object.
+			NONE	 = CtrlMode::NONE,       // Indicates the controller not is being active - value will stay as is..
+			Invert	 = CtrlMode::Invert,     // INVERT: - The value will stay the same, but will be returned negated when getted.
+			Clamp	 = CtrlMode::Clamp,      // CLAMP: - The value will be clamped to MIN/MAX when set.
+			Damp	 = CtrlMode::Damp,       // DAMP: - Value behaves like a mass thats being moved through some resistant medium - MOVE controls it's maximum speed reachable, MAX stores it's delta, MIN stores last Value
+			Compress = CtrlMode::Compress,   // COMPRESS: - If the value's delta-movement becomes over the threshold MIN or lower it's inverse -MIN, it will be amplified by factor MAX (MAX from 0 to 1 will effect reduction, MAX greater 1 effect's amplification)...
+			Expand	 = CtrlMode::Expand,     // EXPAND: - If delta-movement is between MIN and -MIN, it will be amplified by factor MAX (supposing MAX was given greater than 1).
+			Moderate = CtrlMode::Moderate,   // MODERATE: - When delta movement is between MIN and -MIN, it will be Expanded by factor MAX. If it becomes greater then MIN or lower then -MIN, it will be Compressed by factor 1/MAX.
+			Cycle	 = CtrlMode::Cycle,      // CYCLE:  - Every time the value is checked, it will be moved by adding MOVE to it.. If it get's greater it's MAX, it will be set back to it's MIN...
+			PingPong = CtrlMode::PingPong,   // PINGPONG: - Every time the value is checked, it will move by MOVE. when reaches MAX or MIN, MOVE changes it's sign.
+			ExperimentalA = CtrlMode::ExperimentalA,
+			ExperimentalB = CtrlMode::ExperimentalB, 
+			ExperimentalC = CtrlMode::ExperimentalC, 
+			USERMODE = CtrlMode::USERMODE      // Indicates that the value is being controlled by some other controller-implemented object.
         };
 
         //constructor...
@@ -149,7 +186,7 @@ namespace stepflow
         {
             _Value = new ctrlType();
             MustDelete = true;
-            userModesCount = 8;
+			userModesCount = ControllMode::USERMODE-1;
             ControllerActive = false;
             CheckAtGet = true;
             UserMode = NULL;
@@ -158,10 +195,17 @@ namespace stepflow
         //Destructor...
         virtual ~Controlled(void)
         {
-            if(UserMode != NULL)
-                delete UserMode;
-            if(MustDelete)
-                delete _Value;
+			if(UserMode)
+			{
+				delete UserMode;
+				UserMode = NULL;
+			}
+			if(_Value)
+			{
+				if(MustDelete)
+					delete _Value; 
+				_Value = NULL;
+			}
         }
 
         //Set MIN and reset the value itself to the new given MIN.
@@ -207,10 +251,10 @@ namespace stepflow
         //it will instantiate and attach the UserMode to the controller...
         template<typename Umode> Umode& SetUserMode(ctrlType initial)
         {
-
             if(UserMode)
             {
                 delete UserMode;
+				UserMode = NULL;
                 userModesCount--;
             }
 
@@ -234,6 +278,7 @@ namespace stepflow
             if(UserMode)
             {
                 delete UserMode;
+				UserMode = NULL;
                 --userModesCount;
             }
             if(!UserMode)
@@ -292,6 +337,9 @@ namespace stepflow
             case ControllMode::Compress:
             case ControllMode::Expand:
             case ControllMode::Moderate:
+			case ControllMode::ExperimentalA:
+			case ControllMode::ExperimentalB:
+			case ControllMode::ExperimentalC:
                 CheckAtGet = false;
                 _mode = mode;
                 break;
@@ -331,7 +379,7 @@ namespace stepflow
             *_Value = initial;
             MAX = max;
             MIN = min;
-            MOVE = move;
+            MOVE = mode==ControllMode::PingPong? (move*2):move;
             Mode(mode);
             return this;
         }

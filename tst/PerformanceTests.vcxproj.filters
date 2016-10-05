@@ -57,9 +57,21 @@
     <ClInclude Include="Test.h">
       <Filter>ControlledVallues\tst</Filter>
     </ClInclude>
+    <ClInclude Include="ControlerTestContainer.hpp">
+      <Filter>ControlledVallues\tst</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFormat.hpp">
+      <Filter>ControlledVallues\tst</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatAudioCompressor.hpp">
+      <Filter>ControlledVallues\tst</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Test.cpp">
+      <Filter>ControlledVallues\tst</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFormat.cpp">
       <Filter>ControlledVallues\tst</Filter>
     </ClCompile>
   </ItemGroup>

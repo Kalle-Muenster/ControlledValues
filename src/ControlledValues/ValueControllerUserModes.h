@@ -10,6 +10,13 @@
 
 #define Circle (6.2831853071795862)
 
+// If GLM also is included, use it!
+#ifdef GLM_PLATFORM
+#define MathLib glm
+#else // use the standard math.h
+#define MathLib std
+#endif
+
 namespace stepflow
 {
     template<typename T>
@@ -112,6 +119,7 @@ namespace stepflow
             PINGPONG_VALUE = 0;
             CLAMP = false;
             INVERT = true;
+			controller->MOVE = (controller->MOVE / (controller->MAX - controller->MIN)) * Circle;
         }
 
     public:
@@ -121,11 +129,10 @@ namespace stepflow
             PINGPONG_VALUE += controller->MOVE;
             PINGPONG_VALUE = PINGPONG_VALUE>Circle ? PINGPONG_VALUE - Circle : PINGPONG_VALUE;
             HALBRANGE = (controller->MAX - controller->MIN) / 2;
-            *pVALUE = (glm::sin(PINGPONG_VALUE)*HALBRANGE) + (-HALBRANGE - controller->MIN);
+			*pVALUE = (MathLib::sin(PINGPONG_VALUE)*HALBRANGE) + (-HALBRANGE - controller->MIN);
             return  -InvertController<cType>::checkVALUE(pVALUE);
         }
     };
-
 
     template<typename cType>
     // takes a pointer to another value...
