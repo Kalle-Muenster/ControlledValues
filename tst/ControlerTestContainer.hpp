@@ -14,7 +14,7 @@
     template<typename cT, const unsigned TEST_DATA_SIZE, const unsigned NUM_OF_MODES = 0,
         typename uMode1 =  void*, typename uMode2 = uMode1,
         typename uMode3 = uMode2, typename uMode4 = uMode3,
-        typename uMode5 = uMode4, typename uMode6 = uMode5, 
+        typename uMode5 = uMode4, typename uMode6 = uMode5,
         typename uMode7 = uMode6, typename uMode8 = uMode7>
     class ControlerTestContainer
     {
@@ -31,7 +31,7 @@
             const char* name;
             cT* testData;
         };
-        
+
         static const unsigned getNumberOfModes(void)
                               { return NUM_OF_MODES; }
 
@@ -55,7 +55,7 @@
         size_t uModeTypeList[NUM_OF_MODES];
         size_t uModeType[NUM_OF_MODES];
         void(ControlerTestContainer::*UsermodeSwitch[NUM_OF_MODES])(CONTROLLER&, DataSet*);
-        
+
         int current;
         bool ready,running;
 
@@ -76,10 +76,10 @@
                  if((!running)&&(!ready)) {
                      return ++current < NUM_OF_MODES;
                  } else {
-                     running = ready ? !(ready = current = 0) 
+                     running = ready ? !(ready = current = 0)
                                      : ++current < NUM_OF_MODES;
                      size_t uT = uModeTypeList[current];
-                     
+
                      if(uT == uModeType[0])
                         SwitchMode(value, &dataSets[current]);
                      else if(uT == uModeType[1])
@@ -100,12 +100,12 @@
                         SwitchMode<uMode8>(value, &dataSets[current]);
                 else
                     (this->*UsermodeSwitch[current])(this->value, &this->dataSets[current]);
-                     
+
                      return running;
                  }
              }
     public:
-        
+
 
         ControlerTestContainer(float* initVal = nullptr)
         {
@@ -120,14 +120,19 @@
             uModeType[8] = typeid(uMode8).hash_code();
 
             current = -1;
-            ready = running = false; 
+            ready = running = false;
             DataSet ds = { -1, 1,0.001,0 ,stepflow::CtrlMode::PingPong, true, true, "Begin" };
             SwitchMode(value,&ds);
         };
 
-        
+
+
         virtual ~ControlerTestContainer(void)
-                 { };
+                 {
+            //       for(int i = 0; i < NUM_OF_MODES; i++)
+            //           dataSets[i].testData = NULL;
+            //          value.~Controlled<cT>();
+                 };
 
                  template<typename uMode=void>
                  void    AddModeSwith(const char* nam, cT min, cT max,cT mov, cT val,
@@ -193,7 +198,10 @@
                  if(index>=0)
                     dataSets[index].testData = buffer;
              }
-            
+        // public:
+    //      friend class stepflow::ListBase<cT>;
+//          friend class stepflow::ListBase<cT>::Utility;
+
     };
 
 

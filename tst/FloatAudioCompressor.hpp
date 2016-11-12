@@ -18,21 +18,20 @@ namespace Tests{
         float TIMER;
         virtual void Init(void)
         {
-            controller->SetCheckAtGet(false);
-            controller->ControllerActive = true;
             TIMER = 100;
             controller->MAX = 1.-controller->MOVE;
+            controller->SetCheckAtGet(false);
+            controller->ControllerActive = true;
         }
     public:
         void SetAttackRelease(float samplesCount)
-        {// use this function to sat attack and release 
-         // time as number of samples
+        {
             TIMER = samplesCount;
         }
         virtual float checkVALUE(float* pVALUE)
         {
             return *pVALUE = (*pVALUE > controller->MIN) || (*pVALUE < -controller->MIN)
-    
+
                    ?  *pVALUE * (controller->MOVE + ((controller->MAX>0)
                     ? (controller->MAX -= (1.f - controller->MOVE) / TIMER)
                     : (controller->MAX = 0)))

@@ -14,7 +14,7 @@
 #include <limits>
 
 #ifndef EMPTY
-#define EMPTY (4294967295u)
+#define EMPTY (unsigned)(-1) //(4294967295u)
 #endif
 #define LIST_ELEMENTS(type) typedef type ElementType; typedef void(*ElementAction)(ElementType); protected: ElementType *list; ElementType Nulled
 #define BloedesDing delete temp
