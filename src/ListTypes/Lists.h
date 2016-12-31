@@ -22,9 +22,9 @@
 #include "AbstractCycle.h"
 #include "AbstractTyped.h"
 
-#define MERGE(name) name
-#define ADD_PREFIX(typename,prefix) MERGE(prefix)typename
-#define ADD_SUFFIX(typename,suffix) MERGE(typename)suffix
+//#define MERGE(name) name
+//#define ADD_PREFIX(typename,prefix) MERGE(prefix)typename
+//#define ADD_SUFFIX(typename,suffix) MERGE(typename)suffix
 
 namespace stepflow{
 

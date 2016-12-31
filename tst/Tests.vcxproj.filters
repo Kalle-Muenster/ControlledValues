@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="tst">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="inc">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src\Lists">
+      <UniqueIdentifier>{8ede3c8f-7a06-4e67-92c1-6ffec0b35e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Values">
+      <UniqueIdentifier>{3b05a298-b763-4a1d-8b1f-c777590296af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tst\WaveHandling">
+      <UniqueIdentifier>{472b9f12-cc72-4aeb-b7ed-2f5611aef827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tst\testData">
+      <UniqueIdentifier>{80541492-c257-4073-aade-7beede70a8ee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\ControlledValues.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\StepLists.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ValueController.h">
+      <Filter>src\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ValueControllerUserModes.h">
+      <Filter>src\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ControlledVector3.h">
+      <Filter>src\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ControlledValues\ControlledValues.h">
+      <Filter>src\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\AbstractCycle.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\AbstractStrait.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\AbstractTyped.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\DynamicList.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\FastList.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\List.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\ListBase.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\Lists.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ListTypes\StaticList.h">
+      <Filter>src\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFileReader.hpp">
+      <Filter>tst\WaveHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFileWriter.hpp">
+      <Filter>tst\WaveHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveFormat.hpp">
+      <Filter>tst\WaveHandling</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlerTestContainer.hpp">
+      <Filter>tst</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatAudioCompressor.hpp">
+      <Filter>tst</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>tst</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\StopflowMacros.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WaveFileReader.cpp">
+      <Filter>tst\WaveHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFileWriter.cpp">
+      <Filter>tst\WaveHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveFormat.cpp">
+      <Filter>tst\WaveHandling</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>tst</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="testData\AudioSample_A.wav">
+      <Filter>tst\testData</Filter>
+    </Media>
+    <Media Include="testData\AudioSample_C.wav">
+      <Filter>tst\testData</Filter>
+    </Media>
+    <Media Include="testData\AudioSample_A.wav">
+      <Filter>tst\testData</Filter>
+    </Media>
+    <Media Include="testData\AudioSample_B.wav">
+      <Filter>tst\testData</Filter>
+    </Media>
+  </ItemGroup>
+</Project>

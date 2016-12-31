@@ -7,15 +7,18 @@
 \*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 #ifndef _WaveFormat_hpp_
 #define _WaveFormat_hpp_
+
 #include "Test.h"
 
-#define asWAVEFORMATEX(audiofmt) (*(WAVEFORMATEX*)&audiofmt)
-#define asPCMWAVEFORMAT(audiofmt) (*(PCMWAVEFORMAT*)&audiofmt)
+#ifndef EMPTY
+#define EMPTY (unsigned)(-1) //(4294967295u)
+#endif
 
 namespace stepflow{
     namespace Tests{
-        
 
+#define asWAVEFORMATEX(audiofmt) (*(WAVEFORMATEX*)&audiofmt)
+#define asPCMWAVEFORMAT(audiofmt) (*(PCMWAVEFORMAT*)&audiofmt)
 
         enum CONSTS : i32
         {
@@ -38,7 +41,7 @@ namespace stepflow{
             i32 ByteRate;      //12
             i16 BlockAlign;    //14
             i16 BitsPerSample; //16
-        } AudioFormat;
+        };
 
         typedef struct WaveHeader
         {
@@ -50,112 +53,43 @@ namespace stepflow{
             AudioFormat AudioFormat;    //21-36
             i32         Subchunk2ID;    //37-40
             i32         DataSize;       //41-44
-            WaveHeader& operator = (WaveHeader& that)
+            WaveHeader& operator = (WaveHeader that)
                         { return *(WaveHeader*)memcpy(this, &that, 44); }
         } WaveHeader;
-        
-        
 
+        WaveHeader  getInitializedWaveheader(void);
         s32         SetWaveDataSize(WaveHeader*, s32);
-        WaveHeader* CreateWaveHeader( i32 samplingFrequency, 
-                                      i16 bitsPerSample,
-                                      i16 numberOfChannels, 
-                                      i32 sizeOfWaveData, 
-                                      WaveHeader* pHeader);
-    
+        WaveHeader* CreateWaveHeader( i32 samplingFrequency, i16 bitsPerSample,
+                                      i16 numberOfChannels, i32 sizeOfWaveData = 0,
+                                      WaveHeader* = &getInitializedWaveheader() ); //(WaveHeader*)&WaveHeaderInit);
+
+
+
         struct Audio
         {
-            PCMWAVEFORMAT   format;
-            i32             cbSize;
-            void*           data;
-            i32             frameCount;
-            bool            own;
+            PCMWAVEFORMAT format;
+            i32   cbSize;
+            void* data;
+            i32 frameCount;
+            bool own;
 
-                            Audio(void);
-                            Audio(Audio& copy);
-                            Audio(WaveHeader hdr, void* = NULL);
-                            Audio(PCMWAVEFORMAT fmt, i32 size);
-                            Audio( i32 sRate, i32 bitDepth, 
-                                   i32 channels, i32 dataSize );
-                           ~Audio(void);
-            void            createBuffer(i32 size);
-            void*           detachBuffer(void);
-            Audio&          outscope(void);
-            Audio&          operator=(Audio&);
-        };
-
-        class WaveFileWriter
-        {
-        private:
-                        WaveFileWriter(void);
-            FILE*       f;
-            bool        isOpen;
-            i32         position;
-            i32         fixedSize;
-            WaveHeader  whdr;
-            bool        ownbuffer;
-            void*       attachedBuffer;
-
-        public: 
-                        WaveFileWriter(const char* fileName,i32 dataSize = 0);
-                        WaveFileWriter(const char* fileName,Audio& dataChunk);
-                        WaveFileWriter( const char* fileName, i32 frequency,
-                                        i16 bitDepth, i16 channels, i32 dataSize=0,
-                                        void* dataBuffer = nullptr );                 
-            virtual    ~WaveFileWriter(void);
-            union audioFrame{
-                   f32 F32;
-                   i32 I32;
-                   s16 S16[2];
-                   i8  I8[4];
-                  }     Frame;
-            i32         Write(void* data, i32 framesCount);
-            i32         Write(byte);
-            i32         Write(s16);
-            i32         Write(i32);
-            i32         Write(f32);
-            i32         WriteFrame(void);
-            i32         WriteFrame(s16);
-            i32         WriteFrame(f32);
-            i32         Save(void);
-            i32         Open(const char* fileName, i32 dataSize = 0);
-            i32         Close(void);
-        };
-
-        class WaveFileReader
-        {
-        private:
-                        WaveFileReader(void);
-            FILE*       f;
-            i32         position;
-            bool        canRead;
-            bool        advance(i32);
-            WaveHeader  whdr;
-            void*       attachedBuffer;
-
-        public:
-                        WaveFileReader(const char* fileName);
-                        WaveFileReader(const char* fileName,void* buffer);
-            virtual    ~WaveFileReader(void);
-            union audioFrame{
-                  f32 F32[2];
-                  i32 I32[2];
-                  s16 S16[4];
-                  i8   I8[8];
-                  }     Frame;
-            i32         NextFrame(void);
-            i32         GetLength(void);
-            void        Seek(i32 position);
-            i32         Read(void* buffer, i32 samplesCount);
-            Audio       Read(i32=NULL);
-            byte        ReadByte(void);
-            s16         ReadShort(void);
-            i32         ReadUnInt(void);
-            f32         ReadFloat();
-            audioFrame& ReadFrame(void);
-            i32         Close(void);
-            i32         Open(const char* fileName);
+            Audio(void);
+            Audio(WaveHeader hdr, void* = NULL);
+            Audio(PCMWAVEFORMAT fmt, i32 size);
+            Audio(i32 sRate, i32 bitDepth, i32 channels, i32 dataSize);
+            void  createBuffer(i32 size);
+            void* detachBuffer(void);
+            Audio& outscope(void);
+            Audio(Audio& copy);
+            ~Audio(void);
+            Audio& operator=(Audio&);
+            template<typename sampleType>
+            sampleType* buffer(void)
+            { return (sampleType*)data; }
         };
     }//end of Tests
 }
+
+
+
 #endif

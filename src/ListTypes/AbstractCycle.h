@@ -48,7 +48,7 @@ namespace stepflow{
             //If in cycle-mode jump to first if reached end...
             if(CyclingActive)
             {
-                CycleCheck = (current = current >= this->getMaximumSize() ? 0 : current);
+                CycleCheck = (current = current >= (int)this->getMaximumSize() ? 0 : current);
 
                 if(++CyclingCounter >= this->numberOfMember)
                 {

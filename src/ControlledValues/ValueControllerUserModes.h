@@ -8,12 +8,13 @@
 #ifndef _CONTROLLED_VALUE_USERMODES_
 #define _CONTROLLED_VALUE_USERMODES_
 
-#define Circle (6.2831853071795862)
+#define Circle (6.283185307179586476925286766559) //(6.2831853071795862)
 
 // If GLM also is included, use it!
 #ifdef GLM_PLATFORM
 #define MathLib glm
 #else // use the standard math.h
+#include <cmath>
 #define MathLib std
 #endif
 
@@ -119,7 +120,7 @@ namespace stepflow
             PINGPONG_VALUE = 0;
             CLAMP = false;
             INVERT = true;
-            controller->MOVE = (controller->MOVE / (controller->MAX - controller->MIN)) * Circle;
+            SetMove(controller->MOVE);
         }
 
     public:
@@ -127,10 +128,14 @@ namespace stepflow
         virtual cType checkVALUE(cType* pVALUE)
         {
             PINGPONG_VALUE += controller->MOVE;
-            PINGPONG_VALUE = PINGPONG_VALUE>Circle ? PINGPONG_VALUE - Circle : PINGPONG_VALUE;
             HALBRANGE = (controller->MAX - controller->MIN) / 2;
-            *pVALUE = (MathLib::sin(PINGPONG_VALUE)*HALBRANGE) + (-HALBRANGE - controller->MIN);
+            PINGPONG_VALUE = PINGPONG_VALUE>=HALBRANGE ? PINGPONG_VALUE - HALBRANGE : PINGPONG_VALUE;
+            *pVALUE = (MathLib::sin((PINGPONG_VALUE*Circle)/HALBRANGE)*HALBRANGE) + (-HALBRANGE - controller->MIN);
             return  -InvertController<cType>::checkVALUE(pVALUE);
+        }
+        void SetMove(cType move)
+        {
+            controller->MOVE = (controller->MAX * move) / (controller->MAX - controller->MIN);
         }
     };
 

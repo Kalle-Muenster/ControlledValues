@@ -13,11 +13,15 @@
 #include <stdio.h>
 #include <limits>
 
-#ifndef EMPTY
-#define EMPTY (4294967295u)
+#ifndef EMPTYTYPE(t) 
+#define EMPTYTYPE(t) ((t)-1)
 #endif
+
+#ifndef EMPTY
+#define EMPTY EMPTYTYPE(unsigned) //(4294967295u)
+#endif
+
 #define LIST_ELEMENTS(type) typedef type ElementType; typedef void(*ElementAction)(ElementType); protected: ElementType *list; ElementType Nulled
-#define BloedesDing delete temp
 
 namespace stepflow{
 
@@ -238,7 +242,7 @@ namespace stepflow{
 
                 if(MemberArePointer())
                 {
-                    size_t ptval = (size_t)list[id];
+                    size_t ptval = *(size_t*)&list[id];
                     delete (void*)ptval;
                 }
 

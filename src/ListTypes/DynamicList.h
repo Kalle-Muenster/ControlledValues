@@ -107,15 +107,15 @@ public:
                 neu[cmpct] = list[cmpct];
                 cmpct++;
             }
-            
+
             delete list;
             setDataArray(neu);
             highestSlotNumberInUse=(numberOfMember-1);
             return sizeof(elementType)*(MAXIMUM_SIZE=numberOfMember);
         }
     }
-    
-    
+
+
     virtual ~DynamicListType(void)
     {
         if(MemberArePointer())
@@ -145,7 +145,7 @@ public:
             for(int i = 0; i <= highestSlotNumberInUse; i++)
                 if(list[i] != Nulled)
                 {
-                    size_t ptval = (size_t)list[i];
+                    size_t ptval = *(size_t*)&list[i];
                     delete (void*)ptval;
                     list[i] = Nulled;
                 }
@@ -167,7 +167,7 @@ public:
             for(int i = 0; i <= highestSlotNumberInUse; i++)
                 if(list[i] != Nulled)
                 {
-                    size_t ptval = (size_t)list[i];
+                    size_t ptval = *(size_t*)&list[i];
                     delete (void*)ptval;
                     list[i] = Nulled;
                 }
