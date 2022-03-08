@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <limits>
 #include <typeinfo>
-#include <stdio.h>
+//#include <stdio.h>
 
 #ifdef LISTTYPE_STANDARD_ITERATION
 #undef LISTTYPE_STANDARD_ITERATION
@@ -41,7 +41,7 @@
         int                numberOfMember;
         bool               MembersArePointers;
         ElmID              highestSlotNumberInUse;
-        void               setDataArray(eT* pData)
+        void               setDataArray( eT* pData )
                            { list = pData; }
         // following functions will only be declared if this file will
         // be included standalone. (If included as part of the complete
@@ -73,7 +73,7 @@
 
         // Add a member to the list and return the memberID
         // (slot-number) at which the object has been added to...
-        virtual ElmID Add(TYPE member)
+        virtual ElmID Add( TYPE& member )
         {
             ElmID FirstEmptySlotFound = EMPTY;
             ElmID counter = 0;
@@ -217,7 +217,7 @@
 
         // remove's the given member from the list, if it's contained in it..
         // and return it
-        virtual TYPE Remove(TYPE member)
+        virtual TYPE Remove(TYPE& member)
         {
             LISTTYPE_STANDARD_ITERATION
             {
@@ -243,8 +243,8 @@
 
                 if(MemberArePointer())
                 {
-                    size_t ptval = *(size_t*)&list[id];
-                    delete (void*)ptval;
+                    size_t pointerValue = *(size_t*)&list[id];
+                    delete (TYPE*)pointerValue;
                 }
 
                 list[id] = Nulled;
@@ -254,39 +254,53 @@
         }
 
 
-        virtual ElmID Find(TYPE element) {
-            LISTTYPE_STANDARD_ITERATION
-                if (element == list[ID])
-                    return ID;
-        }
+        virtual ElmID Find(TYPE& element)
+        { LISTTYPE_STANDARD_ITERATION
+            if (element == list[ID])
+                return ID;
+          return EMPTY_(ElmID); }
 
         // Execute ElementAction once per contained element
         virtual void foreach(ElementAction elementAction) = 0;
 
-        void forEach(void(*blindParameterPaste)(eT,void*), void* parameter) {
-            LISTTYPE_STANDARD_ITERATION 
-                blindParameterPaste(list[ID], parameter);
-        }
+        void forEach(void(*blindParameterPaste)(TYPE,void*), void* parameter)
+        { LISTTYPE_STANDARD_ITERATION 
+            blindParameterPaste(list[ID], parameter); }
 
-        template<typename CallersClass>
-        void forEachOn(void(CallersClass::*triggerMethod)(eT)) { 
-            LISTTYPE_STANDARD_ITERATION 
-                (((CallersClass*)this)->*triggerMethod)(list[ID]);
-        }
+        template<typename ComponentClass> // perform on each carrier elements connected component 
+        void forEachOn(void(ComponentClass::*triggerMethod)(TYPE))
+        { LISTTYPE_STANDARD_ITERATION 
+            (((CallersClass*)this)->*triggerMethod)(list[ID]); }
 
-        template<typename Caller, typename Argum>
-        void PerformBy(void(Caller::*typedParameterMethod)(TYPE, Argum), Argum arg=NULL) { 
-            LISTTYPE_STANDARD_ITERATION
-                (((Caller*)this)->*typedParameterMethod)(list[ID], arg);
-        }
+        template<typename Argum, typename Caller> // perform for each child element by a method on parent 
+        void PerformBy(Argum arg, void(Caller::*typedParameterMethod)(TYPE, Argum))
+        { LISTTYPE_STANDARD_ITERATION
+            (((Caller*)this)->*typedParameterMethod)(list[ID], arg); }
 
         template<typename Carrier,typename ArgType>
-        unsigned forEachCount(bool(Carrier::*conditionalMethod)(TYPE,ArgType), ArgType arg=NULL) {
-            unsigned statistics = 0;
-            LISTTYPE_STANDARD_ITERATION
-                statistics += (((Carrier*)this)->*conditionalMethod)(list[ID], arg);
-            return statistics;
-        }
+        unsigned forEachCount( bool(Carrier::*conditionalMethod)(TYPE,ArgType), ArgType arg=NULL )
+        { unsigned statistics = 0;
+          LISTTYPE_STANDARD_ITERATION
+            statistics += (((Carrier*)this)->*conditionalMethod)(list[ID], arg);
+          return statistics; }
+
+        template<typename ObjectClass> // passing each element as arguments to a method on some object
+        void foreachOnObject( ObjectClass* obj, void(ObjectClass::*call)(TYPE) )
+        { LISTTYPE_STANDARD_ITERATION
+            (obj->*call)(list[ID]); }
+
+        template<typename SomeObject,typename Arg, Arg...>
+        void performOnObject(SomeObject* obj, void(SomeObject::*func)(TYPE,Arg...),Arg arg...)
+        { LISTTYPE_STANDARD_ITERATION
+            (obj->*func)(list[ID],arg...); }
+
+        template<typename ReturnType, typename FromObject>
+        ReturnType fromEachReturn(FromObject* obj, ReturnType(FromObject::*collect)(TYPE))
+        { ReturnType collector = ReturnType();
+          LISTTYPE_STANDARD_ITERATION
+            collector += (obj->*collect)( list[ID] );
+          return collector; }
+
     };
     
 #ifdef ENDOF_STEPFLOW_NAMESPACE

@@ -1,7 +1,7 @@
 #ifndef _DYNAMIC_LIST_
 #define _DYNAMIC_LIST_
 
-#include "ListBase.h"
+#include "ListBase.hpp"
 
 
 BEGIN_STEPFLOW_NAMESPACE
@@ -64,7 +64,7 @@ public:
             BASE::list[i] = BASE::Nulled;
     }
 
-    DynamicListType(TYPE nuller, unsigned capacity)
+    DynamicListType(const TYPE& nuller, unsigned capacity)
     {
         MAXIMUM_SIZE = capacity;
 		byte* l = (byte*)(new TYPE[MAXIMUM_SIZE]);
@@ -111,7 +111,7 @@ public:
         Clear(false);
         BASE::highestSlotNumberInUse = tempLast;
         BASE::numberOfMember = tempCount;
-        delete BASE::list;
+        delete (byte*)BASE::list;
         setDataArray(neu);
         return newSize - MAXIMUM_SIZE;
     }
@@ -128,30 +128,25 @@ public:
 			byte* nul = &(byte&)BASE::Nulled;
 
             ElmID cmpct=0;
-            for(ElmID id=this->First();id<=this->Last();id=this->Next(id))
-			{
-                if(id>cmpct)
-                {
+            for(ElmID id=this->First();id<=this->Last();id=this->Next(id)) {
+                const unsigned cmpctPos = cmpct*typeSize;
+                if (id > cmpct) {
+                    const unsigned idPos = id*typeSize;
 					memcpy(&alt[cmpct*typeSize], &alt[id*typeSize], typeSize);
-                 //   BASE::list[cmpct] = BASE::list[id];
-					if (MemberArePointer())
-						*(TYPE*)&alt[id*typeSize] = BASE::Nulled;
-                 //   BASE::list[id] = BASE::Nulled;
+                    memcpy(&alt[id*typeSize],nul,typeSize);
                     id=cmpct;
                 }
 				memcpy(&neu[cmpct*typeSize], &alt[cmpct*typeSize], typeSize);
-            //    neu[cmpct] = BASE::list[cmpct];
                 cmpct++;
             }
-
 			setDataArray((TYPE*)&neu[0]);            
             BASE::highestSlotNumberInUse=(BASE::numberOfMember-1);
-            delete (TYPE*)&alt[0];
-			return sizeof(TYPE)*(MAXIMUM_SIZE = BASE::numberOfMember);
-        }
+            delete &alt[0];
+			return typeSize*(MAXIMUM_SIZE=BASE::numberOfMember);
+        } return 0;
     }
 
-    virtual ElmID Add(TYPE member)
+    virtual ElmID AddRef(TYPE& member)
     {
         if(BASE::numberOfMember >= getMaximumSize())
             MAXIMUM_SIZE += Enlarge( BASE::numberOfMember + ( BASE::numberOfMember > 10 
@@ -159,6 +154,11 @@ public:
 								                            : 1 )
 			                          );
         return ListBase<TYPE>::Add(member);
+    }
+
+    virtual ElmID Add(TYPE member)
+    {
+        return AddRef(member);
     }
 
     // empties the list and destruct's all
@@ -174,8 +174,8 @@ public:
             for(ElmID i = 0; i <= BASE::highestSlotNumberInUse; i++)
                 if(BASE::list[i] != BASE::Nulled)
                 {
-                    size_t ptval = *(size_t*)&BASE::list[i];
-                    delete (void*)ptval;
+                    size_t pointerValue = *(size_t*)&BASE::list[i];
+                    delete (void*)pointerValue;
                     BASE::list[i] = BASE::Nulled;
                 }
         } else
@@ -185,31 +185,35 @@ public:
         BASE::highestSlotNumberInUse = EMPTY_(ElmID);
     }
 
-    virtual void Clear(bool distroyAllElements)
+    virtual void Clear( bool distroyAllElements )
     {
         BASE::numberOfMember = 0;
-        if(BASE::highestSlotNumberInUse == EMPTY_(ElmID))
+        if( BASE::highestSlotNumberInUse == EMPTY_(ElmID) )
             return;
 
-        if(BASE::MemberArePointer() && distroyAllElements)
-        {
-            for(ElmID i = 0; i <= BASE::highestSlotNumberInUse; i++)
-                if(BASE::list[i] != BASE::Nulled)
-                {
-					size_t ptval = *(size_t*)&BASE::list[i];
-                    delete (void*)ptval;
+        if( BASE::MemberArePointer() && distroyAllElements ) {
+            for( ElmID i = 0; i <= BASE::highestSlotNumberInUse; ++i ) {
+                if( BASE::list[i] != BASE::Nulled ) {
+					size_t pointerValue = *(size_t*)&BASE::list[i];
+                    delete (void*)pointerValue;
                     BASE::list[i] = BASE::Nulled;
                 }
+            }
+        } else if ( BASE::MemberArePointer() ) {
+            for( ElmID i = 0; i <= BASE::highestSlotNumberInUse; ++i )
+                 BASE::list[i] = BASE::Nulled;
+        } else {
+            const uint typeSize = sizeof(TYPE);
+            byte* null = &(byte&)BASE::Nulled;
+            for ( ElmID i = 0; i <= BASE::highestSlotNumberInUse; ++i )
+                memcpy( (void*)&BASE::list[i], (void*)null, typeSize );
         }
-        else for(ElmID i = 0; i <= BASE::highestSlotNumberInUse; i++)
-                BASE::list[i] = BASE::Nulled;
-
         BASE::highestSlotNumberInUse = EMPTY_(ElmID);
     }
 
     virtual void foreach(void(*call)(TYPE))
     {
-        for (ElmID id = First(); id != Last(); id = Next(id))
+        for (ElmID id = First(); id <= Last(); id = Next(id))
             call(BASE::list[id]);
     }
 };

@@ -21,42 +21,69 @@
 #include "AbstractStrait.h"
 #include "AbstractCycle.h"
 #include "AbstractTyped.h"
+#include "AbstractActivative.hpp"
 
-//#define MERGE(name) name
-//#define ADD_PREFIX(typename,prefix) MERGE(prefix)typename
-//#define ADD_SUFFIX(typename,suffix) MERGE(typename)suffix
 
-namespace stepflow{
+BEGIN_STEPFLOW_NAMESPACE
 
-    template<typename elementType> class DynamicStrait
-        : public AbstractStrait<DynamicListType<elementType>> {
-    };
 
-    template<typename elementType> class DynamicList
-        : public AbstractCycle<DynamicListType<elementType>, elementType>
-    {
+    template<typename elmTyp> 
+    class DynamicStrait 
+        : public DynamicListType<elmTyp,AbstractStrait<elmTyp>>
+    {};
+
+    template<typename elmTyp> 
+	class DynamicList 
+        : public DynamicListType<elmTyp,AbstractCycle<elmTyp>> {
     public:
-        DynamicList(void) : AbstractCycle<DynamicListType<elementType>, elementType>() {}
-        DynamicList(elementType nuller, unsigned capacity=4) : AbstractCycle<DynamicListType<elementType>, elementType>(nuller, capacity) {}
+        DynamicList(void) 
+			: DynamicListType<elmTyp,AbstractCycle<elmTyp>>()
+		{}
+        DynamicList(elmTyp nuller, unsigned capacity=4) 
+            : DynamicListType<elmTyp,AbstractCycle<elmTyp>>(nuller, capacity)
+		{}
     };
 
+    template<typename containerType> 
+	class DynamicTyped
+        : public DynamicListType<containerType*,AbstractTyped<containerType>>
+	{};
 
 
-    template<typename elementType, const unsigned MAXIMUM_SIZE> class Strait
-        : public AbstractStrait<StaticListType<elementType, MAXIMUM_SIZE>> {};
 
-    template<typename elementType, const unsigned MAXIMUM_SIZE> class List
-        : public AbstractCycle<StaticListType<elementType, MAXIMUM_SIZE>, elementType> {
+    template< const unsigned MAXIMUM_SIZE, typename elmTyp> 
+	class Strait
+        : public  StaticListType< MAXIMUM_SIZE ,elmTyp, AbstractStrait<elmTyp>>
+	{};
+
+    template< const unsigned MAXIMUM_SIZE,typename elmTyp>
+	class List
+        : public StaticListType<MAXIMUM_SIZE,elmTyp, AbstractCycle<elmTyp>> {
     public:
-        List(void) : AbstractCycle<StaticListType<elementType, MAXIMUM_SIZE>, elementType>() {}
-        List(elementType nuller) : AbstractCycle<StaticListType<elementType, MAXIMUM_SIZE>, elementType>(nuller) {}
+        List(void) 
+			: StaticListType<MAXIMUM_SIZE,elmTyp,AbstractCycle<elmTyp>>()
+		{}
+        List(elmTyp nuller) 
+			: StaticListType<MAXIMUM_SIZE,elmTyp,AbstractCycle<elmTyp>>(nuller)
+		{}
     };
 
-    template<typename containerType, const unsigned MAXIMUM_SIZE> class Typed
-        : public AbstractTyped <StaticListType<containerType*, MAXIMUM_SIZE>,containerType> {
+    template< const unsigned MAXIMUM_SIZE, typename containerType > 
+	class Typed
+        : public StaticListType< MAXIMUM_SIZE, AbstractTyped<containerType*,containerType>> 
+    {};
 
-    };
 
 
-}
+#if _MSC_VER>=1900
+	template< typename ET, template<typename et = ET>typename LT = ListBase> 
+#else
+	template< typename ET, typename LT = ListBase<ET>>
+#endif
+	class Vote 
+		: public DynamicListType<ET,AbstractActivative<AbstractCycle<ET>>>
+	{};
+
+
+ENDOF_STEPFLOW_NAMESPACE
 #endif

@@ -1,8 +1,8 @@
 #ifndef _TYPED_LIST_INTERFACE_H_
 #define _TYPED_LIST_INTERFACE_H_
 
-#include "StaticList.h"
-#include "DynamicList.h"
+#include "StaticList.hpp"
+#include "DynamicList.hpp"
 
 BEGIN_STEPFLOW_NAMESPACE
 

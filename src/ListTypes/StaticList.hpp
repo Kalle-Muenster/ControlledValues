@@ -1,7 +1,7 @@
 #ifndef _STATICLIST_H_
 #define _STATICLIST_H_
 
-#include "ListBase.h"
+#include "ListBase.hpp"
  
 
 BEGIN_STEPFLOW_NAMESPACE
@@ -67,11 +67,15 @@ BEGIN_STEPFLOW_NAMESPACE
             setDataArray(&listData[0]);
         }
 
-        //StaticListType(elementType elements...) 
-        //    : StaticListType()
-        //{
-        //    list[...] = elements;
-        //}
+        virtual ElmID AddRef(TYPE& member)
+        {
+            return ListBase<TYPE>::Add(member);
+        }
+
+        virtual ElmID Add(TYPE member)
+        {
+            return AddRef(member);
+        }
 
         virtual ~StaticListType(void)
         {
@@ -90,8 +94,8 @@ BEGIN_STEPFLOW_NAMESPACE
                 for(BASE::ElmID i = 0; i <= BASE::highestSlotNumberInUse; i++)
                     if(BASE::list[i] != BASE::Nulled)
                     {
-                        size_t ptval = (size_t)listData[i];
-                        delete (void*)ptval;
+                        size_t pointerValue = *(size_t*)&listData[i];
+                        delete (void*)pointerValue;
                         listData[i] = BASE::Nulled;
                     }
             } else
@@ -112,8 +116,8 @@ BEGIN_STEPFLOW_NAMESPACE
                 for(BASE::ElmID i = 0; i <= BASE::highestSlotNumberInUse; i++)
                     if(BASE::list[i] != BASE::Nulled)
                     {
-                        size_t ptval = (size_t)listData[i];
-                        delete (void*)ptval;
+                        size_t pointerValue = *(size_t*)&listData[i];
+                        delete (void*)pointerValue;
                         listData[i] = BASE::Nulled;
                     }
 

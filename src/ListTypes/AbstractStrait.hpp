@@ -1,8 +1,8 @@
 #ifndef _STRAITLIST_
 #define _STRAITLIST_
 
-#include "StaticList.h"
-#include "DynamicList.h"
+#include "StaticList.hpp"
+#include "DynamicList.hpp"
 
 
 BEGIN_STEPFLOW_NAMESPACE
