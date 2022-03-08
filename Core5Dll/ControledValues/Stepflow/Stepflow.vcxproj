@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{58528AA9-95F4-4242-881E-9C9C34552FE4}</ProjectGuid>
+    <Keyword>NetCoreCProj</Keyword>
+    <RootNamespace>Stepflow</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <TargetFramework>net5.0</TargetFramework>
+    <ProjectName>ControlledValues</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CLRSupport>NetCore</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CLRSupport>NetCore</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CLRSupport>NetCore</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CLRSupport>NetCore</CLRSupport>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions);SET_NAMESPACE=stepflow</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <Version>00000002</Version>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);SET_NAMESPACE=stepflow</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <Version>00000002</Version>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions);SET_NAMESPACE=stepflow</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile />
+      <Version>00000002</Version>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);SET_NAMESPACE=stepflow</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies />
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ProgramDatabaseFile />
+      <Version>00000002</Version>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\ControlledValues\FixFieldController.hpp" />
+    <ClInclude Include="..\..\..\src\ControlledValues\VariableController.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\PulseFormer.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\RampFormer.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\SawStacker.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\SineFormer.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\ConstStruct.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\CreationMacro.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\MessageLogger.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\PinPatchStruct.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\ProjectHeader.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\Stepflow.h" />
+    <ClInclude Include=".\..\..\..\inc\ControlledValues.h" />
+    <ClInclude Include=".\..\..\..\inc\ControllerAccess.h" />
+    <ClInclude Include=".\..\..\..\inc\ControllerSpace.h" />
+    <ClInclude Include=".\..\..\..\inc\namespacer\namespacer.h" />
+    <ClInclude Include=".\..\..\..\inc\StepLists.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\BandFilter.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\BandSplit.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\Capacitor.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\ControlledPointer.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\ControlledVector3.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\Element.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\Jongleur.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\MultiComp.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\PeakFinder.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalTypes.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\ControlledValues.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\IncludeSelectedClasses.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\InterfaceBase.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\ExternalAccess.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\FlgHlpConfig.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\InternalAccess.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\ModeExpress.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\PinFunConfig.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\PinFunDefine.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\StepflowEmpty.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\Macros\TypesDefiner.h" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\PinFieldController.hpp" />
+    <ClInclude Include=".\..\..\..\src\ControlledValues\ValueControllerUserModes.hpp" />
+    <ClInclude Include="D:\LIBRARIES\INCLUDES\enumoperators.h" />
+    <ClInclude Include="D:\LIBRARIES\INCLUDES\indiaccessfuncs.h" />
+    <ClInclude Include="D:\LIBRARIES\INCLUDES\namespacer.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="settings.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\ControlledValues\dnwrap\Stepflow.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\PROJECTS\Int24Types\core5\Int24Type\Int24Type.vcxproj">
+      <Project>{80256676-d858-4ba1-8fcd-f49edd2f1e51}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

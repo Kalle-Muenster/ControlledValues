@@ -1,0 +1,125 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj": {}
+  },
+  "projects": {
+    "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
+      "restore": {
+        "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
+        "projectName": "StdStreams",
+        "projectPath": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
+        "frameworks": {
+          "native": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "native": {}
+      }
+    },
+    "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
+        "projectName": "Qualle",
+        "projectPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
+        "packagesPath": "C:\\Users\\kalle\\.nuget\\packages\\",
+        "outputPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\kalle\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0-windows7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0-windows7.0": {
+            "targetAlias": "net5.0-windows",
+            "projectReferences": {
+              "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
+                "projectPath": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj"
+              },
+              "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj": {
+                "projectPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0-windows7.0": {
+          "targetAlias": "net5.0-windows",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj": {
+      "restore": {
+        "projectUniqueName": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj",
+        "projectName": "ControlledValues",
+        "projectPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj",
+        "frameworks": {
+          "native": {
+            "projectReferences": {
+              "D:\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj": {
+                "projectPath": "D:\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "native": {}
+      }
+    },
+    "D:\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj": {
+      "restore": {
+        "projectUniqueName": "D:\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj",
+        "projectName": "Int24Types",
+        "projectPath": "D:\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj",
+        "frameworks": {
+          "native": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "native": {}
+      }
+    }
+  }
+}
