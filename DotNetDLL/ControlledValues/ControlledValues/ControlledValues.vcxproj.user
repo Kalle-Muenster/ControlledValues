@@ -3,4 +3,16 @@
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\..\bin\DotNetDll\x64\$(Configuration)\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerAttach>true</LocalDebuggerAttach>
+    <LocalDebuggerDebuggerType>Mixed</LocalDebuggerDebuggerType>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\..\bin\DotNetDll\x86\$(Configuration)\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerAttach>true</LocalDebuggerAttach>
+    <LocalDebuggerDebuggerType>Mixed</LocalDebuggerDebuggerType>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>
