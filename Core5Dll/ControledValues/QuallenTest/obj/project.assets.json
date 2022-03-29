@@ -4,11 +4,23 @@
     "net5.0-windows7.0": {
       "ControlledValues/1.0.0": {
         "type": "project",
+        "dependencies": {
+          "Int24Types": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/ControlledValues.dll": {}
         },
         "runtime": {
           "bin/placeholder/ControlledValues.dll": {}
+        }
+      },
+      "Int24Types/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Int24Types.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Int24Types.dll": {}
         }
       },
       "StdStreams/1.0.0": {
@@ -27,6 +39,11 @@
       "type": "project",
       "path": "../Stepflow/Stepflow.vcxproj",
       "msbuildProject": "../Stepflow/Stepflow.vcxproj"
+    },
+    "Int24Types/1.0.0": {
+      "type": "project",
+      "path": "../../../../Int24Types/core5/Int24Type/Int24Type.vcxproj",
+      "msbuildProject": "../../../../Int24Types/core5/Int24Type/Int24Type.vcxproj"
     },
     "StdStreams/1.0.0": {
       "type": "project",

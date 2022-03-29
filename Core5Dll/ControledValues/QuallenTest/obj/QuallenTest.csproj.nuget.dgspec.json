@@ -94,6 +94,25 @@
         "projectPath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj",
         "frameworks": {
           "native": {
+            "projectReferences": {
+              "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj": {
+                "projectPath": "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "native": {}
+      }
+    },
+    "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj": {
+      "restore": {
+        "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj",
+        "projectName": "Int24Types",
+        "projectPath": "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj",
+        "frameworks": {
+          "native": {
             "projectReferences": {}
           }
         }

@@ -231,9 +231,9 @@
     <None Include="copyLinkage.bat" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Int24Types">
-      <HintPath>linkage\Int24Types.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="C:\WORKSPACE\PROJECTS\ControlledValues\Core5Dll\ControledValues\Stepflow\Int24Type.vcxproj">
+      <Project>{80256676-d858-4ba1-8fcd-f49edd2f1e51}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
