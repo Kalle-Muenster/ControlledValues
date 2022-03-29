@@ -75,22 +75,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
