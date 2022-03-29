@@ -4,23 +4,11 @@
     "net5.0-windows7.0": {
       "ControlledValues/1.0.0": {
         "type": "project",
-        "dependencies": {
-          "Int24Types": "1.0.0"
-        },
         "compile": {
           "bin/placeholder/ControlledValues.dll": {}
         },
         "runtime": {
           "bin/placeholder/ControlledValues.dll": {}
-        }
-      },
-      "Int24Types/1.0.0": {
-        "type": "project",
-        "compile": {
-          "bin/placeholder/Int24Types.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Int24Types.dll": {}
         }
       },
       "StdStreams/1.0.0": {
@@ -40,15 +28,10 @@
       "path": "../Stepflow/Stepflow.vcxproj",
       "msbuildProject": "../Stepflow/Stepflow.vcxproj"
     },
-    "Int24Types/1.0.0": {
-      "type": "project",
-      "path": "../../../../../PROJECTS/Int24Types/core5/Int24Type/Int24Type.vcxproj",
-      "msbuildProject": "../../../../../PROJECTS/Int24Types/core5/Int24Type/Int24Type.vcxproj"
-    },
     "StdStreams/1.0.0": {
       "type": "project",
-      "path": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
-      "msbuildProject": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj"
+      "path": "../../../../Consola/ConsolaCore5/ConsolaCore5/ConsolaCore5.vcxproj",
+      "msbuildProject": "../../../../Consola/ConsolaCore5/ConsolaCore5/ConsolaCore5.vcxproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -64,11 +47,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
+      "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
       "projectName": "Qualle",
-      "projectPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
+      "projectPath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
       "packagesPath": "C:\\Users\\kalle\\.nuget\\packages\\",
-      "outputPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\obj\\",
+      "outputPath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -89,11 +72,11 @@
         "net5.0-windows7.0": {
           "targetAlias": "net5.0-windows",
           "projectReferences": {
-            "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
-              "projectPath": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj"
+            "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
+              "projectPath": "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj"
             },
-            "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj": {
-              "projectPath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj"
+            "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj": {
+              "projectPath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj"
             }
           }
         }
@@ -125,7 +108,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

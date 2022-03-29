@@ -4,11 +4,11 @@
     "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj": {}
   },
   "projects": {
-    "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
+    "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
       "restore": {
-        "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
+        "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
         "projectName": "StdStreams",
-        "projectPath": "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
+        "projectPath": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj",
         "frameworks": {
           "native": {
             "projectReferences": {}
@@ -47,8 +47,8 @@
           "net5.0-windows7.0": {
             "targetAlias": "net5.0-windows",
             "projectReferences": {
-              "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
-                "projectPath": "C:\\WORKSPACE\\PROJECTS\\Consola\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj"
+              "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj": {
+                "projectPath": "C:\\WORKSPACE\\PROJECTS\\ConsolaStreams\\ConsolaCore5\\ConsolaCore5\\ConsolaCore5.vcxproj"
               },
               "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj": {
                 "projectPath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj"
@@ -83,7 +83,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
@@ -92,6 +92,25 @@
         "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj",
         "projectName": "ControlledValues",
         "projectPath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\Stepflow\\Stepflow.vcxproj",
+        "frameworks": {
+          "native": {
+            "projectReferences": {
+              "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj": {
+                "projectPath": "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "native": {}
+      }
+    },
+    "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj": {
+      "restore": {
+        "projectUniqueName": "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj",
+        "projectName": "Int24Types",
+        "projectPath": "C:\\WORKSPACE\\PROJECTS\\Int24Types\\core5\\Int24Type\\Int24Type.vcxproj",
         "frameworks": {
           "native": {
             "projectReferences": {}

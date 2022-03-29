@@ -7,6 +7,7 @@
 #define SET_STEPFLOW_NAMESPACE SET_NAMESPACE
 #define SET_STEPLIST_NAMESPACE EMPTY
 #define SET_CONTROLLERSPACE    EMPTY
+#define USE_NAMESPACER (1)
 
 // compile log output for sections which use one of
 // these log macros: LOG_MESSAGE_WRITER(msg,arg) or 

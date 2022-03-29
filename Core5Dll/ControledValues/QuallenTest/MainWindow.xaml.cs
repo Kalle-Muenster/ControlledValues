@@ -21,7 +21,7 @@ namespace QuallenTest
         [DllImport("user32.dll")]
         private static extern RETURN_CODE FindWindow(string className, string windowText);
 #if DEBUG
-        private Consola.StdStreams std = new Consola.StdStreams(Consola.CreationFlags.NewConsole);
+        private Consola.StdStreams std = new Consola.StdStreams();
 #endif
         System.Windows.Automation.Peers.HostedWindowWrapper d;
 

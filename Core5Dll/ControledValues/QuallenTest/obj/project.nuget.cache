@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "chIV+19isdQ0OrsNtmvVjwyCiP/dgT7xgq3C4ekiCbFQiiCAEWLx0WbvPDNIIB3zfveLJDzH7yfa9vDTHUvCAQ==",
+  "dgSpecHash": "eq/WdRkXELE1Cwl5+SZraeKaB13LwmwjWoTSxQNykrPg0Q0QQiFRkI5YvC7dzK2jZS79hP+ijY9OeVRFs79IPA==",
   "success": true,
-  "projectFilePath": "D:\\LIBRARIES\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
+  "projectFilePath": "C:\\WORKSPACE\\PROJECTS\\ControlledValues\\Core5Dll\\ControledValues\\QuallenTest\\QuallenTest.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

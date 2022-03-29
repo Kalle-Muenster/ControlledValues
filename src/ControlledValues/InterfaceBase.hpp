@@ -205,7 +205,7 @@ enum ControllerStateFlags
         }
         virtual ulong getModeData(void) const override {
             ulong adr = IControllerBase::getModeData();
-            if (is_not(adr)) {
+            if ( is_not(adr) ) {
                 adr = CustomControlMode->getModeData();
                 const_cast<IController<cT>*>(this)->CustomControlMode = NULL;
                 return adr;

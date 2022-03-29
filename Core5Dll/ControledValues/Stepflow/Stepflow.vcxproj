@@ -108,6 +108,9 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <Version>00000002</Version>
     </Link>
+    <PreBuildEvent>
+      <Command>"$(ProjectDir)copyLinkage.bat" "$(PlatformTarget)" "$(ConfigurationName)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -123,6 +126,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <Version>00000002</Version>
     </Link>
+    <PreBuildEvent>
+      <Command>"$(ProjectDir)copyLinkage.bat" "$(PlatformTarget)" "$(ConfigurationName)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -140,6 +146,9 @@
       <ProgramDatabaseFile />
       <Version>00000002</Version>
     </Link>
+    <PreBuildEvent>
+      <Command>"$(ProjectDir)copyLinkage.bat" "$(PlatformTarget)" "$(ConfigurationName)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -157,6 +166,9 @@
       <ProgramDatabaseFile />
       <Version>00000002</Version>
     </Link>
+    <PreBuildEvent>
+      <Command>"$(ProjectDir)copyLinkage.bat" "$(PlatformTarget)" "$(ConfigurationName)"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ControlledValues\FixFieldController.hpp" />
@@ -216,9 +228,12 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\PROJECTS\Int24Types\core5\Int24Type\Int24Type.vcxproj">
-      <Project>{80256676-d858-4ba1-8fcd-f49edd2f1e51}</Project>
-    </ProjectReference>
+    <None Include="copyLinkage.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Int24Types">
+      <HintPath>linkage\Int24Types.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

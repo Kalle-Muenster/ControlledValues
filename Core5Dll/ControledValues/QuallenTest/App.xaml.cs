@@ -35,6 +35,7 @@ namespace QuallenTest
 
         private void Application_Startup( object sender, StartupEventArgs e )
         {
+            Consola.StdStream.Init(Consola.CreationFlags.UseConsole);
             string[] args = e.Args;
             if ( args.Length > 0 ) {
                 for( int p = 0; p < args.Length; ++p ) {
