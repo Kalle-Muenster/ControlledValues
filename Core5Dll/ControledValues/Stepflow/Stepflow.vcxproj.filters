@@ -28,6 +28,9 @@
     <Filter Include="Includes\src\Essenzielle">
       <UniqueIdentifier>{70ac8a5a-4368-4cd7-9511-74594a1ca36b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="linkage">
+      <UniqueIdentifier>{0ff6cb66-a960-4677-94b0-5fb3a9328a7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="settings.h">
