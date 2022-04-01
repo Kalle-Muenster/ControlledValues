@@ -35,15 +35,15 @@ namespace QuallenTest
 
         private void Application_Startup( object sender, StartupEventArgs e )
         {
-            Consola.StdStream.Init(Consola.CreationFlags.UseConsole);
+            Consola.StdStream.Init(Consola.CreationFlags.TryConsole);
             string[] args = e.Args;
             if ( args.Length > 0 ) {
                 for( int p = 0; p < args.Length; ++p ) {
-                    CmdArg argum = new CmdArg(args[p]);
+                    CmdArg argum = new CmdArg( args[p] );
                     if ( argum.valid ) {
                         switch( argum.param ) {
                         case "host": host = argum.value;
-                              port = port > 0 
+                              port = port > 0
                                    ? port : 5678;
                               break;
                         case "port": uint.TryParse( argum.value, out port );

@@ -31,28 +31,28 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CLRSupport>NetCore</CLRSupport>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -75,23 +75,23 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)..\..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)..\..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)..\..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;c:\WORKSPACE\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
+    <IncludePath>./;C:\CMD\CCommands;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;.\..\..\..\inc;.\..\..\..\src\ControlledValues\dnwrap;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)..\..\..\bin\Core5Dll\$(PlatformToolset)\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -228,12 +228,12 @@
     <Image Include="app.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="copyLinkage.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="C:\WORKSPACE\PROJECTS\ControlledValues\Core5Dll\ControledValues\Stepflow\Int24Type.vcxproj">
+    <ProjectReference Include="..\..\..\..\Int24Types\core5\Int24Type\Int24Type.vcxproj">
       <Project>{80256676-d858-4ba1-8fcd-f49edd2f1e51}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\DotNetDLL\ControlledValues\ControlledValues\copyLinkage.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

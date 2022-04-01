@@ -163,13 +163,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="copyLinkage.bat">
-      <Filter>Qualldateien</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\..\src\ControlledValues\dnwrap\Stepflow.cpp">
       <Filter>wrap</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="copyLinkage.bat" />
   </ItemGroup>
 </Project>

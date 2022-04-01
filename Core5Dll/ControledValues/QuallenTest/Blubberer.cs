@@ -10,74 +10,87 @@ namespace QuallenTest
     public class QuallenBlubberer
     {
             private MediaElement media;
-            private Stream       audio;
+            private SoundPlayer  sound;
+
             public QuallenBlubberer( MediaElement wpfelement )
             {
                 media = wpfelement;
                 media.MediaEnded += Media_Ended;
-                media.Loaded += (object sender, RoutedEventArgs e) => {
-                    (sender as MediaElement).Play();
-                };
+                media.Loaded += Media_Loade;
                 media.IsEnabled = false;
-                audio = null;
+                sound = null;
             }
+
+            private void prepareStream( Stream data )
+            {
+                sound = new SoundPlayer(data);
+                sound.LoadCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
+                     (sender as SoundPlayer).Play();
+                };
+                if (media.IsEnabled) {
+                    media.Stop();
+                    media.IsEnabled = false;
+                }
+                sound.Load();
+            }
+            
+            private void prepareMedia( Uri location )
+            {
+                if( sound != null) {
+                    sound.Stop();
+                    sound.Dispose();
+                    sound = null;
+                }
+                if ( !media.IsEnabled ) {
+                    media.IsEnabled = true;
+                } media.Source = location;
+                Blup();
+            }
+
             public void Blup()
             {
-                if( audio == null ) {
+                if( sound == null ) {
                     media.LoadedBehavior = MediaState.Play;
                 } else {
-                    audio.Seek( 0, SeekOrigin.Begin );
-                    SoundPlayer oneshot = new SoundPlayer( audio );
-                    oneshot.LoadCompleted += ( object sender, System.ComponentModel.AsyncCompletedEventArgs e )=> {
-                        (sender as SoundPlayer).Play();
-                    }; oneshot.Load();
+                    sound.Play();
                 }
             #if DEBUG
                 Consola.StdStream.Out.WriteLine("played audio signal");
             #endif
             }
+
             public void LoadFromRawData( byte[] rawfiledata )
             {
-                audio = new MemoryStream( rawfiledata );
-                if( media.IsEnabled ) {
-                    media.Stop();
-                    media.IsEnabled = false;
-                } Blup();
+                prepareStream( new MemoryStream(rawfiledata) );
             #if DEBUG
                 Consola.StdStream.Out.WriteLine("Set Up as Stream Blubberer");
             #endif
             }
             public void LoadFromRawData( UnmanagedMemoryStream rawfiledata )
             {
-                audio = rawfiledata;
-                if( media.IsEnabled ) {
-                    media.Stop();
-                    media.IsEnabled = false;
-                } Blup();
+                prepareStream( rawfiledata );
             #if DEBUG
                 Consola.StdStream.Out.WriteLine("Set Up as Stream Blubberer");
             #endif
             }
             public void LoadFromRawData( Stream rawfiledata )
             {
-                audio = rawfiledata;
-                if( media.IsEnabled ) {
-                    media.Stop();
-                    media.IsEnabled = false;
-                } Blup();
+                prepareStream( rawfiledata );
             #if DEBUG
                 Consola.StdStream.Out.WriteLine("Set Up as Stream Blubberer");
             #endif
             }
             public void LoadFromLocation( Uri location )
             {
-                audio = null;
-                if( !media.IsEnabled ) {
-                    media.IsEnabled = true;
-                } media.Source = location;
+                prepareMedia( location );
             #if DEBUG
                 Consola.StdStream.Out.WriteLine("Set Up as Location Blubberer");
             #endif
+            }
+
+            private void Media_Loade( object sender, RoutedEventArgs e )
+            {
+                (sender as MediaElement).Play();
             }
             private void Media_Ended( object sender, RoutedEventArgs e )
             {

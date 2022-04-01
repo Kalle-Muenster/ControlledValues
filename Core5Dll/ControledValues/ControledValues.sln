@@ -8,7 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ControlledValues", "Stepflo
 		{80256676-D858-4BA1-8FCD-F49EDD2F1E51} = {80256676-D858-4BA1-8FCD-F49EDD2F1E51}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Int24Type", "C:\WORKSPACE\PROJECTS\Int24Types\core5\Int24Type\Int24Type.vcxproj", "{80256676-D858-4BA1-8FCD-F49EDD2F1E51}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Int24Types", "..\..\..\Int24Types\core5\Int24Type\Int24Type.vcxproj", "{80256676-D858-4BA1-8FCD-F49EDD2F1E51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

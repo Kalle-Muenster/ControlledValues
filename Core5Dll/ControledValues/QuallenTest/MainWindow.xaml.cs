@@ -21,7 +21,7 @@ namespace QuallenTest
         [DllImport("user32.dll")]
         private static extern RETURN_CODE FindWindow(string className, string windowText);
 #if DEBUG
-        private Consola.StdStreams std = new Consola.StdStreams();
+        private Consola.StdStreams std = new Consola.StdStreams(Consola.CreationFlags.TryConsole);
 #endif
         System.Windows.Automation.Peers.HostedWindowWrapper d;
 
@@ -291,7 +291,7 @@ namespace QuallenTest
             else {
                 QuallenserverAddress = "http://"+quallenServerHost+":"
                                      + quallenServerPort.ToString();
-                XmlReader config = XmlReader.Create(new Uri(QuallenserverAddress+"/Config.xml").ToString());
+                XmlReader config = XmlReader.Create( new Uri(QuallenserverAddress+"/Config.xml" ).ToString());
                 while( config.Read() ) {
                     if( config.IsStartElement("qualle") ) {
                         config = config.ReadSubtree();
@@ -349,9 +349,11 @@ namespace QuallenTest
             location.SetCheckAtSet();
            
             bluber = new QuallenBlubberer( blub );
-            
-            if( !QuallenserverAddress.StartsWith( "pack" ) ) {
-                bluber.LoadFromLocation( new Uri(QuallenserverAddress+"/audios/blub.wav") );
+
+            if( QuallenserverAddress.StartsWith( "pack" ) ) {
+                bluber.LoadFromRawData( Properties.Resources.blub ); 
+            } else {
+                bluber.LoadFromLocation( new Uri(QuallenserverAddress + "/audios/blub.wav") );
             }
 
             cbx_resourceLocations.Content = QuallenserverAddress;
