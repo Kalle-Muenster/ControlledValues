@@ -16,6 +16,7 @@ using Point = System.Windows.Point;
 #elif DRAWING_POINT
 using System.Drawing;
 using Point = System.Drawing.Point;
+using System.Windows;
 #endif
 
 namespace Win32Imports
@@ -165,14 +166,14 @@ namespace Win32Imports
         }
         public static Point SCREENSCALE {
             get { return new Point(
-                    (SystemParameters.PrimaryScreenWidth / (int)GetSystemMetrics(METRICS_REQUEST.SM_CXSCREEN).u32),
-                    (SystemParameters.PrimaryScreenHeight / (int)GetSystemMetrics(METRICS_REQUEST.SM_CYSCREEN).u32)
+                    (int)(SystemParameters.PrimaryScreenWidth / (int)GetSystemMetrics(METRICS_REQUEST.SM_CXSCREEN).u32),
+                    (int)(SystemParameters.PrimaryScreenHeight / (int)GetSystemMetrics(METRICS_REQUEST.SM_CYSCREEN).u32)
                   ); }
         }
         public static Point SCALEDSCREEN {
             get {
-                return new Point( new RETURN_CODE((uint)SystemParameters.PrimaryScreenWidth).log("SCALEDSCREEN.X").u32,
-                                  new RETURN_CODE((uint)SystemParameters.PrimaryScreenHeight).log("SCALEDSCREEN.Y").u32 );
+                return new Point( (int)new RETURN_CODE((uint)SystemParameters.PrimaryScreenWidth).log("SCALEDSCREEN.X").u32,
+                                  (int)new RETURN_CODE((uint)SystemParameters.PrimaryScreenHeight).log("SCALEDSCREEN.Y").u32 );
             }
         }
         public static Point SCALEDFULLSCREEN {

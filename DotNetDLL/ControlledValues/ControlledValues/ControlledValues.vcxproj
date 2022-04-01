@@ -76,21 +76,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\..\inc;..\..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\..\inc;..\..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\..\bin\DotNetDll\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <ReferencePath>C:\WORKSPACE\PROJECTS\Int24Type\bin\dot48\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\..\inc;C:\WORKSPACE\PROJECTS\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;..\..\..\src\ControlledValues\dnwrap;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\..\inc;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;..\..\..\src\ControlledValues\dnwrap;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\..\bin\DotNetDll\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <ReferencePath>C:\WORKSPACE\PROJECTS\Int24Type\bin\dot48\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\..\inc;..\..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\..\inc;..\..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <OutDir>$(ProjectDir)..\..\..\bin\DotNetDll\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
@@ -98,7 +98,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\..\inc;..\..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\..\inc;..\..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <OutDir>$(ProjectDir)..\..\..\bin\DotNetDll\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
@@ -255,15 +255,13 @@
     <ClCompile Include="..\..\..\src\ControlledValues\dnwrap\Stepflow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Int24Types">
+      <HintPath>linkage\Int24Types.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="copyLinkage.bat" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Int24Types\dot48\Int24Types\Int24Types.vcxproj">
-      <Project>{34326a39-e046-471e-9902-623e6ad4f087}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ItemDefinitionGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Win32' ">

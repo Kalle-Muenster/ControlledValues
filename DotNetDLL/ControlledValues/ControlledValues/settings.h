@@ -16,6 +16,7 @@
 #define SET_STEPFLOW_NAMESPACE SET_NAMESPACE
 #define SET_STEPLIST_NAMESPACE EMPTY
 #define SET_CONTROLLERSPACE    EMPTY
+#define USE_NAMESPACER (1)
 
 // should logoutput be enabled? 
 // set to 1: always enable
