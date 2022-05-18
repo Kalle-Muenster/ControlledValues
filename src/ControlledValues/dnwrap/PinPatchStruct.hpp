@@ -104,7 +104,7 @@ namespace Stepflow {
                     const Preci Level;
                     const Preci Gain;
                     const Preci Peak;
-                    Band(Preci l, Preci g, Preci p)
+                    Band( Preci l, Preci g, Preci p )
                         : Level(l)
                         , Gain(g)
                         , Peak(p) {

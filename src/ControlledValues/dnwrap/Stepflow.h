@@ -340,15 +340,16 @@ namespace Stepflow {
 
         virtual void SetUp( MT min, MT max, MT mov, MT val, ControlMode mod ) {
             if( mod > ControlMode::PingPong ) {
-                Get()->SetMIN( *(NT*)&min );
-                Get()->SetMAX( *(NT*)&max );
-                Get()->SetMOV( *(NT*)&mov );
-                *Get()->GetPointer() = *(NT*)&val;
-            }
-            else {
+                Get()->SetMIN( reinterpret_cast<NT&>( min ) );
+                Get()->SetMAX( reinterpret_cast<NT&>( max ) );
+                Get()->SetMOV( reinterpret_cast<NT&>( mov ) );
+                *Get()->GetPointer() = reinterpret_cast<NT&>( val );
+            } else {
                 Get()->SetUp(
-                    *(NT*)&min, *(NT*)&max,
-                    *(NT*)&val, *(NT*)&mov,
+                    reinterpret_cast<NT&>( min ), 
+                    reinterpret_cast<NT&>( max ),
+                    reinterpret_cast<NT&>( val ),
+                    reinterpret_cast<NT&>( mov ),
                 byte(mod) );
             } Mode = mod;
         }
@@ -413,7 +414,7 @@ namespace Stepflow {
         }
 
         static operator MT( Int24Controller^ This ) {
-            return MT( NT( *This->Get() ) );
+            return reinterpret_cast<MT&>( NT( *This->Get() ) );
         }
         virtual void SetPin( Enum^ pinum, MT% val ) {
             pin_ptr<MT> p = &val;
@@ -509,14 +510,13 @@ namespace Stepflow {
                 Get()->MIN = reinterpret_cast<NT&>( min );
                 Get()->MAX = reinterpret_cast<NT&>( max );
                 Get()->MOV = reinterpret_cast<NT&>( mov );
-                *Get()->GetPointer() = reinterpret_cast<NT&>( val );;
-            }
-            else {
+                *Get()->GetPointer() = reinterpret_cast<NT&>( val );
+            } else {
                 Get()->SetUp(
-                    (stepflow::i24&)min,
-                    (stepflow::i24&)max,
-                    (stepflow::i24&)val,
-                    (stepflow::i24&)mov,
+                    reinterpret_cast<NT&>( min ),
+                    reinterpret_cast<NT&>( max ),
+                    reinterpret_cast<NT&>( val ),
+                    reinterpret_cast<NT&>( mov ),
                 byte(mod) );
             } Mode = mod;
         }
@@ -822,9 +822,9 @@ namespace Stepflow {
                 return clone;
             }
             Int24^ Refer( void ) {
-                Int24^ other = gcnew Int24();
-                other->nativ = IntPtr(Get());
-                return other;
+                Int24^ same = gcnew Int24();
+                same->nativ = IntPtr(Get());
+                return same;
             }
             static operator TYPE( Controlled::Int24^ This ) {
                 return *(TYPE*)This->Get()->getVALpt();
@@ -833,7 +833,7 @@ namespace Stepflow {
             Int24^ operator()( TYPE set ) { VAL = set; return this; }
         };
 
-        // Unsigned 24bit controlled integer type
+        // controlled 24bit Unsigned integer type
         ref class UInt24
             : public UInt24Controller {
         public:

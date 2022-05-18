@@ -1,0 +1,126 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Qb.ico</ApplicationIcon>
+    <AssemblyName>Qualle</AssemblyName>
+    <Platforms>x64;x86</Platforms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Nullable>disable</Nullable>
+    <StartupObject>QuallenTest.App</StartupObject>
+    <PackageIcon>Q2_12.png</PackageIcon>
+    <PackageIconUrl />
+    <AssemblyVersion>0.0.0.3</AssemblyVersion>
+    <FileVersion>0.0.0.3</FileVersion>
+    <Version>0.0.3</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;WINDOWS_POINT,X86_64</DefineConstants>
+    <OutputPath>..\..\bin\core5\x64\Release\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>TRACE;WINDOWS_POINT,X86_32</DefineConstants>
+    <OutputPath>..\..\bin\core5\x86\Release\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG;TRACE;WINDOWS_POINT,X86_32</DefineConstants>
+    <OutputPath>..\..\bin\core5\x86\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG;TRACE;WINDOWS_POINT,X86_64</DefineConstants>
+    <OutputPath>..\..\bin\core5\x64\Debug\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Qb.ico" />
+    <None Include="images\Q2_12.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Consola">
+      <HintPath>$(ConsolaBinRoot)\$(PlatformTarget)\$(Configuration)\Consola.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlledValues, Version=0.0.0.3, Culture=neutral, PublicKeyToken=02368ae74123a494">
+      <HintPath>..\..\bin\core5\$(PlatformTarget)\$(Configuration)\ControlledValues.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\button1_1_hover.png" />
+    <Resource Include="images\button1_2_normal.png" />
+    <Resource Include="images\button1_3_pressed.png" />
+    <Resource Include="images\button4_1.png" />
+    <Resource Include="images\button4_2.png" />
+    <Resource Include="images\button4_3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="audios\blub.wav" />
+    <Resource Include="images\Q2_0.png" />
+    <Resource Include="images\Q2_1.png" />
+    <Resource Include="images\Q2_10.png" />
+    <Resource Include="images\Q2_11.png" />
+    <Resource Include="images\Q2_12.png" />
+    <Resource Include="images\Q2_13.png" />
+    <Resource Include="images\Q2_14.png" />
+    <Resource Include="images\Q2_15.png" />
+    <Resource Include="images\Q2_16.png" />
+    <Resource Include="images\Q2_17.png" />
+    <Resource Include="images\Q2_18.png" />
+    <Resource Include="images\Q2_19.png" />
+    <Resource Include="images\Q2_2.png" />
+    <Resource Include="images\Q2_20.png" />
+    <Resource Include="images\Q2_21.png" />
+    <Resource Include="images\Q2_22.png" />
+    <Resource Include="images\Q2_23.png" />
+    <Resource Include="images\Q2_24.png" />
+    <Resource Include="images\Q2_25.png" />
+    <Resource Include="images\Q2_26.png" />
+    <Resource Include="images\Q2_27.png" />
+    <Resource Include="images\Q2_28.png" />
+    <Resource Include="images\Q2_29.png" />
+    <Resource Include="images\Q2_3.png" />
+    <Resource Include="images\Q2_30.png" />
+    <Resource Include="images\Q2_31.png" />
+    <Resource Include="images\Q2_32.png" />
+    <Resource Include="images\Q2_33.png" />
+    <Resource Include="images\Q2_34.png" />
+    <Resource Include="images\Q2_35.png" />
+    <Resource Include="images\Q2_4.png" />
+    <Resource Include="images\Q2_5.png" />
+    <Resource Include="images\Q2_6.png" />
+    <Resource Include="images\Q2_7.png" />
+    <Resource Include="images\Q2_8.png" />
+    <Resource Include="images\Q2_9.png" />
+    <Resource Include="Qb.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
