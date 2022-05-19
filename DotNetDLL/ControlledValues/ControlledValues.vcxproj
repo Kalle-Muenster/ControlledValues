@@ -79,7 +79,7 @@
     <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <ReferencePath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -87,7 +87,7 @@
     <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <ReferencePath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -96,7 +96,7 @@
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <ReferencePath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -105,7 +105,7 @@
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <ReferencePath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -264,7 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Int24Types">
-      <HintPath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
+      <HintPath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
   </ItemGroup>

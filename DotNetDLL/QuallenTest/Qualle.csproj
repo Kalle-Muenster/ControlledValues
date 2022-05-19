@@ -114,7 +114,7 @@
       <HintPath>..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\ControlledValues.dll</HintPath>
     </Reference>
     <Reference Include="Int24Types">
-      <HintPath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
+      <HintPath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
     </Reference>
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />

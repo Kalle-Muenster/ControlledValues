@@ -236,7 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Int24Types">
-      <HintPath>$(Int24TypesRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
+      <HintPath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
