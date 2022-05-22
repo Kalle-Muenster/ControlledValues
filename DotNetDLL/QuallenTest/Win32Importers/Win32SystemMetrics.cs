@@ -166,9 +166,10 @@ namespace Win32Imports
         }
         public static Point SCREENSCALE {
             get { return new Point(
-                    (int)(SystemParameters.PrimaryScreenWidth / (int)GetSystemMetrics(METRICS_REQUEST.SM_CXSCREEN).u32),
-                    (int)(SystemParameters.PrimaryScreenHeight / (int)GetSystemMetrics(METRICS_REQUEST.SM_CYSCREEN).u32)
-                  ); }
+                    SystemParameters.PrimaryScreenWidth / (int)GetSystemMetrics(METRICS_REQUEST.SM_CXSCREEN).u32,
+                    SystemParameters.PrimaryScreenHeight / (int)GetSystemMetrics(METRICS_REQUEST.SM_CYSCREEN).u32
+                );
+            }
         }
         public static Point SCALEDSCREEN {
             get {
@@ -188,9 +189,6 @@ namespace Win32Imports
                 return full;        
             }
         }
-
-
-
     }
 }
 

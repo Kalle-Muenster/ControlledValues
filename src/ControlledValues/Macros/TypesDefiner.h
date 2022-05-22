@@ -59,26 +59,28 @@ typedef unsigned short half;
 
 // PinJack - implements the 'Pin' mechanism (the 'PinFieldController' also provides
 // this for providing fix, indexable, enumerable accesspoints to variables/functions
-// which are not nessessarly being either pointer or value... these always sopport
+// which are not nessessarly being either pointer or value... these always supporting
 // both mechanisms same time. a 'Pin' in the first place is valuetype variable declared
-// on a fix position, defined as a class member (so it's not compositional thing. it's compiletime hardcoded as class member variable - not removable ore addable to any kind of  lists dynamically.
+// on a fix position, defined as a class member (so it's not a compositional thing. 
+// it's compiletime hardcoded as class member variable - not removable ore addable to
+// any kind of dynamically changable member lists.
 // ...but it provides a mechanism which makes possible 'joining' a 'Pin' with another
 // 'Pin' which can be declared on other object. joining means: as soon a 'Pin' gets
 // assingned a pointer to it, which point to an address of another 'Pin' variable on
-// another object, then the pin changes it's type with that asignment and stops being
-// value type and turns inta a pointer type then which poits that address of the other 
-// distant 'Pin' then - but still supports assigning values to it further then, same as
+// another object, then the pin changes it's type (with that asignment), stops being
+// a value type and turns to being a pointer type then - and will point that address of the other 
+// distant 'Pin' instance then - but still supports assigning values to it further then, same as
 // like it did when it was a value type before. the assigner/caller cannot determeine 
 // if the Pin where it asigns value to actually maybe forwards asignments to some other Pin
-// located to another controller on another object mayby. it's effect is almost same like 
+// located on another controller on another object mayby. it's effect is almost same like 
 // circumstances a uninon typed data structure also inflicts. (in a union, there may be 
 // several filds declared and asignable.. but for real assigning to one of these fields -
-// makes all the variables inside which share the same memory - to holding the same value then at same time, at once
-// so - same situation comes up as soon two Pin had been joind. both will contain same value,
+// makes all the variables inside which share the same memory to holding the same value so.
+// same situation comes up as soon two Pins had been joind. both will contain same value,
 // stored at one same location in memory. so no calls or any kind processing is needed then
 // for transporting values between two joined pins - they will have same value, ...always.
 // like two atoms orbitally bound to each other . both having an owned electron each - but its one same 
-// electron within both of the atoms orbitals - or two electrons of two atoms but both at same time in one same place
+// electron, within both of the atoms orbitals - or two electrons of two atoms but both at same time in one same place
 template<typename pT>
 struct PinJack {
 

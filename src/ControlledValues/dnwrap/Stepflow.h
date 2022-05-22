@@ -134,10 +134,10 @@ namespace stepflow {
             controller->SetMOV( 1 );
         }
         virtual NT checkVALUE( NT* value ) {
-            return (NT)FUNCPTR( *(MT*)value,
-                *(MT*)controller->getMINpt(),
-                *(MT*)controller->getMAXpt(),
-                *(MT*)controller->getMOVpt()
+            return (NT)FUNCPTR( *reinterpret_cast<MT*>(value),
+                *reinterpret_cast<MT*>(controller->getMAXpt()),
+                *reinterpret_cast<MT*>(controller->getMAXpt()),
+                *reinterpret_cast<MT*>(controller->getMOVpt())
             );
         }
         void SetDelegateFunction( DelegateFunction func ) {
@@ -186,10 +186,10 @@ namespace stepflow {
             controller->SetMOV( 1 );
         }
         virtual NT checkVALUE( NT* value ) {
-            return (NT)FUNCPTR( *(MT*)value,
-                *(MT*)BASE::controller->getMINpt(),
-                *(MT*)BASE::controller->getMAXpt(),
-                *(MT*)BASE::controller->getMOVpt()
+            return (NT)FUNCPTR( *reinterpret_cast<MT*>(value),
+                *reinterpret_cast<MT*>(BASE::controller->getMINpt()),
+                *reinterpret_cast<MT*>(BASE::controller->getMAXpt()),
+                *reinterpret_cast<MT*>(BASE::controller->getMOVpt())
             );
         }
         void SetDelegateFunction( DelegateFunction func ) {
@@ -327,7 +327,7 @@ namespace Stepflow {
         Int24Controller( MT% reference ) : Int24Controller() {
             Get()->SetUp( 0, 0, NT( Stepflow::Int24::operator int(reference) ), 0, stepflow::CtrlMode::None );
             pin_ptr<MT> p = &reference;
-            Get()->SetVariable( (NT*)p );
+            Get()->SetVariable( reinterpret_cast<NT*>(p) );
         }
         Int24Controller( ControlMode mode ) : Int24Controller() {
             Get()->SetUp( 0, 0, 0, 0, stepflow::CtrlMode::None );
@@ -869,7 +869,7 @@ namespace Stepflow {
                 return other;
             }
             static operator TYPE( Controlled::UInt24^ This ) {
-                return *(TYPE*)This->Get()->getVALpt();
+                return *reinterpret_cast<TYPE*>(This->Get()->getVALpt());
             }
             TYPE operator()() { return VAL; }
             UInt24^ operator()( TYPE set ) {

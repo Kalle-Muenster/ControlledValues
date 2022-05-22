@@ -221,7 +221,7 @@ enum ControllerStateFlags
                 return CustomControlMode->lock( lock );
             } return false;
         }
-        virtual bool IsLocked(void) const {
+        virtual bool IsLocked( void ) const {
             if( CustomControlMode ) {
                 return (int)CustomControlMode->lockState() > 0;
             } return false;

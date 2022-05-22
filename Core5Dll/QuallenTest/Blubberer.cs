@@ -33,7 +33,7 @@ namespace QuallenTest
                 }
                 sound.Load();
             }
-            
+
             private void prepareMedia( Uri location )
             {
                 if( sound != null) {

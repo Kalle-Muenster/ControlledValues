@@ -107,6 +107,7 @@
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -221,45 +222,48 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\inc\ControlledValues.h" />
-    <ClInclude Include="..\..\..\inc\ControllerAccess.h" />
-    <ClInclude Include="..\..\..\inc\ControllerSpace.h" />
-    <ClInclude Include="..\..\..\inc\namespacer\namespacer.h" />
-    <ClInclude Include="..\..\..\inc\Stepflow.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\BandSplit.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\Capacitor.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\ControlledPointer.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\ControlledVector3.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\Element.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\Jongleur.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\MultiComp.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\PeakFinder.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\PulseFormer.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\BandFilter.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\SineFormer.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalModeClasses\RampFormer.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\AdditionalTypes.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\FixFieldController.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\ControlledValues.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\IncludeSelectedClasses.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\InterfaceBase.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\ExternalAccess.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\FlgHlpConfig.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\InternalAccess.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\ModeExpress.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\PinFunConfig.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\PinFunDefine.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\StepflowEmpty.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\Macros\TypesDefiner.h" />
-    <ClInclude Include="..\..\..\src\ControlledValues\PinFieldController.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\VariableController.hpp" />
-    <ClInclude Include="..\..\..\src\ControlledValues\ValueControllerUserModes.hpp" />
+    <ClInclude Include="..\..\inc\ControlledValues.h" />
+    <ClInclude Include="..\..\inc\ControllerAccess.h" />
+    <ClInclude Include="..\..\inc\ControllerSpace.h" />
+    <ClInclude Include="..\..\inc\namespacer\namespacer.h" />
+    <ClInclude Include="..\..\inc\Stepflow.hpp" />
+    <ClInclude Include="..\..\inc\StepflowUtils.hpp" />
+    <ClInclude Include="..\..\inc\StepLists.h" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\BandFilter.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\BandSplit.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\Capacitor.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\ControlledPointer.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\ControlledVector3.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\Element.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\Jongleur.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\MultiComp.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\PeakFinder.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\PulseFormer.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\RampFormer.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\SawStacker.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\SineFormer.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\AdditionalTypes.h" />
+    <ClInclude Include="..\..\src\ControlledValues\ControlledValues.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\ConstStruct.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\CreationMacro.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\MessageLogger.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\PinPatchStruct.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\ProjectHeader.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\Stepflow.h" />
+    <ClInclude Include="..\..\src\ControlledValues\FixFieldController.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\IncludeSelectedClasses.h" />
+    <ClInclude Include="..\..\src\ControlledValues\InterfaceBase.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\ExternalAccess.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\FlgHlpConfig.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\InternalAccess.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\ModeExpress.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\PinFunConfig.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\PinFunDefine.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\StepflowEmpty.h" />
+    <ClInclude Include="..\..\src\ControlledValues\Macros\TypesDefiner.h" />
+    <ClInclude Include="..\..\src\ControlledValues\PinFieldController.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\ValueControllerUserModes.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\VariableController.hpp" />
     <ClInclude Include="settings.h" />
   </ItemGroup>
   <ItemGroup>
@@ -269,7 +273,6 @@
     <Reference Include="mscorlib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\ControlledValues\dnwrap\PinPatchStruct.cpp" />
     <ClCompile Include="..\..\src\ControlledValues\dnwrap\Stepflow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

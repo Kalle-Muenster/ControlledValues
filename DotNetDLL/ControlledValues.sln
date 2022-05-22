@@ -7,16 +7,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ControlledValues", "Control
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Debug|x64.ActiveCfg = Debug|x64
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Debug|x64.Build.0 = Debug|x64
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Debug|x86.ActiveCfg = Debug|Win32
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Debug|x86.Build.0 = Debug|Win32
+		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Release|Any CPU.ActiveCfg = Release|Win32
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Release|x64.ActiveCfg = Release|x64
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Release|x64.Build.0 = Release|x64
 		{FE259FEC-3043-4289-B4EB-A4FBD0577180}.Release|x86.ActiveCfg = Release|Win32
