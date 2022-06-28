@@ -199,13 +199,13 @@ enum ControllerStateFlags
         }
         virtual uint getModeSize(void) const override {
             uint size = IControllerBase::getModeSize();
-            if ( is_not(size) ) {
+            if ( enum_utils::is_not(size) ) {
                 size = CustomControlMode->getModeSize();
             } return size;
         }
         virtual ulong getModeData(void) const override {
             ulong adr = IControllerBase::getModeData();
-            if ( is_not(adr) ) {
+            if ( enum_utils::is_not(adr) ) {
                 adr = CustomControlMode->getModeData();
                 const_cast<IController<cT>*>(this)->CustomControlMode = NULL;
                 return adr;

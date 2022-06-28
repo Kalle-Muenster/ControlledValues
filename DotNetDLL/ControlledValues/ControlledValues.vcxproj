@@ -76,7 +76,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;.\..\..\etc;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;.\..\..\etc;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration);$(ReferencePath)</ReferencePath>
@@ -92,7 +92,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;.\..\..\etc;$(IncludePath)</IncludePath>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
@@ -101,7 +101,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;D:\LIBRARIES\INCLUDES;$(IncludePath)</IncludePath>
+    <IncludePath>.\;..\..\inc;..\..\src\ControlledValues\dnwrap;C:\WORKSPACE\PROJECTS\GITSPACE\Int24Types\src;C:\CMD\CCommands;.\..\..\etc;$(IncludePath)</IncludePath>
     <IgnoreImportLibrary>false</IgnoreImportLibrary>
     <OutDir>$(ProjectDir)..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>

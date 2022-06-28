@@ -282,7 +282,7 @@ public:
     // actual set samplerate by not passing a
     // samplerate as 'rate' parameter)
     uint SampleRate( uint rate = EMPTY_(uint) ) {
-        if ( is_val(rate) ) {
+        if ( enum_utils::is_val(rate) ) {
             if ( rate != srt ) {
                 srt = rate;
                 update = true;
