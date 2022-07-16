@@ -20,9 +20,9 @@ BEGIN_STEPFLOW(VALUES)
 #define THRSHS(band) cmp[band].getMIN()
 #define GAIN(band) cmp[band].getMAX()
 #define InGainConversion MIN
-#define ConversionFactor stm
+#define ConversionFactor BASE::stm
 #define SPLITS (BANDS-1)
-#define ByPass CLAMP
+#define ByPass BASE::CLAMP
 
     template<typename cT> class VariableController;
     template<typename cT,const uint BANDS,typename pT = double>
@@ -67,17 +67,17 @@ BEGIN_STEPFLOW(VALUES)
                 MIN = cT(1);
                 MAX = cT(1.0/3.0);
             } MOV = cT(0);
-            SampleRate(44100);
+            BASE::SampleRate(44100);
             for (int i = 0; i < BANDS; ++i) {
                 cmp[i].SetUp(pT(0.75*MIN),pT(MAX),0,pT(MIN)/0.75f,CtrlMode::Compress);
-                cmp[i].SetVariable( &bnd[i] );
+                cmp[i].SetVariable( &BASE::bnd[i] );
                 cmp[i].SetCheckAtGet( true );
                 //cmp[i].LetPoint( ControllerVariables::Min, controller->getMINpt() );
                 //cmp[i].LetPoint( ControllerVariables::Max, controller->getMAXpt() );
 
                 cmp[i].Active = true;
                 if( i < SPLITS )
-                    frq[i] = ( (SampleRate()/2.0) / (BANDS-1) ) * (i+1);
+                    frq[i] = ( (BASE::SampleRate()/2.0) / (BANDS-1) ) * (i+1);
             } BASE::PIN_COUNT += BANDS;
             BASE::Init();
         }
@@ -88,9 +88,9 @@ BEGIN_STEPFLOW(VALUES)
         }
         virtual cT checkVALUE(cT* pVALUE) {
             // split input and get bypassed, delayed signal
-            cT val = doBandSplit( ((pT)*pVALUE)
-                                 / InGainConversion
-                                  );
+            cT val = BASE::doBandSplit( ((pT)*pVALUE)
+                                       / InGainConversion
+                                        );
             if (!ByPass) {
              // mix sample from (individually compressed) band levels
                 pT mix = 0;
@@ -99,13 +99,13 @@ BEGIN_STEPFLOW(VALUES)
                 } val = ( mix * ConversionFactor );
             } // store found peak level
             MOV = val < 0
-                ? maxOf(-val, MOV)
-                : maxOf(val, MOV);
+                ? cT(maxOf(cT(val * -1), MOV))
+                : cT(maxOf(val, MOV));
             // return the processed sample
             return (*pVALUE = val);
         }
         virtual void onActivate(bool active) {
-            resetState();
+            BASE::resetState();
         }
         virtual unsigned modeCodeBase(void) const {
             return *(unsigned*)"Mult";

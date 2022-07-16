@@ -56,14 +56,14 @@ zero on filter state reset by 'resetState()' */
 #endif
 #define GAINS            bC+1
 #define SPLIT            bC-1
-#define ByPass           (CLAMP & 0x01)
-#define Compression      (CLAMP & 0x80)
-#define PreCompress      ( (CLAMP & 0x82) == 0x82 )
-#define PostCmpress      ( (CLAMP & 0x80) && (!(CLAMP & 0x02)) )
-#define ConversionFactor stm
+#define ByPass           (BASE::CLAMP & 0x01)
+#define Compression      (BASE::CLAMP & 0x80)
+#define PreCompress      ( (BASE::CLAMP & 0x82) == 0x82 )
+#define PostCmpress      ( (BASE::CLAMP & 0x80) && (!(BASE::CLAMP & 0x02)) )
+#define ConversionFactor BASE::stm
 #define PIN_INVALID      void(*INVALID)(void) 
 #define FILTER_PINS      ( GAINS + GAINS + SPLIT )
-#define InGainConversion ( stm / gain[EQFilterPindices<bC>::IN_GAIN].read() )
+#define InGainConversion ( BASE::stm / gain[EQFilterPindices<bC>::IN_GAIN].read() )
 
 //#define PINPROP(Ident,Typus,Range)  __declspec(property(get=get##Ident,put=set##Ident)) Typus Ident[Range];
 
@@ -136,34 +136,34 @@ protected:
         FilterSplitPin( ulong umode ) : PinJack<prcT>( umode ) {}
         FilterSplitPin( const FilterSplitPin& copy ) : PinJack<prcT>() { pin.var = copy.pin.var; ext.ptr = copy.ext.ptr; }
         FilterSplitPin& operator =( prcT* point ) {
-            pin.ptr = point;
-            external( true );
+            this->pin.ptr = point;
+            this->external( true );
             return *this;
         }
         FilterSplitPin& operator =( prcT set ) {
-            if ( ext.flg < 0 )  *pin.ptr = set;
-            else pin.var = set;
+            if ( this->ext.flg < 0 )  *this->pin.ptr = set;
+            else this->pin.var = set;
             return *this;
         }
         virtual void write( prcT value ) override {
             PinJack<prcT>::write( value );
-            umode<EQBandFilter>()->parametersDirty();
+            PinJack<prcT>::umode<EQBandFilter>()->parametersDirty();
         }
     };
     struct FilterPeaktPin : public PinJack<prcT> {
         FilterPeaktPin& operator =( prcT* point ) {
-            pin.ptr = point;
-            external( true );
+            this->pin.ptr = point;
+            this->external( true );
             return *this;
         }
         FilterPeaktPin& operator =( prcT set ) {
-            write( set );
+            this->write( set );
             return *this;
         }
         void set( prcT value ) {
             const prcT newv = MathLib::abs( value );
-            const prcT oldv = read();
-            write( maxOf( newv, oldv ) );
+            const prcT oldv = this->read();
+            this->write( maxOf( newv, oldv ) );
         }
     };
     PinJack<prcT>  gain[GAINS];
@@ -173,22 +173,22 @@ protected:
       outer_locked_scope
         if( idx < EQFilterPindices<bC>::LO_PEAK) {
             if (pin) gain[idx] = (prcT*)pin;
-            --locked;
+            --this->locked;
             return (prcT*)gain[idx];
         } else
         if( idx < (EQFilterPindices<bC>::LOSPLIT) ) {
             idx -= EQFilterPindices<bC>::LO_PEAK;
             if (pin) peak[idx] = (prcT*)pin;
-            --locked;
+            --this->locked;
             return (prcT*)peak[idx];
         } else
         if( idx < EQFilterPindices<bC>::LO_BAND ) {
             idx -= EQFilterPindices<bC>::LOSPLIT;
             if (pin) splt[idx] = (prcT*)pin;
-            --locked;
+            --this->locked;
             return (prcT*)splt[idx];
         } else {
-            --locked;
+            --this->locked;
         return BASE::Pin( pin, idx - FILTER_PINS ); }
       close_locked_scope(2)
     }
@@ -217,16 +217,16 @@ protected:
             splt[i] = prcT( f * i );
         } splt[0] = FilterSplitPin( (ulong)(void*)this );
         splt[0] = prcT( f / 10 );
-        SampleRate( 44100 );
+        BASE::SampleRate( 44100 );
         MIN = cT( std::numeric_limits<cT>::max() * 0.5f );
         MAX = 100;
         MOV = cT( 100.0f / 3.0f );
         BASE::Init();
-        CLAMP = 0x82;
+        BASE::CLAMP = 0x82;
     }
     virtual cT checkVALUE( cT* pVALUE ) {
-        cT val = doBandSplit( // split input at split frequencies
-            prcT( PreCompress ? checkMODE( Compress ) : *pVALUE )
+        cT val = BASE::doBandSplit( // split input at split frequencies
+            prcT( PreCompress ? BASE::checkMODE( Compress ) : *pVALUE )
              / InGainConversion );
         inner_locked_scope
             if( !ByPass ) { // If not ByPassed: mix output...
@@ -240,16 +240,16 @@ protected:
                 peak[bC].set( out ); 
                 if ( PostCmpress ) {
                     *pVALUE = cT( out * MIN );
-                    val = checkMODE( Compress );
+                    val = BASE::checkMODE( Compress );
                 } else {
                     val = cT( out * ConversionFactor );
                 }
-            } locked = 0;
+            } this->locked = 0;
             return *pVALUE = val;
         close_locked_scope(2)
     }
     virtual void onActivate( bool active ) {
-        resetState();
+        BASE::resetState();
     }
 public:
     prcT getGain( int idx ) {

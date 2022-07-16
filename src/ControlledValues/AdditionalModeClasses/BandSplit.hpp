@@ -20,7 +20,7 @@
 #define log_wait_state(cyc)
 #endif
 #define do_wait_cycles(cycles) { log_wait_state(cycles) THREAD_WAITCYCLE_FUNC(cycles*THREAD_WAITCYCLE_TIME); }
-#define enter_locked_scope(cond,incr) do if( locked cond 0 ) { incr##locked;
+#define enter_locked_scope(cond,incr) do if( this->locked cond 0 ) { incr##this->locked;
 #define close_locked_scope(waittimer) } else do_wait_cycles(waittimer) while(true);
 #define outer_locked_scope enter_locked_scope(>=,++) log_lock_state("outer")
 #define inner_locked_scope enter_locked_scope(<=,--) log_lock_state("inner")
@@ -44,7 +44,7 @@
 #endif
 
 #define ConversionFactor stm
-#define ByPass (CLAMP & 0x01)
+#define ByPass (BASE::CLAMP & 0x01)
 #define SPLIT (BANDS-1)
 #define LASTS (POLES-1)
 #define DELAY (LASTS-1)
@@ -177,10 +177,10 @@ protected:
            log_lock_state("outer")
            bool active = (bool)BASE::controller->Active;
            if ( active ) {
-                CLAMP = CLAMP &~ 0x01;
+                BASE::CLAMP = BASE::CLAMP &~ 0x01;
                 update = true;
            } else {
-                CLAMP = CLAMP | 0x01;
+                BASE::CLAMP = BASE::CLAMP | 0x01;
            } return true;
         } else do_wait_cycles(2) while( locked < 0 );
         return 0;

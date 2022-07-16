@@ -34,7 +34,7 @@ class Element : public ClambController<cT>
         PIN_LAST = PIN_PEAK = 0;
         PIN_ISCYCLED = false;
         PIN_UNSIGNED = false;
-        PIN_COUNT += 4;
+        BASE::PIN_COUNT += 4;
     }
 
     virtual ModeCodeVal modeCodeBase(void) const {
@@ -60,22 +60,22 @@ public:
     virtual cT checkVALUE( cT* value ) {
                      cT VAL = *value;
         if( PIN_UNSIGNED && VAL < 0 )
-            VAL = -VAL;
+            VAL *= -1;
 
         MOV = VAL - PIN_LAST;
 
         if( PIN_ISCYCLED )
-            MOV = MOV <= -((MAX - MIN) - 1)
+            MOV = MOV <= (((MAX - MIN) - 1) * -1)
                       ?
-            MOV + MAX : MOV >= ((MAX - MIN) - 1)
+        cT(MOV + MAX) : MOV >= ((MAX - MIN) - 1)
                             ?
-                  MOV - MAX : MOV;
+              cT(MOV - MAX) : MOV;
 
         *value = VAL < MIN
-                     ? PIN_ISCYCLED ? MAX - (MIN - VAL)
+                     ? PIN_ISCYCLED ? cT(MAX - (MIN - VAL))
                                     : VAL
                : VAL > MAX
-                     ? PIN_ISCYCLED ? MIN + (VAL - MAX)
+                     ? PIN_ISCYCLED ? cT(MIN + (VAL - MAX))
                                     : VAL
                : VAL;
 

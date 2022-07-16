@@ -8,30 +8,30 @@
 
 #include "FlgHlpConfig.h"
 
-#define INVERTMOD ( IsInverted(this) ? MAX-(VAL) : (VAL) )
+#define INVERTMOD ( IsInverted(this) ? cT(MAX-VAL) : cT(VAL) )
 #define CLAMPMODE ( VAL = SpinDirect(this)*(VAL) < SpinDirect(this)*MIN \
                         ? MIN : SpinDirect(this)*(VAL) > SpinDirect(this)*MAX \
                         ? MAX : VAL )
-#define DAMPFMODE ( MIN = VAL = ((MAX = (cT)(VAL - MIN)) > cT(0)) \
+#define DAMPFMODE ( MIN = VAL = ((MAX = cT(VAL - MIN)) > cT(0)) \
                                                    ? \
-                     (MAX > MOV ? MIN + MOV : VAL) : (MAX < cT(0)) \
+                     (MAX > MOV ? cT(MIN + MOV) : VAL) : (MAX < cT(0)) \
                                                           ? \
-                         ((MAX < cT(-MOV)) ? (cT)(MIN - MOV) : VAL) : VAL)
+                         ((MAX < cT(MOV * -1)) ? cT(MIN - MOV) : VAL ) : VAL )
 #define COMPRESSM ( VAL=(VAL > MIN) \
-                             ? ((VAL - MIN) * MOV) / MAX + MIN \
-                             : (VAL < -MIN) \
-                             ? ((VAL + MIN) * MOV) / MAX - MIN \
+                             ? cT(((VAL - MIN) * MOV) / MAX + MIN) \
+                             : (VAL <  (MIN * -1)) \
+                             ? cT(((VAL + MIN) * MOV) / MAX - MIN) \
                        : VAL )
 #define EXPANDMOD ( VAL=(VAL > MIN) \
-                             ? ((VAL - MIN) / MOV) * MAX + MIN \
-                             : (VAL < -MIN) \
-                             ? ((VAL + MIN) / MOV) * MAX - MIN \
+                             ? cT(((VAL - MIN) / MOV) * MAX + MIN) \
+                             : (VAL < (MIN * -1)) \
+                             ? cT(((VAL + MIN) / MOV) * MAX - MIN) \
                        : VAL )
 #define CYCLEMODE ( VAL = ( (VAL <= MIN) \
-                          ?  MAX - (MIN - VAL) \
+                          ? cT(MAX - (MIN - VAL)) \
                           : (VAL >= MAX) \
-                          ?  MIN + (VAL - MAX) : \
-                    VAL ) + ( MOV * SpinDirect(this) ) )
+                          ? cT(MIN + (VAL - MAX)) : \
+                    VAL ) + cT( MOV * SpinDirect(this) ) )
 #define PINGPONG(DING) VAL += (MOV * SpinDirect(DING)); \
                            if (VAL < MIN) { \
                                ChangeSpin(DING); \
@@ -40,7 +40,7 @@
                            if (VAL > MAX) { \
                                ChangeSpin(DING); \
                                VAL = (MAX - (VAL - MAX)); \
-                           } return VAL
+                           }
 
 #else // disables on a secondary 'closing' include
 #undef MODE_EXPRESSIONS_ENABLED

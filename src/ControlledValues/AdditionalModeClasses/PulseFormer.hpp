@@ -39,7 +39,7 @@
             BASE::Init();
             WAVE = *BASE::controller->GetPointer();
             FORM = ( (MAX - MIN) / 2 ) + MIN;
-            PIN_COUNT += 2;
+            BASE::PIN_COUNT += 2;
         }
         virtual ModeCodeVal modeCodeBase(void) const {
             return *(ModeCodeVal*)"PILZ";
@@ -56,13 +56,13 @@
          // at first assign TO it: the last sample's 'sawstack' level (which still should sit on the WAVE pin).
            *pVALUE = WAVE;
          // then check for the NEXT, new sawstack sample by the builtin 'Cycle' mode, and store this NEW value at the WAVE pin.
-            WAVE = checkMODE( Cycle );
+            WAVE = BASE::checkMODE( Cycle );
          // from that sawstack wave's actual value a new sample is abstracted by assigning: (depending on WAVE is currently
          // above or below FORM) either value of MAX or value of MIN to VAL, shifted by actual distance of FORM to 0db (center)
             cT db0 = ((MAX - MIN) / 2) + MIN;
             return *pVALUE = ( WAVE > FORM )
-                 ? ( FORM < db0) ? (MAX - (db0 - FORM)) : MAX
-                 : ( FORM > db0) ? (MIN + (FORM - db0)) : MIN;
+                 ? ( FORM < db0) ? cT(MAX - (db0 - FORM)) : MAX
+                 : ( FORM > db0) ? cT(MIN + (FORM - db0)) : MIN;
         // ...and returned as the pulse waves NEXT sample value.
         }
     };

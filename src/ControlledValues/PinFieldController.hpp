@@ -19,11 +19,11 @@ enum ValenceFieldState {
 };
 
 #define MERGE(token) token
-#define IsPointer(var) ( (Active.State & var ## _EXTERN) == var ## _EXTERN )
+#define IsPointer(var) ( (IControllerBase::Active.State & var ## _EXTERN) == var ## _EXTERN )
 #define PassPoint(val) ( IsPointer(val) ? MERGE(vars.)val ##.p : MERGE(&vars.)val ## .v )
 #define PassValue(val) ( IsPointer(val) ? MERGE(*vars.)val ##.p : MERGE(vars.)val ## .v )
-#define MakeValue(pin) ( Active &= ControllerStateFlags( MERGE(pin)_EXTERN ) )
-#define ToPointer(pin) ( Active |= ControllerStateFlags( MERGE(pin)_EXTERN ) )
+#define MakeValue(pin) ( IControllerBase::Active &= ControllerStateFlags( MERGE(pin)_EXTERN ) )
+#define ToPointer(pin) ( IControllerBase::Active |= ControllerStateFlags( MERGE(pin)_EXTERN ) )
 #define AtIndexDo(idx,typ) ( idx < 1 ? typ(VAL) \
                            : idx < 2 ? typ(MIN) \
                            : idx < 3 ? typ(MAX) \
@@ -67,15 +67,15 @@ enum ValenceFieldState {
         {
             if (IsReadOnly(this)) return PassValue(VAL);
             else PassValue(VAL) = setter;
-            return ( (Active && (!CheckAtGet(this))) ?
-                             checkValue(controlmode) : PassValue(VAL) );
+            return ( (IControllerBase::Active && (!CheckAtGet(this))) ?
+                             checkValue(IControllerBase::controlmode) : PassValue(VAL) );
         }
 
         // Internal getter...
         virtual cT GetValue(void)
         {
-            return ( (Active && CheckAtGet(this)) ?
-                          checkValue(controlmode) : PassValue(VAL) );
+            return ( (IControllerBase::Active && CheckAtGet(this)) ?
+                          checkValue(IControllerBase::controlmode) : PassValue(VAL) );
         }
 
     public:
@@ -88,9 +88,9 @@ enum ValenceFieldState {
         virtual ~PinFieldController(void) {
             if (!this->isValid()) {
                 return;
-            } if (CustomControlMode) {
-                delete CustomControlMode;
-                CustomControlMode = NULL;
+            } if (IController<cT>::CustomControlMode) {
+                delete IController<cT>::CustomControlMode;
+                IController<cT>::CustomControlMode = NULL;
             }
         }
         virtual uint controllerCode() const {
@@ -124,7 +124,7 @@ enum ValenceFieldState {
                  : idx < 2 ? PassPoint(MIN)
                  : idx < 3 ? PassPoint(MAX)
                  : idx < 4 ? PassPoint(MOV)
-                 : &GetPin<cT>( idx - 4 );
+                 : &IController<cT>::GetPin<cT>( idx - 4 );
         }
         virtual void setPTR( uint idx, cT* ptr ) {
             switch (idx) {
@@ -170,8 +170,8 @@ enum ValenceFieldState {
             }
         }
         virtual bool isValid(void) const {
-            return ( controlmode == USERMODE
-                   ? CustomControlMode : bool(1) );
+            return ( IControllerBase::controlmode == USERMODE
+                   ? IController<cT>::CustomControlMode : bool(1) );
         }
 
         // The primary candidate for getting actual value
@@ -205,14 +205,14 @@ enum ValenceFieldState {
             return GetValue();
         }
 
-        bool operator ==(const IController& other) const
+        bool operator ==(const IController<cT>& other) const
         {
             return !this->isValid()
                  ? !other.isValid() : other.isValid()
                  ? PassValue(VAL) == *other.GetPointer();
                  : false;
         }
-        bool operator !=(const IController& other) const
+        bool operator !=(const IController<cT>& other) const
         {
             return !(this->operator==(other));
         }

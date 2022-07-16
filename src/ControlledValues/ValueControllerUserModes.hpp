@@ -126,7 +126,7 @@ BEGIN_STEPFLOW_NAMESPACE
     protected:
         typedef UserModeControl<cT> BASE;
         virtual void Init(void)
-                { BASE::Init(); CLAMP |= 0x01; ++PIN_COUNT; }
+                { BASE::Init(); CLAMP |= 0x01; ++BASE::PIN_COUNT; }
         virtual ModeCodeVal modeCodeBase() const {
                     return *(ModeCodeVal*)"CLMP"; }
         virtual uint        usrModeSize() const {
@@ -136,7 +136,7 @@ BEGIN_STEPFLOW_NAMESPACE
     public:
         virtual cT checkVALUE( cT* pVALUE ) {
             if ( CLAMP & 0x01 )
-              *pVALUE = checkMODE( Clamp );
+              *pVALUE = BASE::checkMODE( Clamp );
         return *pVALUE; }
     };
 
@@ -185,7 +185,7 @@ BEGIN_STEPFLOW_NAMESPACE
         virtual void Init(void) {
             BASE::Init();
             BASE::CLAMP = false;
-            PIN_COUNT+=2;
+            BASE::PIN_COUNT+=2;
             DIR = (MAX - MIN) / 2;
         }
         virtual ModeCodeVal modeCodeBase() const {
@@ -208,9 +208,9 @@ BEGIN_STEPFLOW_NAMESPACE
         virtual cT checkVALUE( cT* pVALUE ) {
             cT val = *pVALUE;
             if (TRG > val) {
-                val = (TRG - val) <= MOV ? TRG : (val + MOV * (DIR-MIN)/((MAX-MIN)/2));
+                val = (TRG - val) <= MOV ? TRG : cT(val + MOV * (DIR-MIN)/((MAX-MIN)/2));
             } else if (TRG < val) {
-                val = (val - TRG) <= MOV ? TRG : (val - MOV * (MAX-DIR)/((MAX-MIN)/2));
+                val = (val - TRG) <= MOV ? TRG : cT(val - MOV * (MAX-DIR)/((MAX-MIN)/2));
             } *pVALUE = val;
             return BASE::checkVALUE( pVALUE );
         }

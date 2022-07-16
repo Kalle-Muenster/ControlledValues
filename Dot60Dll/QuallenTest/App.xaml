@@ -1,0 +1,55 @@
+﻿<Application x:Class="QuallenTest.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:QuallenTest"
+             xmlns:System="clr-namespace:System;assembly=System.Runtime"
+             StartupUri="MainWindow.xaml" Startup="Application_Startup">
+    <Application.Resources>
+        
+        <System:Uri x:Key="BLUBBERER">pack://application:,,,/audios/blub.wav</System:Uri>
+        <System:Uri x:Key="CONFIGSET">pack://application:,,,/Config.xml</System:Uri>
+        <ImageSource x:Key="ICON_000">pack://application:,,,/favicon.ico</ImageSource>
+        <ImageSource x:Key="FRAME_00">pack://application:,,,/images/Q2_0.png</ImageSource>
+        <ImageSource x:Key="FRAME_01">pack://application:,,,/images/Q2_1.png</ImageSource>
+        <ImageSource x:Key="FRAME_02">pack://application:,,,/images/Q2_2.png</ImageSource>
+        <ImageSource x:Key="FRAME_03">pack://application:,,,/images/Q2_3.png</ImageSource>
+        <ImageSource x:Key="FRAME_04">pack://application:,,,/images/Q2_4.png</ImageSource>
+        <ImageSource x:Key="FRAME_05">pack://application:,,,/images/Q2_5.png</ImageSource>
+        <ImageSource x:Key="FRAME_06">pack://application:,,,/images/Q2_6.png</ImageSource>
+        <ImageSource x:Key="FRAME_07">pack://application:,,,/images/Q2_7.png</ImageSource>
+        <ImageSource x:Key="FRAME_08">pack://application:,,,/images/Q2_8.png</ImageSource>
+        <ImageSource x:Key="FRAME_09">pack://application:,,,/images/Q2_9.png</ImageSource>
+        <ImageSource x:Key="FRAME_10">pack://application:,,,/images/Q2_10.png</ImageSource>
+        <ImageSource x:Key="FRAME_11">pack://application:,,,/images/Q2_11.png</ImageSource>
+        <ImageSource x:Key="FRAME_12">pack://application:,,,/images/Q2_12.png</ImageSource>
+        <ImageSource x:Key="FRAME_13">pack://application:,,,/images/Q2_13.png</ImageSource>
+        <ImageSource x:Key="FRAME_14">pack://application:,,,/images/Q2_14.png</ImageSource>
+        <ImageSource x:Key="FRAME_15">pack://application:,,,/images/Q2_15.png</ImageSource>
+        <ImageSource x:Key="FRAME_16">pack://application:,,,/images/Q2_16.png</ImageSource>
+        <ImageSource x:Key="FRAME_17">pack://application:,,,/images/Q2_17.png</ImageSource>
+        <ImageSource x:Key="FRAME_18">pack://application:,,,/images/Q2_18.png</ImageSource>
+        <ImageSource x:Key="FRAME_19">pack://application:,,,/images/Q2_19.png</ImageSource>
+        <ImageSource x:Key="FRAME_20">pack://application:,,,/images/Q2_20.png</ImageSource>
+        <ImageSource x:Key="FRAME_21">pack://application:,,,/images/Q2_21.png</ImageSource>
+        <ImageSource x:Key="FRAME_22">pack://application:,,,/images/Q2_22.png</ImageSource>
+        <ImageSource x:Key="FRAME_23">pack://application:,,,/images/Q2_23.png</ImageSource>
+        <ImageSource x:Key="FRAME_24">pack://application:,,,/images/Q2_24.png</ImageSource>
+        <ImageSource x:Key="FRAME_25">pack://application:,,,/images/Q2_25.png</ImageSource>
+        <ImageSource x:Key="FRAME_26">pack://application:,,,/images/Q2_26.png</ImageSource>
+        <ImageSource x:Key="FRAME_27">pack://application:,,,/images/Q2_27.png</ImageSource>
+        <ImageSource x:Key="FRAME_28">pack://application:,,,/images/Q2_28.png</ImageSource>
+        <ImageSource x:Key="FRAME_29">pack://application:,,,/images/Q2_29.png</ImageSource>
+        <ImageSource x:Key="FRAME_30">pack://application:,,,/images/Q2_30.png</ImageSource>
+        <ImageSource x:Key="FRAME_31">pack://application:,,,/images/Q2_31.png</ImageSource>
+        <ImageSource x:Key="FRAME_32">pack://application:,,,/images/Q2_32.png</ImageSource>
+        <ImageSource x:Key="FRAME_33">pack://application:,,,/images/Q2_33.png</ImageSource>
+        <ImageSource x:Key="FRAME_34">pack://application:,,,/images/Q2_34.png</ImageSource>
+        <ImageSource x:Key="FRAME_35">pack://application:,,,/images/Q2_35.png</ImageSource>
+        <ImageSource x:Key="BUTTON11">pack://application:,,,/images/button1_1_hover.png</ImageSource>
+        <ImageSource x:Key="BUTTON12">pack://application:,,,/images/button1_2_normal.png</ImageSource>
+        <ImageSource x:Key="BUTTON13">pack://application:,,,/images/button1_3_pressed.png</ImageSource>
+        <ImageSource x:Key="BUTTON41">pack://application:,,,/images/button4_1.png</ImageSource>
+        <ImageSource x:Key="BUTTON42">pack://application:,,,/images/button4_2.png</ImageSource>
+        <ImageSource x:Key="BUTTON43">pack://application:,,,/images/button4_3.png</ImageSource>
+    </Application.Resources>
+</Application>

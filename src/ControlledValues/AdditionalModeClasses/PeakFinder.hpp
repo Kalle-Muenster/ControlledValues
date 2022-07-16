@@ -35,7 +35,7 @@ BEGIN_STEPFLOW_NAMESPACE
             BASE::Init();
             BASE::CLAMP=false;
             TRIGGER=&TheTrigger;
-            PIN_COUNT++;
+            BASE::PIN_COUNT++;
         }
     public:
         virtual cT checkVALUE(cT* pVALUE)

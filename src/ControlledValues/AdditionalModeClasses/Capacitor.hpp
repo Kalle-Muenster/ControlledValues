@@ -34,7 +34,7 @@
     // form which has shorter, but in relaton to the MAX phase, higher leveled MIN phase and a longer, but 
     // in relation to the MIN phase, lower leveled MAX phase (but causes, when changes are not applied per
     // oscillation cycle but frame (or sample) wise instead, some 'glitching' arround that logically expected
-    // exact zero crossing possitions a full oscyllation cycle at set frequency value expectedly should hit
+    // exact zero crossing possition may happen. a full oscyllation cycle at set frequency value expectedly should hit
     // - so when doing puls width modulation via constantly reducing MIN / MAX values by an lfo for example 
     // such oscyllator would begin swimming slightly
 
@@ -47,7 +47,7 @@
         virtual void Init(void) {
             BASE::Init();
             BUF = *BASE::controller->GetPointer();
-            PIN_COUNT++;
+            BASE::PIN_COUNT++;
         }
         virtual  ModeCodeVal modeCodeBase(void) const {
             return *(ModeCodeVal*)"CPTR";
@@ -62,9 +62,9 @@
         virtual cT checkVALUE(cT* pVALUE) {
 
             cT val = *pVALUE;
-            val = (val != MAX && val != MIN) ? (MAX-val)*(MAX-val) < (val-MIN)*(val-MIN) ? MAX : MIN : val;
-            BUF = ( val < MAX ? INV ? (BUF-(MOV*((-MIN)/MAX))) : (BUF+(MOV*((-MIN)/MAX)))
-                  : val > MIN ? INV ? (BUF+(MOV*((-MAX)/MIN))) : (BUF-(MOV*((-MAX)/MIN)))
+            val = cT( ( val != MAX && val != MIN) ? (MAX-val)*(MAX-val) < (val-MIN)*(val-MIN) ? MAX : MIN : val );
+            BUF = ( val < MAX ? INV ? cT(BUF-(MOV*((MIN * -1)/MAX))) : cT(BUF+(MOV*((MIN * -1)/MAX)))
+                  : val > MIN ? INV ? cT(BUF+(MOV*((MAX * -1)/MIN))) : cT(BUF-(MOV*((MAX * -1)/MIN)))
            :BUF   );
 
             if (BUF > MAX) {

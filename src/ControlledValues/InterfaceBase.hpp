@@ -182,7 +182,7 @@ enum ControllerStateFlags
 
         virtual void SetActive( bool activate )
         {
-            if( activate != Active ) {
+            if( activate != IControllerBase::Active.operator bool() ) {
                 IControllerBase::SetActive( activate );
                 if( CustomControlMode )
                     CustomControlMode->onActivate( activate );
@@ -646,43 +646,44 @@ enum ControllerStateFlags
             cT& VAL = *val;  cT& MOV = *mov;
             cT& MIN = *min;  cT& MAX = *max;
 
+            cT ret;
             switch (mode)
             {
-            case Invert:   return INVERTMOD;
-            case Clamp:    return CLAMPMODE;
-            case Damp:     return DAMPFMODE;
-            case Compress: return COMPRESSM;
-            case Expand:   return EXPANDMOD;
-            case Moderate: return VAL = (VAL > MIN)
-                ? (cT)(((VAL - MIN) / MAX) * MOV + MIN)
-                : (VAL < (cT)-MIN)
-                ? (cT)(((VAL + MIN) / MAX) * MOV - MIN)
-                : (VAL * MAX) / MOV;
-            case Cycle:    return CYCLEMODE;
-            case PingPong: PINGPONG( this );
+            case Invert:   ret = INVERTMOD; break;
+            case Clamp:    ret = CLAMPMODE; break;
+            case Damp:     ret = DAMPFMODE; break;
+            case Compress: ret = COMPRESSM; break;
+            case Expand:   ret = EXPANDMOD; break;
+            case Moderate: ret = VAL = (VAL > MIN)
+                ? cT(((VAL - MIN) / MAX) * MOV + MIN)
+                : (VAL < (MIN * -1))
+                ? cT(((VAL + MIN) / MAX) * MOV - MIN)
+                : cT((VAL * MAX) / MOV); break;
+            case Cycle:    ret = CYCLEMODE; break;
+            case PingPong: PINGPONG(this) ret = VAL; break;
 
                 /* EXPERIMENTALs: */
             case ExperimentalA://  - if the value's delta-MOVment becomes greater than MIN,
                                // it will be damped/Amplified by factor MAX (MAX from 0 to 1 will effect reduction,
                                // MAX greater 1 effect's amplification)...
-                return MOV = VAL = ((VAL - MOV) > MIN) || ((VAL - MOV) < -MIN)
-                    ? MOV + (VAL - MOV)*MAX
-                    : VAL;
+                ret = MOV = VAL = ((VAL - MOV) > MIN) || ((VAL - MOV) < (MIN * -1))
+                    ? cT(MOV + (VAL - MOV) * MAX)
+                    : VAL; break;
             case ExperimentalB://  - if delta-MOVment will stay below MIN,
                                // it will be effected by factor MAX...
-                return MOV = VAL = (((VAL - MOV) < MIN) || ((VAL - MOV) > -MIN))
-                    ? MOV + ((VAL - MOV)*MAX)
-                    : VAL;
+                ret = MOV = VAL = (((VAL - MOV) < MIN) || ((VAL - MOV) > (MIN * -1)))
+                    ? cT(MOV + ((VAL - MOV) * MAX))
+                    : VAL; break;
             case ExperimentalC://- When delta is greater MIN or lower -MIN, it will be Compressed by 1/MAX.
                                // when delta is between MIN and -MIN, it will be Expanded by MAX...
-                return MOV = VAL = ( ((VAL - MOV) > MIN) || ((VAL - MOV) < -MIN))
-                    ? MOV + ((VAL - MOV)*(cT(1) / MAX))
-                    : MOV + ((VAL - MOV)*MAX);
+                ret = MOV = VAL = (((VAL - MOV) > MIN) || ((VAL - MOV) < (MIN * -1)))
+                    ? MOV + ((VAL - MOV) * (cT(1) / MAX))
+                    : MOV + ((VAL - MOV) * MAX); break;
             default:
-                return CustomControlMode
+                ret = CustomControlMode
                     ? CustomControlMode->checkVALUE(val)
-                    : VAL;
-            }
+                    : VAL; break;
+            } return ret;
             #undef MIN
             #undef MAX
             #undef MOV

@@ -37,7 +37,7 @@
         {
             WAVE = 0;
             BASE::Init();
-            PIN_COUNT += 2;
+            BASE::PIN_COUNT += 2;
             FORM = (MAX-MIN)/2;
         }
         virtual uint        usrModeSize() const {
@@ -56,13 +56,13 @@
 
             WAVE += (MAX * MOV) / (MAX - MIN);
             WAVE  = WAVE >= halbRange
-                  ? WAVE - halbRange
+                  ? cT( WAVE - halbRange )
                   : WAVE;
 
             *pVALUE = (cT)( ( MathLib::sin(
                          (WAVE*imKreis) / halbRange
                                       ) * halbRange
-                                    ) + (-halbRange - MIN)
+                                    ) + ((halbRange * -1) - MIN)
                                   );
 
             // morph it by FORM parameter from sawstack (MIN) over a plain 

@@ -22,6 +22,8 @@
 
 #include "..\..\..\inc\ControlledValues.h"
 
+#using   <System.Core.Dll>
+#using   <Int24Types.Dll>
 #include "ConstStruct.hpp"
 #include "CreationMacro.hpp"
 #include "MessageLogger.hpp"
@@ -65,7 +67,7 @@ namespace stepflow {
             return sizeof( DelegateWrap );
         }
         cT baseCallFunc( Stepflow::ControlMode mod ) {
-            return checkMODE( stepflow::CtrlMode( mod ) );
+            return BASE::checkMODE( stepflow::CtrlMode( mod ) );
         }
     public:
         virtual void* Pin( void* pin, int idx ) {
@@ -73,7 +75,7 @@ namespace stepflow {
                    idx ? (void*)&BASEPTR : (void*)&FUNCPTR;
         }
         virtual void Init( void ) {
-            PIN_COUNT += 2;
+            BASE::PIN_COUNT += 2;
             BASEPTR = GetBaseCallFunction();
             if( std::numeric_limits<cT>::is_integer ) {
                 MOV = 1;

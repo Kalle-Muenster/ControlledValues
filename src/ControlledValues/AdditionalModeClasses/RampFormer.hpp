@@ -28,7 +28,7 @@
             BASE::Init();
             FORM = ((MAX-MIN)/2)+MIN;
             WAVE = ((MAX-MIN)/4)+MIN;
-            PIN_COUNT += 2;
+            BASE::PIN_COUNT += 2;
         }
         virtual unsigned modeCodeBase(void) const {
             return *(unsigned*)"Drei";
@@ -45,7 +45,7 @@
             // assign the ACTUAL sawstack level (which still should sit on the WAVE pin) to it.
             *pVALUE = WAVE;
             // then check for the NEXT sawstack samples level by doing a base mode 'Cycle' step.
-            WAVE = checkMODE( Cycle );
+            WAVE = BASE::checkMODE( Cycle );
             // The new Triangle sample got level assigned , which (regarding on sawstack level
             //   being actually above the FORM parameter or below the FORM parameter) is either:
             // - That point in the full range which is proportional to the full range, in the same way like
@@ -57,7 +57,7 @@
                 *pVALUE = MIN + (cT)(((double)(urg - (WAVE - FORM)) / urg)*(MAX - MIN));
             } else {
                 *pVALUE = MIN + (cT)(((double)(WAVE - MIN) / (FORM - MIN))*(MAX - MIN));
-            } return checkMODE( Clamp );
+            } return BASE::checkMODE( Clamp );
         }
     };
 
