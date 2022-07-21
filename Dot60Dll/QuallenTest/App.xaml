@@ -1,11 +1,11 @@
-﻿<Application x:Class="QuallenTest.App"
+﻿<Application x:Class="TestQualle.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:QuallenTest"
+             xmlns:local="clr-namespace:TestQualle"
              xmlns:System="clr-namespace:System;assembly=System.Runtime"
-             StartupUri="MainWindow.xaml" Startup="Application_Startup">
+             StartupUri="MainWindow.xaml" Startup="Application_Startup"
+             Exit="Application_Exit">
     <Application.Resources>
-        
         <System:Uri x:Key="BLUBBERER">pack://application:,,,/audios/blub.wav</System:Uri>
         <System:Uri x:Key="CONFIGSET">pack://application:,,,/Config.xml</System:Uri>
         <ImageSource x:Key="ICON_000">pack://application:,,,/favicon.ico</ImageSource>

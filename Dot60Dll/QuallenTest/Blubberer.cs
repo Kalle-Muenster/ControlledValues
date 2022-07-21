@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace QuallenTest
+namespace TestQualle
 {
     public class QuallenBlubberer
     {

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" x:Name="window" x:Class="QuallenTest.MainWindow"
+        mc:Ignorable="d" x:Name="window" x:Class="TestQualle.MainWindow"
         AllowsTransparency="True" Title="Q2" Height="344" Width="304"
         RenderOptions.EdgeMode="Aliased" Icon="{StaticResource ICON_000}" Topmost="True" 
         Foreground="#00000000" BorderThickness="0" WindowStyle="None"

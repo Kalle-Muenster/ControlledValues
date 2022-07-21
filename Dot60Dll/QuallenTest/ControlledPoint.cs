@@ -10,7 +10,7 @@ using Point = System.Windows.Point;
 using Point = System.Drawing.Point;
 #endif
 
-namespace QuallenTest
+namespace TestQualle
 {
     public class ControlledPoint 
     {
@@ -198,14 +198,11 @@ namespace QuallenTest
         }
         public static Point operator +( ControlledPoint This, Point That )
         {
-            Point p = This.VAL;
-            p.X += That.X;
-            p.Y += That.Y;
-            return p;
+            return new Point(This.x.VAL + That.X,This.y.VAL + That.Y);
         }
-        public static Vector operator -( ControlledPoint This, Point That )
+        public static Point operator -( ControlledPoint This, Point That )
         {
-            return new Vector(This.x.VAL - That.X, This.y.VAL - That.Y);
+            return new Point(This.x.VAL - That.X, This.y.VAL - That.Y);
         }
         public static Vector operator *( ControlledPoint This, double That )
         {

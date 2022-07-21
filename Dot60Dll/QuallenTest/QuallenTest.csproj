@@ -11,7 +11,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <BaseOutputPath>..\..\bin\dot60</BaseOutputPath>
     <SignAssembly>False</SignAssembly>
-    <StartupObject>QuallenTest.App</StartupObject>
+    <StartupObject>TestQualle.App</StartupObject>
     <AssemblyName>Qualle</AssemblyName>
   </PropertyGroup>
 
@@ -109,7 +109,6 @@
     </Reference>
     <Reference Include="Consola.Test">
       <HintPath>$(ConsolaBinRoot)\$(PlatformTarget)\$(Configuration)\Consola.Test.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="ControlledValues">
       <HintPath>$(BaseOutputPath)\$(PlatformTarget)\$(Configuration)\ControlledValues.dll</HintPath>

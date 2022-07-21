@@ -170,6 +170,7 @@
       <EnableUAC>false</EnableUAC>
       <Version>$(ControlledVersionNumber)</Version>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
+      <CLRThreadAttribute>DefaultThreadingAttribute</CLRThreadAttribute>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -192,7 +193,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <CLRThreadAttribute>MTAThreadingAttribute</CLRThreadAttribute>
+      <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
       <Version>$(ControlledVersionNumber)</Version>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </Link>

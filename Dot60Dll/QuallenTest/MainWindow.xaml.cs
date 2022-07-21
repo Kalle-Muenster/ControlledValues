@@ -2,7 +2,8 @@
 #define USE_QUALLENSERVER
 
 using System;
-
+using System.Threading;
+using System.Threading.Tasks;
 using System.Runtime.InteropServices;
 using System.Windows;
 using Win32Imports;
@@ -13,7 +14,7 @@ using System.Windows.Threading;
 using Stepflow;
 using System.Xml;
 
-namespace QuallenTest
+namespace TestQualle
 {
 
     public partial class MainWindow : Window
@@ -25,12 +26,12 @@ namespace QuallenTest
 #endif
         System.Windows.Automation.Peers.HostedWindowWrapper d;
 
-        private System.Windows.Threading.DispatcherTimer dTimer1;
+        private DispatcherTimer dTimer1;
         private App App;
         private static Point Zero = new Point(0,0);
-        private ControlledPoint movement;
-        private ControlledPoint location;
-        private ControlledPoint mousen;
+        public  ControlledPoint movement;
+        public  ControlledPoint location;
+        public  ControlledPoint mousen;
         private Vector          mousenOffset;
         private bool            mouseFollow = false;
         private bool            mousenAvoid = false;
@@ -61,17 +62,12 @@ namespace QuallenTest
         }
 
         public Point position {
-            get {
-                return new Point(( usedScreenSize.X * location.X ) - ( Width / 2 ),
-                                  ( usedScreenSize.Y * location.Y ) - ( Height / 2 ));
-            }
+            get { return (location * usedScreenSize) - (Vector)Pivot; }
             private set {
-                Point loc = new Point( (value.X + (Width / 2)) / usedScreenSize.X,
-                                       (value.Y + (Height / 2)) / usedScreenSize.Y );
-                location.VAL = loc;
-                loc = position;
-                Left = loc.X;
-                Top = loc.Y;
+                location.VAL = new Point( (value.X + (Width / 2)) / usedScreenSize.X,
+                                          (value.Y + (Height / 2)) / usedScreenSize.Y );
+                Left = value.X;
+                Top = value.Y;
             }
         }
 
@@ -80,7 +76,7 @@ namespace QuallenTest
         }
 
         public Point Center {
-            get { return (Vector)position + Pivot; }
+            get { return location * usedScreenSize; }
         }
 
         private Random rand = new Random(System.DateTime.Now.Millisecond);
@@ -101,7 +97,7 @@ namespace QuallenTest
             InitializeComponent();
             interval1 = 250000;
             interval2 = 150 + ( rand.Next(30) );
-            App = QuallenTest.App.Current as App;
+            App = Application.Current as App;
             init(App.host, App.port, App.mode, App.maus, App.zoom);
 #if DEBUG
             AllowsTransparency = false;
@@ -119,6 +115,7 @@ namespace QuallenTest
             rdb_scaledScreen.IsChecked = true;
             chk_scaling.IsChecked = true;
             chk_mousen.IsChecked = false;
+            
         }
 
         private DispatcherTimer startNewTimerThread( EventHandler action, int erval )
@@ -199,13 +196,17 @@ namespace QuallenTest
                                     usedScreenSize.Y / 2 - Pivot.Y);
         }
 
+        public volatile bool SetMouseCaptured = false;
         private void controllerReConfiguration( string behavior )
         {
-            if( Mouse.Captured == this )
+            if( Mouse.Captured == this ) {
                 Mouse.Capture(null);
+            }
 
             if( mouseFollow = ( behavior == "Follow" ) ) {
-                this.CaptureMouse();
+                SetMouseCaptured = true;
+                //Mouse.Capture(this);
+                //this.CaptureMouse();
                 mousen.ControllerActive = mousenAvoid = false;
             }
             movement.ControllerActive = false;
@@ -237,7 +238,7 @@ namespace QuallenTest
                 }
                 break;
             }
-            movement.SetReadOnly(true);
+            movement.SetReadOnly( true );
             movement.ControllerActive = true;
             if( mousenAvoid )
                 MouseEnter += window_MouseEnter;
@@ -386,10 +387,53 @@ namespace QuallenTest
                                      ? "Follow" : movementMode.ToString());
         }
 
+        private Consola.Test.Test testrunfunction()
+        {
+            return new QuallenTest(this,App.test).Run();
+        }
+
+        private bool first = true;
         private bool ganz = false;
+
+        private volatile bool locked = false;
+        public bool Locked {
+            get { return locked; }
+        }
+
+        public void Lock()
+        {
+            while( locked ) Thread.Sleep(10);
+            locked = true;
+        }
+        public void Unlock()
+        {
+            locked = false;
+        }
+
+        public volatile int centerX = 0;
+        public volatile int centerY = 0;
+
+
         void dTimer1_Tick( object sender, EventArgs e )
         {
+            Lock();
+
+            if( SetMouseCaptured ) {
+                SetMouseCaptured = false;
+                this.CaptureMouse();
+            }
+
             ControlledPoint.ActiveState state = movement.Check();
+
+            if( first ) {
+                first = false;
+                if( App.test != Consola.Test.TestResults.NONE ) {
+                    Point p = Center;
+                    centerX = (int)p.X;
+                    centerY = (int)p.Y;
+                    App.ApplicationStarted( this );
+                }
+            }
 
             if( ganz = !ganz ) {
                 if( ++currentFrame == 12 ) {
@@ -461,8 +505,10 @@ namespace QuallenTest
                 }
 
                 // assign this frame movements + maybe mousen offsets to the window's actual x/y location
-                Left = ( usedScreenSize.X * ( location.X += movement.X + mousenOffset.X ) ) - ( Width / 2 );
-                Top = ( usedScreenSize.Y * ( location.Y += movement.Y + mousenOffset.Y ) ) - ( Height / 2 );
+                centerX = (int)( usedScreenSize.X * ( location.X += movement.X + mousenOffset.X ) );
+                centerY = (int)( usedScreenSize.Y * ( location.Y += movement.Y + mousenOffset.Y ) );
+                Left = centerX - ( Width / 2 );
+                Top = centerY - ( Height / 2 );
 
                 if( ganz ) {
                     if( showView ) {
@@ -480,6 +526,7 @@ namespace QuallenTest
             }
             view.Source = bitmaps[currentFrame + (int)direction];
             movement.ControllerActive = state;
+            Unlock();
         }
 
         ///
@@ -512,7 +559,7 @@ namespace QuallenTest
             dTimer1 = startNewTimerThread(dTimer1_Tick, interval1 += 25000);
         }
 
-        private volatile bool beending = false;
+        public volatile bool beending = false;
 
         private void chk_scaling_Checked( object sender, RoutedEventArgs e )
         {
