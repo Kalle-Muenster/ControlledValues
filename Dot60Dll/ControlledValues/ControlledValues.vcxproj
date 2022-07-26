@@ -126,6 +126,7 @@
       <EnableUAC>false</EnableUAC>
       <Version>$(ControlledVersionNumber)</Version>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
+      <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -150,6 +151,7 @@
       <EnableUAC>false</EnableUAC>
       <Version>$(ControlledVersionNumber)</Version>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
+      <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -170,7 +172,7 @@
       <EnableUAC>false</EnableUAC>
       <Version>$(ControlledVersionNumber)</Version>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
-      <CLRThreadAttribute>DefaultThreadingAttribute</CLRThreadAttribute>
+      <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -220,6 +222,11 @@
       <EnforceTypeConversionRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</EnforceTypeConversionRules>
       <EnforceTypeConversionRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</EnforceTypeConversionRules>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Int24Types">
+      <HintPath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
