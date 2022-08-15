@@ -95,24 +95,24 @@ namespace Stepflow
     };
 
     public value struct  Spin {
-    public: const static Spin UP = Spin(true);
-    public: const static Spin DOWN = Spin(false);
+    public: const static Spin UP = Spin(Int8(1));
+    public: const static Spin DOWN = Spin(Int8(-1));
 
     private: Int8 direction;
-    public: static operator bool(Spin cast) {
+    public: static operator bool( Spin cast ) {
         return cast.direction > 0;
     };
-    public: static operator float(Spin cast) {
+    public: static operator float( Spin cast ) {
         return (float)cast.direction;
     }
-    public: static operator double(Spin cast) {
+    public: static operator double( Spin cast ) {
         return (double)cast.direction;
     }
-    public: static operator Int8(Spin cast) {
+    public: static operator Int8( Spin cast ) {
         return cast.direction;
     }
-    public: Spin(bool up) : direction(up ? UP : DOWN) {};
-    public: Spin(Int8 dir) : direction(dir < 0 ? DOWN : UP) {};
+    public: Spin(bool up) : direction( up ? 1 : -1 ) {};
+    public: Spin(Int8 dir) : direction( dir ) {  direction = direction > 0 ? 1 : -1; };
     public: static operator Spin (bool cast) {
         return Spin(cast);
     }
