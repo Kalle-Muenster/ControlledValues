@@ -130,16 +130,16 @@ namespace Stepflow {
 
             public ref class EQ6BandFilterPins : public EQFilterPin<6> {
             public:
+                const static Band  loBand = nuBand(2);
+                const static Band  loMids = nuBand(3);
+                const static Band  hiMids = nuBand(4);
+                const static Band  hiBand = nuBand(5);
+
                 const static Preci split1 = loSplit;
                 const static Preci split2 = nuSplit(2);
                 const static Preci split3 = nuSplit(3);
                 const static Preci split4 = nuSplit(4);
-                const static Preci split5 = hiSplit;
-
-                const static Band  loBand  = nuBand(2);
-                const static Band  loMids  = nuBand(3);
-                const static Band  hiMids  = nuBand(4);
-                const static Band  hiBand  = nuBand(5);            
+                const static Preci split5 = hiSplit;         
             };
 
             public ref class EQ12BandFilterPins : public EQFilterPin<12> {
