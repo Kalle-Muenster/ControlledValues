@@ -39,7 +39,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\LIBRARIES\ControlledValues\bin\DotNetDll\$(Platform)\Test\$(Configuratin)\</OutputPath>
+    <OutputPath>..\..\bin\dot48\$(Platform)\Test\$(Configuratin)\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -49,7 +49,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\LIBRARIES\ControlledValues\bin\DotNetDll\$(Platform)\Test\$(Configuratin)\</OutputPath>
+    <OutputPath>..\..\bin\dot48\$(Platform)\Test\$(Configuratin)\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -109,6 +109,9 @@
     <Reference Include="Consola">
       <HintPath>$(ConsolaBinRoot)\$(PlatformTarget)\$(Configuration)\Consola.dll</HintPath>
     </Reference>
+    <Reference Include="Consola.Test">
+      <HintPath>$(ConsolaBinRoot)\$(PlatformTarget)\$(Configuration)\Consola.Test.dll</HintPath>
+    </Reference>
     <Reference Include="ControlledValues, Version=0.0.0.3, Culture=neutral, PublicKeyToken=02368ae74123a494, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\dot48\$(PlatformTarget)\$(Configuration)\ControlledValues.dll</HintPath>
@@ -136,6 +139,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TestRunner.cs" />
     <Compile Include="Win32Importers\Win32ReturnCode.cs" />
     <Compile Include="Win32Importers\Win32SystemMetrics.cs" />
     <Page Include="MainWindow.xaml">

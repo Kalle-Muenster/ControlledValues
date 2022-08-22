@@ -2,6 +2,7 @@
 #define USE_QUALLENSERVER
 
 using System;
+using System.Threading;
 using System.Media;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -29,8 +30,8 @@ namespace Qualle
 		private System.Windows.Threading.DispatcherTimer dTimer1;
 		private App App;
         private static Point Zero = new Point(0,0);
-        private ControlledPoint movement;
-        private ControlledPoint location;
+        public  ControlledPoint movement;
+        public  ControlledPoint location;
         private ControlledPoint mousen;
         private Vector          mousenOffset;
         private bool            mouseFollow = false;
@@ -252,13 +253,14 @@ namespace Qualle
                                     usedScreenSize.Y / 2 - Pivot.Y );
         }
 
+        private bool SetMouseCaptured = false;
         private void controllerReConfiguration( string behavior )
         {
             if (Mouse.Captured == this)
-                Mouse.Capture(null);
+                Mouse.Capture( null );
 
             if( mouseFollow = (behavior=="Follow") ) {
-                this.CaptureMouse();
+                SetMouseCaptured = true;
                 mousen.ControllerActive = mousenAvoid = false;
             } 
             movement.ControllerActive = false;
@@ -432,10 +434,47 @@ namespace Qualle
                                      ? "Follow" : movementMode.ToString() );
         }
 
+        private bool first = true;
         private bool ganz = false;
+
+        private volatile bool locked = false;
+        public bool Locked {
+            get { return locked; }
+        }
+
+        public void Lock()
+        {
+            while( locked ) Thread.Sleep(10);
+            locked = true;
+        }
+        public void Unlock()
+        {
+            locked = false;
+        }
+
+        public volatile int centerX = 0;
+        public volatile int centerY = 0;
+
 		void dTimer1_Tick(object sender, EventArgs e)
 		{
+            Lock();
+
+            if( SetMouseCaptured ) {
+                SetMouseCaptured = false;
+                this.CaptureMouse();
+            }
+
             ControlledPoint.ActiveState state = movement.Check();
+
+            if( first ) {
+                first = false;
+                if( App.test != Consola.Test.TestResults.NONE ) {
+                    Point p = Center;
+                    centerX = (int)p.X;
+                    centerY = (int)p.Y;
+                    App.ApplicationStarted( this );
+                }
+            }
 
             if ( ganz = !ganz )
             {
@@ -512,8 +551,10 @@ namespace Qualle
                 }
 
                 // assign this frame movements + maybe mousen offsets to the window's actual x/y location
-                Left = (usedScreenSize.X * (location.X += movement.X + mousenOffset.X)) - (Width / 2);
-                Top = (usedScreenSize.Y * (location.Y += movement.Y + mousenOffset.Y)) - (Height /2);
+                centerX = (int)( usedScreenSize.X * ( location.X += movement.X + mousenOffset.X ) );
+                centerY = (int)( usedScreenSize.Y * ( location.Y += movement.Y + mousenOffset.Y ) );
+                Left = centerX - ( Width / 2 );
+                Top = centerY - ( Height / 2 );
 
                 if ( ganz ) {
                     if ( showView ) {
@@ -531,6 +572,7 @@ namespace Qualle
             }
             view.Source = bitmaps[currentFrame + (int)direction];
             movement.ControllerActive = state;
+            Unlock();
 		}
 
         ///
@@ -563,7 +605,7 @@ namespace Qualle
             dTimer1 = startNewTimerThread(dTimer1_Tick, interval1 += 25000);
         }
 
-        private volatile bool beending = false;
+        public volatile bool beending = false;
 
         private void chk_scaling_Checked( object sender, RoutedEventArgs e )
         {
