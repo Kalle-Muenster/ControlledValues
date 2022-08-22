@@ -115,7 +115,6 @@ namespace TestQualle
             rdb_scaledScreen.IsChecked = true;
             chk_scaling.IsChecked = true;
             chk_mousen.IsChecked = false;
-            
         }
 
         private DispatcherTimer startNewTimerThread( EventHandler action, int erval )

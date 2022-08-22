@@ -38,7 +38,7 @@ namespace TestQualle
             AddTestCase("Switching to Pulse mode", QuallenTest_SwitchingControlModeToPulse);
             AddTestCase("Switching to PingPong mode", QuallenTest_SwitchingControlModeToPingPong);
             AddTestCase("Switching to Delegates", QuallenTest_SwitchingControlModeToDelegate);
-            
+
             AddTestCase("Ending the Test", QuallenTest_EndTestrun);
         }
 
@@ -130,9 +130,9 @@ namespace TestQualle
             DateTime lastmeasure = DateTime.Now;
 
             // measure
-            while( ( measuredX == positionX || measuredY == positionY ) && ( ( DateTime.Now - lastmeasure ) < timeout ) ) ;
+            while( ( measuredX == positionX || measuredY == positionY ) && ( ( DateTime.Now - lastmeasure ) < timeout ) ) {
                 Thread.Sleep(100);
-            testobject.LocationChanged -= Testobject_LocationChanged;
+            } testobject.LocationChanged -= Testobject_LocationChanged;
 
             // results
             int movement = positionX - measuredX;

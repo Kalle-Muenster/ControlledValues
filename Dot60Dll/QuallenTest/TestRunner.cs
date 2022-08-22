@@ -130,9 +130,9 @@ namespace TestQualle
             DateTime lastmeasure = DateTime.Now;
 
             // measure
-            while( ( measuredX == positionX || measuredY == positionY ) && ( ( DateTime.Now - lastmeasure ) < timeout ) ) ;
+            while( ( measuredX == positionX || measuredY == positionY ) && ( ( DateTime.Now - lastmeasure ) < timeout ) ) {
                 Thread.Sleep(100);
-            testobject.LocationChanged -= Testobject_LocationChanged;
+            } testobject.LocationChanged -= Testobject_LocationChanged;
 
             // results
             int movement = positionX - measuredX;

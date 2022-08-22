@@ -12,7 +12,7 @@ namespace TestQualle
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    
+
     public partial class App : Application
     {
         internal protected uint   port = 0;
@@ -52,7 +52,7 @@ namespace TestQualle
             public TestResults Tests;
 
             public string Value {
-                get { return Tests == TestResults.NONE 
+                get { return Tests == TestResults.NONE
                            ? value : Tests.ToString(); }
             }
 

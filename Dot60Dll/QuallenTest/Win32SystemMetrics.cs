@@ -6,7 +6,7 @@
 
 #if !(USE_WITH_WPF||USE_WIN_FORMS)
 #define USE_WITH_WPF
-#endif  
+#endif
 
 using System;
 using System.Runtime.InteropServices;
