@@ -200,15 +200,14 @@ namespace TestQualle
         private void controllerReConfiguration( string behavior )
         {
             if( Mouse.Captured == this ) {
-                Mouse.Capture(null);
+                Mouse.Capture( null );
             }
 
             if( mouseFollow = ( behavior == "Follow" ) ) {
                 SetMouseCaptured = true;
-                //Mouse.Capture(this);
-                //this.CaptureMouse();
                 mousen.ControllerActive = mousenAvoid = false;
             }
+
             movement.ControllerActive = false;
             switch( behavior ) {
                 case "Sinus":
@@ -387,10 +386,6 @@ namespace TestQualle
                                      ? "Follow" : movementMode.ToString());
         }
 
-        private Consola.Test.Test testrunfunction()
-        {
-            return new QuallenTest(this,App.test).Run();
-        }
 
         private bool first = true;
         private bool ganz = false;

@@ -1,9 +1,10 @@
-﻿<Application x:Class="QuallenTest.App"
+﻿<Application x:Class="TestQualle.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:QuallenTest"
+             xmlns:System="clr-namespace:System;assembly=System.Runtime"
+             xmlns:local="clr-namespace:TestQualle"
              Startup="Application_Startup" StartupUri="MainWindow.xaml"
-    xmlns:System="clr-namespace:System;assembly=System.Runtime">
+             Exit="Application_Exit">
     <Application.Resources>
         <BitmapSource x:Key="icon">/Qb.ico</BitmapSource>
         <System:Uri x:Key="blubber">audios/blub.wav</System:Uri>

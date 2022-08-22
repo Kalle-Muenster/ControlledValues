@@ -10,7 +10,7 @@ using Point = System.Windows.Point;
 using Point = System.Drawing.Point;
 #endif
 
-namespace QuallenTest
+namespace TestQualle
 {
     public class ControlledPoint 
     {
