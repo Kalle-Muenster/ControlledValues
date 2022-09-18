@@ -124,7 +124,7 @@ enum ValenceFieldState {
                  : idx < 2 ? PassPoint(MIN)
                  : idx < 3 ? PassPoint(MAX)
                  : idx < 4 ? PassPoint(MOV)
-                 : &IController<cT>::GetPin<cT>( idx - 4 );
+                 : &IController<cT>::template GetPin<cT>( idx - 4 );
         }
         virtual void setPTR( uint idx, cT* ptr ) {
             switch (idx) {

@@ -9,6 +9,7 @@
 BEGIN_STEPFLOW_NAMESPACE
 #include "Macros/ModeExpress.h"
 
+    class IControllerBase;
     template<typename cT> class IController;
     template<typename cT> class VariableController
                        : public IController<cT>
@@ -59,8 +60,8 @@ BEGIN_STEPFLOW_NAMESPACE
                     ? MOV + ((VAL - MOV)*((cT)1 / MAX))
                     : MOV + ((VAL - MOV)*MAX);
             default:
-                return CustomControlMode
-                     ? CustomControlMode->checkVALUE(_Value)
+                return this->CustomControlMode
+                     ? this->CustomControlMode->checkVALUE(_Value)
                      : VAL;
             }
             #undef VAL
@@ -71,14 +72,14 @@ BEGIN_STEPFLOW_NAMESPACE
         {
             if ( IsReadOnly(this) ) return *_Value;
             else *_Value = setter;
-            return ( ( Active && (!CheckAtGet(this)) ) ?
+            return ( (IControllerBase::Active && (!CheckAtGet(this)) ) ?
                            checkValue(controlmode) : *_Value );
         }
 
         // Internal getter...
         virtual cT GetValue(void)
         {
-            return ( ( Active && CheckAtGet(this) ) ?
+            return ( (IControllerBase::Active && CheckAtGet(this) ) ?
                       this->checkValue(controlmode) : *_Value );
         }
 
@@ -106,8 +107,8 @@ BEGIN_STEPFLOW_NAMESPACE
 
         void* detachUserMode(void)
         {
-            void* detached = CustomControlMode;
-            CustomControlMode = NULL;
+            void* detached = this->CustomControlMode;
+            this->CustomControlMode = NULL;
             controlmode = None;
             return detached;
         }
@@ -130,7 +131,7 @@ BEGIN_STEPFLOW_NAMESPACE
         {
             _Value = new cT();
            *_Value = MIN = MAX = MOV = 0;
-            Active |= MUST_DELETE;
+            this->AddFlags( MUST_DELETE );
         }
 
         VariableController( cT& ref ) : IController<cT>()
@@ -211,10 +212,10 @@ BEGIN_STEPFLOW_NAMESPACE
                 if( MustDelete(this) && _Value )
                     delete _Value;
                _Value = var;
-               Active &= MUST_DELETE;
+               this->RemFlags( MUST_DELETE );
             } else if ( !MustDelete(this) ) {
                _Value = new cT(*_Value);
-               Active |= MUST_DELETE;
+               this->AddFlags( MUST_DELETE );
             }
         }
         virtual cT& GetVariable(void) {
@@ -252,14 +253,14 @@ BEGIN_STEPFLOW_NAMESPACE
             return GetValue();
         }
 
-        bool operator ==(const IController& other) const
+        bool operator ==(const IController<cT>& other) const
         {
             return !this->isValid()
                  ? !other.isValid() : other.isValid()
                  ?  *this->_Value == *other._Value
                  : false;
         }
-        bool operator !=(const IController& other) const
+        bool operator !=(const IController<cT>& other) const
         {
             return !(this->operator==(other));
         }
@@ -314,9 +315,9 @@ BEGIN_STEPFLOW_NAMESPACE
 #ifdef _TYPEINFO_
         const char* toString()
         {
-            return controlmode < USERMODE
+            return this->controlmode < USERMODE
                 ? typeid(this).name()
-                : (const char*)typeid(CustomControlMode).name();
+                : (const char*)typeid(this->CustomControlMode).name();
         }
 #endif
 

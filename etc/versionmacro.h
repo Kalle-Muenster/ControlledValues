@@ -6,7 +6,7 @@
 ||                                                           ||
 \*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#ifndef VERSION_STRING 
+#ifndef VERSION_STRING
 #define ulong unsigned long long int
 #ifdef  SET_VERSION_STRING
 #define VERSION_STRING SET_VERSION_STRING
@@ -22,7 +22,7 @@
         DIGIT_SHIFTED( dn, 100000, 16 ) | (46 << 24) | \
         DIGIT_SHIFTED( dn,   1000, 32 ) | (46 << 40) | \
         DIGIT_SHIFTED( dn,     10, 48 ) & 0x00ffffffffffffff )
-         
+
 #define DIGIT_ARRAYED(d,n) ( ( ( d / n ) % 10 ) + 48 )
 #define VERSION_ARRAY_INTDEC( dn ) { \
         DIGIT_ARRAYED( dn,1000000 ), 46, \

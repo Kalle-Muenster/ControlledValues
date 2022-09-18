@@ -416,16 +416,16 @@ namespace Stepflow {
         }
 
         static operator MT( Int24Controller^ This ) {
-            return reinterpret_cast<MT&>( NT( *This->Get() ) );
+            return reinterpret_cast<MT&>( *This->Get() );
         }
         virtual void SetPin( Enum^ pinum, MT% val ) {
             pin_ptr<MT> p = &val;
-            Get()->SetPin( *(NT*)p, ((IConvertible^)pinum)->ToInt32(
-                System::Globalization::CultureInfo::CurrentCulture ) );
+            Get()->SetPin( ((IConvertible^)pinum)->ToInt32(
+                System::Globalization::CultureInfo::CurrentCulture ), *(NT*)p );
         }
         virtual void SetPin( int index, System::IntPtr ptr ) override {
             ulong* typed = (ulong*)ptr.ToPointer();
-            Get()->SetPin<ulong>( *typed, index );
+            Get()->SetPin<ulong>( index, *typed );
         }
         virtual IntPtr GetPin( int pindex ) override {
             return IntPtr( &Get()->GetPin<NT>(pindex) );
@@ -585,17 +585,17 @@ namespace Stepflow {
         }
 
         static operator MT( UInt24Controller^ This ) {
-            return MT( NT( *This->Get() ) );
+            return reinterpret_cast<MT&>( *This->Get() );
         }
         virtual void SetPin( Enum^ pinum, MT% val ) {
             pin_ptr<MT> p = &val;
-            Get()->SetPin( *(NT*)p, ((IConvertible^)pinum)->ToInt32(
-                                    System::Globalization::CultureInfo::CurrentCulture )
-            );
+            Get()->SetPin( ((IConvertible^)pinum)->ToInt32(
+                           System::Globalization::CultureInfo::CurrentCulture ),
+            *(NT*)p );
         }
         virtual void SetPin( int index, System::IntPtr ptr ) override {
             ulong* typed = (ulong*)ptr.ToPointer();
-            Get()->SetPin<ulong>( *typed, index );
+            Get()->SetPin<ulong>( index, *typed );
         }
         virtual IntPtr GetPin( int pindex ) override {
             return IntPtr( &Get()->GetPin<NT>( pindex ) );
@@ -742,12 +742,12 @@ namespace Stepflow {
         }
         virtual void SetPin( Enum^ pinum, cT% val ) {
             pin_ptr<cT> p = &val;
-            Get()->SetPin( *p, ((IConvertible^)pinum)->ToInt32(
-                System::Globalization::CultureInfo::CurrentCulture ) );
+            Get()->SetPin( ((IConvertible^)pinum)->ToInt32(
+                System::Globalization::CultureInfo::CurrentCulture ), *p );
         }
         virtual void SetPin( int index, System::IntPtr ptr ) override {
             ulong* typed = (ulong*)ptr.ToPointer();
-            Get()->SetPin<ulong>( *typed, index );
+            Get()->SetPin<ulong>( index, *typed );
         }
         virtual IntPtr GetPin( int pindex ) override {
             return IntPtr( &Get()->GetPin<cT>( pindex ) );

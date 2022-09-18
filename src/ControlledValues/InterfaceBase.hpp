@@ -287,7 +287,7 @@ enum ControllerStateFlags
             case Min: *getMINpt() = val; break;
             case Max: *getMAXpt() = val; break;
             case Mov: *getMOVpt() = val; break;
-            default: SetPin<cT>( val, (uint)idx );
+            default: SetPin<cT>( (uint)idx, val );
                 break;
             }
         }
@@ -539,7 +539,12 @@ enum ControllerStateFlags
         }
 
         template<typename P>
-        P& SetPin(P& pinVal, uint pindex = EMPTY)
+        P& SetPin( P& pinVal )
+        {
+            return SetPin( EMPTY, pinVal );
+        }
+        template<typename P>
+        P& SetPin( uint pindex, P& pinVal )
         {
            // P* address;
             if (CustomControlMode != NULL) {

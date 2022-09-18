@@ -13,7 +13,7 @@
 #include "..\..\inc\ControllerAccess.h"
        BEGIN_STEPFLOW( VALUES )
 #endif
-    
+
 #if  ! ( defined(_RampFormer_hpp_) || !!defined(_PulsFormer_hpp_) )
            namespace pins {
            enum FormControl { WAVE = 0, FORM = 1 };
@@ -23,7 +23,7 @@
     template<typename cT>
     class SineFormer
         // Sine wave generator with 'FORM' parameter which morphes the generated
-        // output between a rgular Sine wave (at FORM = 0DB) to different kind of 
+        // output between a rgular Sine wave (at FORM = 0DB) to different kind of
         // wave forms:
         // - as closer FORM gets to (MIN) the more triangle characteristics the sine will gain
         // - as closer FORM gets to (MAX) the more impulse characteristics the sine will gain
@@ -65,7 +65,7 @@
                                     ) + ((halbRange * -1) - MIN)
                                   );
 
-            // morph it by FORM parameter from sawstack (MIN) over a plain 
+            // morph it by FORM parameter from sawstack (MIN) over a plain
             // sine (at 0DB) to (at MAX) an impulse peak which leaves range
             // against +inf and returns back valid again from below -inf.
             // The actual point where +/-infinity is crossed, will always

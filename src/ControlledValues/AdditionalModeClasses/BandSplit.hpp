@@ -10,14 +10,16 @@
 
 
 #ifdef  THREAD_WAITCYCLE_FUNC
-#define THREADSAFE_CONTROLLER 
+#define THREADSAFE_CONTROLLER
 
-#if defined(_DEBUG) && ENABLED_LOG_OUTPUT < 2
+#ifndef log_wait_state
+#if defined(_DEBUG) && defined(ENABLED_LOG_OUTPUT)
 #define log_wait_state(cyc) LOG_MESSAGE_STREAM(__FUNCTION__)->Out("(): not got lock! retry in ")->Out(cyc*THREAD_WAITCYCLE_TIME)->Out(" milliseconds!\n");
 #define log_lock_state(msg) LOG_MESSAGE_STREAM(__FUNCTION__)->Out("(): ")->Out(msg)->Out(" lock state is ")->Out(locked)->Out("\n");
 #else
 #define log_lock_state(msg)
 #define log_wait_state(cyc)
+#endif
 #endif
 #define do_wait_cycles(cycles) { log_wait_state(cycles) THREAD_WAITCYCLE_FUNC(cycles*THREAD_WAITCYCLE_TIME); }
 #define enter_locked_scope(cond,incr) do if( this->locked cond 0 ) { incr##this->locked;
@@ -37,7 +39,7 @@
 
 #define READONLY_PINS
 #include <ControllerAccess.h>
-#include <enumoperators.h>
+#include <..\etc\enumoperators.h>
 
 #ifdef BEGIN_STEPFLOW_NAMESPACE
        BEGIN_STEPFLOW( VALUES )
@@ -54,7 +56,7 @@ template<
     const unsigned BANDS = 3,
     const unsigned POLES = 4,
     typename prcT = double
-> class BandSplit 
+> class BandSplit
     : public ClambController<cT>
 {
     using BASE = ClambController<cT>;
@@ -62,7 +64,7 @@ template<
     using CALL = void(SELF::*)(void);
 
 public:
-    const static prcT typEps; //= std::numeric_limits<prcT>::epsilon();
+    const static prcT typEps;
 
 private:
     void(BandSplit::*invalidation)(void);
@@ -104,7 +106,7 @@ protected:
     cT doBandSplit(prcT inputSumm)
     {
         inner_locked_scope
-        
+
         const int DL = DELAY;
 
         // dequeue (take out) delayed (first in) dry input sample from the delay (fifo) queue

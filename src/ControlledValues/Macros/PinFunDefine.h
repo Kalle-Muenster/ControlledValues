@@ -12,12 +12,14 @@
 #ifndef PIN_FUNCTIONS_DEFINED
 #define PIN_FUNCTIONS_DEFINED
 
+
 #define DeclarePin(pinType,pinName) protected: \
 pinType pinName; public: \
 virtual void* Pin(void*pin, int idx) { \
     if (idx) return BASE::Pin(pin,idx-1); \
     PIN_ACT(pinType,pinName) \
 }
+
 
 #define AddTwoPinAccessors(T1,V1,T2,V2) virtual \
 void* Pin(void*pin,int idx) { \
@@ -26,13 +28,14 @@ void* Pin(void*pin,int idx) { \
     } else { PIN_ACT(T1,V1) } \
 }
 
-#define DeclareTwoPins(pin1Typ,pin1Nam,pin2Typ,pin2Nam) \
-protected: pin1Typ pin1Nam; pin2Typ pin2Nam; public: \
-AddTwoPinAccessors(pin1Typ,pin1Nam,pin2Typ,pin2Nam);
+#define DeclareTwoPins(pin1Typ,pin1Nam,pin2Typ,pin2Nam) protected: \
+ pin1Typ pin1Nam; pin2Typ pin2Nam; public: \
+ AddTwoPinAccessors(pin1Typ,pin1Nam,pin2Typ,pin2Nam);
 
-#define ThereAreFourPins(pT1,pN1,pT2,pN2,pT3,pN3,pT4,pN4) \
-protected: pT1 pN1; pT2 pN2; pT3 pN3; pT4 pN4; public: \
-virtual void* Pin(void*pin,int idx) { \
+
+#define ThereAreFourPins(pT1,pN1,pT2,pN2,pT3,pN3,pT4,pN4) protected: \
+ pT1 pN1; pT2 pN2; pT3 pN3; pT4 pN4; public: \
+ virtual void* Pin(void*pin,int idx) { \
     switch(idx) { \
         case 0: PIN_ACT(pT1,pN1) \
         case 1: PIN_ACT(pT2,pN2) \
@@ -42,27 +45,30 @@ virtual void* Pin(void*pin,int idx) { \
     } \
 }
 
-#define AddPinArrayAccess(type,count,name) \
-virtual void* Pin(void*pin,int idx) { \
-    if(idx>=count) return BASE::Pin(pin,idx-count); \
-    else { PIN_ACT( type, name[idx] ) } \
-}
 
-#define DeclarePinArray(pinType,pinCount,pinName) \
-protected: pinType pinName[pinCount]; public: \
-AddPinArrayAccess(pinType,pinCount,pinName)
+#define AddPinArrayAccess(type,count,name) virtual \
+ void* Pin(void*pin,int idx) { \
+    if( idx>=count ) return BASE::Pin( pin,idx-count ); \
+    else { PIN_ACT( type, name[idx] ) } \
+ }
+
+#define DeclarePinArray(pinType,pinCount,pinName) protected: \
+ pinType pinName[pinCount]; public: \
+ AddPinArrayAccess(pinType,pinCount,pinName)
+
 
 #define DeclareJackPin( pinTyp, pinNam ) protected: \
  PinJack<pinTyp> MERGE(pinNam)JACK; public: \
  pinTyp ADD_PREFIX(pinNam,get)(void) { return ADD_SUFFIX(pinNam,JACK).ext ? *MERGE(pinNam)JACK.pin.ptr : MERGE(pinNam)JACK.pin.var;  } \
  void ADD_PREFIX(pinNam,set)(pinTyp v) { if ( ADD_SUFFIX(pinNam,JACK).ext ) *MERGE(pinNam)JACK.pin.ptr = v; \
                                          else ADD_SUFFIX(pinNam,JACK).pin.val = v; } \
-__declspec(property(get = ADD_PREFIX(pinNam,get), put = ADD_PREFIX(pinNam,set) )) pinTyp pinNam; \
-virtual void* Pin(void*pin, int idx) { \
+__declspec( property( get = ADD_PREFIX(pinNam,get), put = ADD_PREFIX(pinNam,set) ) ) pinTyp pinNam; \
+ virtual void* Pin(void*pin, int idx) { \
     if(idx) return BASE::Pin(pin,idx-1); \
     if(pin) pinNam = (pinTyp*)pin; \
     return  pinNam; \
 }
+
 
 #define DeclareJackPinArray( pinTyp, pinNam, pinCnt ) protected: \
  PinJack<pinTyp> MERGE(pinNam)JACK[pinCnt]; public: \
@@ -76,4 +82,34 @@ virtual void* Pin(void*pin, int idx) { \
     return  pinNam[idx]; \
 }
 
+/*
+#define MakePinJackProperty( jTy, jNm ) \
+ jTy ADD_PREFIX( jNm, get )(void) { \
+     return ADD_SUFFIX( jNm, JACK ).ext \
+          ? ADD_SUFFIX(*jNm, JACK ).pin.ptr \
+          : ADD_SUFFIX( jNm, JACK ).pin.var; \
+ } \
+ void ADD_PREFIX( jNm, set )( jTy v ) { \
+      if ( ADD_SUFFIX( jNm, JACK ).ext ) \
+          *ADD_SUFFIX( jNm, JACK ).pin.ptr = v; \
+      else ADD_SUFFIX( jNm, JACK ).pin.val = v; \
+ } \
+ __declspec( property( get = ADD_PREFIX( jNm, get ), put = ADD_PREFIX( jNm, set ) ) ) jTy jNm;
+
+#define DeclareJackPinTwinBay( jackTA, jackNA, jackTB, jackNB, pinTC, pinNC, pinTD, pinND ) protected: \
+ PinJack<jackTA> MERGE(jackNA)JACK; \
+ PinJack<jackTB> MERGE(jackNB)JACK; \
+ pinTC pinNC; pinTD pinND; public: \
+ MakePinJackProperty( jackTA, jackNA ) \
+ MakePinJackProperty( jackTB, jackNB ) \
+ virtual void* Pin( void* pin, int idx ) { \
+ switch( idx ) { \
+    case 0: PIN_JACT( jackTB, jackNB ) \
+    case 1: PIN_JACT( jackTA, jackNA ) \
+    case 2: PIN_ACT( pinTD, pinND ) \
+    case 3: PIN_ACT( pinTC, pinNC ) \
+    default: return BASE::Pin( pin, idx-4 ); \
+ } \
+}
+*/
 #endif

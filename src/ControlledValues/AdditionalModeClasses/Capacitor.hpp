@@ -28,14 +28,14 @@
     // assignment before, implicitely) So the value begins oscilating between MIN and MAX by just reeding it.
     // The controller can be used as an oscillator so, which is following a pulse wave where oscillation
     // frequency can be controlled by changing the value of MOV.
-    
+
     // pulswidth can be controlled by centering the the wave by giving MIN / MAX values not symetrically to
     // each other. means setting up the controller by MIN = -1 and MAX = +0.5 values would lead to a wave
-    // form which has shorter, but in relaton to the MAX phase, higher leveled MIN phase and a longer, but 
+    // form which has shorter, but in relaton to the MAX phase, higher leveled MIN phase and a longer, but
     // in relation to the MIN phase, lower leveled MAX phase (but causes, when changes are not applied per
     // oscillation cycle but frame (or sample) wise instead, some 'glitching' arround that logically expected
     // exact zero crossing possition may happen. a full oscyllation cycle at set frequency value expectedly should hit
-    // - so when doing puls width modulation via constantly reducing MIN / MAX values by an lfo for example 
+    // - so when doing puls width modulation via constantly reducing MIN / MAX values by an lfo for example
     // such oscyllator would begin swimming slightly
 
     template<typename cT>

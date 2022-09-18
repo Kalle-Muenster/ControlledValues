@@ -21,7 +21,7 @@
     so n-band cuttoffs (f1 to fn) will be calculated with each sample input
 
  where k describes count on FILTER_POLES:
-    so the poles will cause a latency of k-1 samples at the output! 
+    so the poles will cause a latency of k-1 samples at the output!
 
 
 - low-band: f1 output  (lowshelf level: f1)
@@ -32,9 +32,9 @@
   pin n          : parameter for adjusting input signal before split
   pin n to 2n    : measured peak level returns per each output band
   pin 2n to 3n   : the effective output levels returned for each band
-  pin 3n to 4n-1 : individual split frequencies between bands (in Hz) 
+  pin 3n to 4n-1 : individual split frequencies between bands (in Hz)
   pin 4n         : playback sample rate (if not set, defaults to 44100 Khz)
-  pin 4n+1       : dirt thrower (aknowledge the filter to re-read pined values when pins plugged in/out).    
+  pin 4n+1       : dirt thrower (aknowledge the filter to re-read pined values when pins plugged in/out).
   pin 4n+3       : Bypass (deactivates band processing, but keeps output delay of n-1 samples acurate.)
 
 most pins need to have 'resetState()'
@@ -61,40 +61,10 @@ zero on filter state reset by 'resetState()' */
 #define PreCompress      ( (BASE::CLAMP & 0x82) == 0x82 )
 #define PostCmpress      ( (BASE::CLAMP & 0x80) && (!(BASE::CLAMP & 0x02)) )
 #define ConversionFactor BASE::stm
-#define PIN_INVALID      void(*INVALID)(void) 
+#define PIN_INVALID      void(*INVALID)(void)
 #define FILTER_PINS      ( GAINS + GAINS + SPLIT )
 #define InGainConversion ( BASE::stm / gain[EQFilterPindices<bC>::IN_GAIN].read() )
 
-//#define PINPROP(Ident,Typus,Range)  __declspec(property(get=get##Ident,put=set##Ident)) Typus Ident[Range];
-
-/*
-namespace pins {
-enum DreiBandEQ {
-    LO_GAIN, // precision type (ptr)
-    MI_GAIN, // precision type (ptr)
-    HI_GAIN, // precision type (ptr)
-    IN_GAIN, // precision type (?
-
-    LO_PEAK, // precision type
-    MI_PEAK, // precision type
-    HI_PEAK, // precision type
-    OUTPEAK, // precision type
-
-    LoSplit,
-    HiSplit,
-
-    LO_BAND, // precission type
-    MI_BAND, // precision type
-    HI_BAND, // precision type
-
-    SmplFrq, // uint type
-
-    // one bool pin between not used
-    BY_PASS = SmplFrq+2, // boolean
-    PEAKVAL = BY_PASS+4 // sample type
-};
-}
-*/
 
 template<const unsigned bC>
 struct EQFilterPindices {
@@ -125,6 +95,7 @@ struct EQFilterPindices {
     const static int CpMinus = CmprOne + 1;
 };
 
+
 template< typename cT, const unsigned bC = FILTER_BANDS, const unsigned pC = FILTER_POLES, typename prcT = double >
 class EQBandFilter : public BandSplit<cT,bC,pC,prcT>
 { public:
@@ -147,7 +118,7 @@ protected:
         }
         virtual void write( prcT value ) override {
             PinJack<prcT>::write( value );
-            PinJack<prcT>::umode<EQBandFilter>()->parametersDirty();
+            PinJack<prcT>::template umode<EQBandFilter>()->parametersDirty();
         }
     };
     struct FilterPeaktPin : public PinJack<prcT> {
@@ -237,7 +208,7 @@ protected:
                     // ..., store peak level per each band
                     peak[b].set( ampl );
                 } // ...and store peak level of output summ
-                peak[bC].set( out ); 
+                peak[bC].set( out );
                 if ( PostCmpress ) {
                     *pVALUE = cT( out * MIN );
                     val = BASE::checkMODE( Compress );

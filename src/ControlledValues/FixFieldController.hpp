@@ -16,6 +16,7 @@
 BEGIN_STEPFLOW_NAMESPACE
 #include "Macros/ModeExpress.h"
 
+class IControllerBase;
 template<typename cT> class IController;
 template<typename cT> class FixFieldController
                    : public IController<cT>
@@ -73,15 +74,15 @@ protected:
     {
         if (IsReadOnly(this)) return VAL;
         else VAL = setter;
-        return ((Active && (!CheckAtGet(this))) ?
+        return ((this->Active && (!CheckAtGet(this))) ?
             checkValue(controlmode) : VAL);
     }
 
     // Internal getter...
     virtual cT GetValue(void)
     {
-        return ((Active && CheckAtGet(this)) ?
-            this->checkValue(controlmode) : VAL);
+        return ((this->Active && CheckAtGet(this)) ?
+            this->checkValue(this->controlmode) : VAL);
     }
 
     virtual void* Pin(void* value, int index)
@@ -109,9 +110,9 @@ protected:
 
     void* detachUserMode(void)
     {
-        void* detached = CustomControlMode;
-        CustomControlMode = NULL;
-        controlmode = None;
+        void* detached = this->CustomControlMode;
+        this->CustomControlMode = NULL;
+        this->controlmode = None;
         return detached;
     }
 
@@ -132,7 +133,7 @@ public:
     FixFieldController(void) : IController<cT>()
     {
         VAL = MIN = MAX = MOV = 0;
-        Active |= MUST_DELETE;
+        this->AddFlags( MUST_DELETE );
     }
 
     //Destructor...
@@ -297,9 +298,9 @@ public:
 #ifdef _TYPEINFO_
     const char* toString()
     {
-        return controlmode < USERMODE
+        return this->controlmode < USERMODE
             ? typeid(this).name()
-            : (const char*)typeid(CustomControlMode).name();
+            : (const char*)typeid(this->CustomControlMode).name();
     }
 #endif
 

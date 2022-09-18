@@ -50,6 +50,7 @@ ENDOF_STEPFLOW_NAMESPACE
 
 BEGIN_STEPFLOW_NAMESPACE
 
+    template<typename cT> struct PinJack;
     template<typename cT> class IController;
     template<typename cT> class FixFieldController;
     template<typename cT> class VariableController;
@@ -84,7 +85,7 @@ BEGIN_STEPFLOW_NAMESPACE
         virtual void        Init(void) { PIN_COUNT = 0; };
         cT                  checkMODE( ControlMode mode )
                             { return (controller->*func)(mode); }
- 
+
         virtual ModeCodeVal modeCodeBase() const { return 0; };
         virtual void        onActivate(bool activ) {};
         virtual uint        usrModeSize() const { return sizeof(UserModeControl); };
@@ -180,7 +181,7 @@ BEGIN_STEPFLOW_NAMESPACE
             } else { if (pin) { jackTRGpin = (cT*)pin; }
               return jackTRGpin.ext.flg < 0
                   ?  jackTRGpin.pin.ptr
-                  : &jackTRGpin.pin.var; }            
+                  : &jackTRGpin.pin.var; }
         }
         virtual void Init(void) {
             BASE::Init();

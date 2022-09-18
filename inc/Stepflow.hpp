@@ -3,15 +3,21 @@
 
 
 // native stepflow sources are included within *namespace*:
+#ifndef SET_STEPFLOW_NAMESPACE
 #define SET_STEPFLOW_NAMESPACE stepflow
 #define SET_STEPLIST_NAMESPACE lists
 #define SET_CONTROLLERSPACE    EMPTY
-
+#endif
 
 #if 1
 // if '1' use default configuration
 #define DEFAULT_CONFIGURATION (1)
+#ifdef  WITH_STEPLIST_TYPES
+#undef  WITH_STEPLIST_TYPES
+#define WITH_STEPLIST_TYPES (1)
+#else
 #define WITH_STEPLIST_TYPES (0)
+#endif
 #else
 // if '0' just include *minimal* set of sourcecode:
 #define STEPFLOW_MINI_CONFIG
@@ -51,36 +57,54 @@
 #ifndef  THREAD_WAITCYCLE_TIME
 #define  THREAD_WAITCYCLE_TIME 2
 #endif
-#if defined(THREAD_WAITCYCLE_TIME) 
+#if defined(THREAD_WAITCYCLE_TIME)
    #if THREAD_WAITCYCLE_TIME == EMPTY
 
 // if threadsafe features are disabled at all:
 #undef THREAD_WAITCYCLE_TIME
  #else
 
-// if it seem to be a managed (.Net) CLR project
+// if it seem to be a dotnet framework managed (CLR) project
 #ifdef _MANAGED
-#define THREAD_WAITCYCLE_FUNC(ms) \
+#define THREAD_WAITCYCLE_FUNC( ms ) \
 System::Threading::Thread::CurrentThread->Sleep( ms )
 
-// if it seem to be a Qt managed project
+#ifdef _DEBUG
+#define log_wait_state(cyc) Consola::StdStream::Out::Stream->Put(__FUNCTION__)->Put("(): not got lock! retry in ")->Put(cyc*THREAD_WAITCYCLE_TIME)->Put(" milliseconds!\n")->End();
+#define log_lock_state(msg) Consola::StdStream::Out::Stream->Put(__FUNCTION__)->Put("(): ")->Put(msg)->Put(" lock state is ")->Put(locked)->Put("\n")->End();
+#endif
+
+// if it seem to be a Qt framework managed (CPP) project
 #elif defined(QT_VERSION)
+#include <QThread>
 #define THREAD_WAITCYCLE_FUNC(ms) \
 QThread::currentThread()->msleep( ms )
 #else
 
-// if not in any (known) framework managed project:
+// if no framework management can be detected (CPP):
+#include <chrono>
+#include <thread>
 #define THREAD_WAITCYCLE_FUNC(ms) \
-std::this_thread::sleep_for(std::chrono::milliseconds( ms ))
+std::this_thread::sleep_for( std::chrono::milliseconds( ms ) )
+
+#ifdef _DEBUG
+#define log_wait_state(cyc) std::cout << __FUNCTION__ << "(): not got lock! retry in " << (cyc*THREAD_WAITCYCLE_TIME) << " milliseconds!\n";
+#define log_lock_state(msg) std::cout << __FUNCTION__ << "(): " << msg << " lock state is " << locked << "\n";
 #endif
 
 #endif
+#endif
+#endif
+
+#ifndef log_wait_state
+#define log_wait_state(cyc)
+#define log_lock_state(msg)
 #endif
 
 #undef DEFAULT_CONFIGURATION
 #if    WITH_STEPLIST_TYPES
 #include "StepLists.h"
-#endif
 #undef WITH_STEPLIST_TYPES
-
+#endif
+#include "ControlledValues.h"
 #endif

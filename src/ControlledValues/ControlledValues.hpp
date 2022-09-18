@@ -56,8 +56,10 @@ BEGIN_STEPFLOW_NAMESPACE
 
 ENDOF_STEPFLOW_NAMESPACE
 
+
 #include "Macros/TypesDefiner.h"
 #include "ValueControllerUserModes.hpp"
+#include "PinJackStruct.hpp"
          #include "AdditionalTypes.h"
 #include "InterfaceBase.hpp"
 #include "FixFieldController.hpp"
