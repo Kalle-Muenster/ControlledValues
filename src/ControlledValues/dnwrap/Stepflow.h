@@ -23,7 +23,6 @@
 #include "..\..\..\inc\ControlledValues.h"
 
 #using   <System.Core.Dll>
-//#using   <Int24Types.Dll>
 #include "ConstStruct.hpp"
 #include "CreationMacro.hpp"
 #include "MessageLogger.hpp"

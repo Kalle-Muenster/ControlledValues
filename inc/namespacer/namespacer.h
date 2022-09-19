@@ -6,9 +6,6 @@
 ||                                                           ||
 \*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-//#ifdef STEPFLOW
-//#undef STEPFLOW
-//#endif
 
 #ifndef STEPFLOW
 #define STEPFLOW(subspace,DECL) STEPFLOW_ ## subspace ::DECL
@@ -106,14 +103,12 @@ namespace STEPFLOW_NAMESPACE {
 #endif
 #else
 #if defined(STEPFLOW_NAMESPACE)
-//#define CONTROLLERS_NAMESPACE STEPFLOW_NAMESPACE
 #define STEPLISTS_NAMESPACE STEPFLOW_NAMESPACE
 #define BEGIN_STEPFLOW_LISTS namespace STEPFLOW_NAMESPACE{
 #define ENDOF_STEPFLOW_LISTS }
 #define STEPFLOW_LISTS STEPFLOW_NAMESPACE
 #define USING_STEPFLOW_LISTS using namespace STEPFLOW_NAMESPACE;
 #else
-//#define CONTROLLERS_NAMESPACE
 #define STEPLISTS_NAMESPACE
 #define BEGIN_STEPFLOW_LISTS
 #define ENDOF_STEPFLOW_LISTS

@@ -262,6 +262,7 @@
     <ClInclude Include="..\..\src\ControlledValues\Macros\StepflowEmpty.h" />
     <ClInclude Include="..\..\src\ControlledValues\Macros\TypesDefiner.h" />
     <ClInclude Include="..\..\src\ControlledValues\PinFieldController.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\PinJackStruct.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\ValueControllerUserModes.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\VariableController.hpp" />
     <ClInclude Include="settings.h" />

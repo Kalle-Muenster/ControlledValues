@@ -1,6 +1,5 @@
 #ifndef settings_h
 #define settings_h
-//#define unsafe (1)
 
 // native stepflow sources include as namespace 'stepflow':
 #define SET_NAMESPACE stepflow

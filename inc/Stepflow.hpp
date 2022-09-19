@@ -69,9 +69,9 @@
 #define THREAD_WAITCYCLE_FUNC( ms ) \
 System::Threading::Thread::CurrentThread->Sleep( ms )
 
-#ifdef _DEBUG
-#define log_wait_state(cyc) Consola::StdStream::Out::Stream->Put(__FUNCTION__)->Put("(): not got lock! retry in ")->Put(cyc*THREAD_WAITCYCLE_TIME)->Put(" milliseconds!\n")->End();
-#define log_lock_state(msg) Consola::StdStream::Out::Stream->Put(__FUNCTION__)->Put("(): ")->Put(msg)->Put(" lock state is ")->Put(locked)->Put("\n")->End();
+#if defined(_DEBUG) && defined(ENABLED_LOG_OUTPUT)
+#define log_wait_state(cyc) Stepflow::MessageLogger::Stream(__FUNCTION__)->Out("(): not got lock! retry in ")->Out(cyc*THREAD_WAITCYCLE_TIME)->Out(" milliseconds!\n");
+#define log_lock_state(msg) Stepflow::MessageLogger::Stream(__FUNCTION__)->Out("(): ")->Out(msg)->Out(" lock state is ")->Out(locked)->Out("\n");
 #endif
 
 // if it seem to be a Qt framework managed (CPP) project
@@ -94,11 +94,6 @@ std::this_thread::sleep_for( std::chrono::milliseconds( ms ) )
 
 #endif
 #endif
-#endif
-
-#ifndef log_wait_state
-#define log_wait_state(cyc)
-#define log_lock_state(msg)
 #endif
 
 #undef DEFAULT_CONFIGURATION

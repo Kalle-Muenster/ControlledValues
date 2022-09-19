@@ -75,25 +75,25 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>./;C:\CMD\CCommands;..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;.\..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\core5\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>./;C:\CMD\CCommands;..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;.\..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\core5\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>./;C:\CMD\CCommands;..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;.\..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\core5\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>./;C:\CMD\CCommands;..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
+    <IncludePath>./;C:\CMD\CCommands;.\..\..\..\Int24Types\src;.\..\..\inc;.\..\..\src\ControlledValues\dnwrap;.\..\..\etc;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\core5\$(PlatformTarget)\$(Configuration)</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
@@ -184,7 +184,6 @@
     <ClInclude Include="..\..\inc\ControllerSpace.h" />
     <ClInclude Include="..\..\inc\namespacer\namespacer.h" />
     <ClInclude Include="..\..\inc\Stepflow.hpp" />
-    <ClInclude Include="..\..\inc\StepflowUtils.hpp" />
     <ClInclude Include="..\..\inc\StepLists.h" />
     <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\BandFilter.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\AdditionalModeClasses\BandSplit.hpp" />
@@ -219,6 +218,7 @@
     <ClInclude Include="..\..\src\ControlledValues\Macros\StepflowEmpty.h" />
     <ClInclude Include="..\..\src\ControlledValues\Macros\TypesDefiner.h" />
     <ClInclude Include="..\..\src\ControlledValues\PinFieldController.hpp" />
+    <ClInclude Include="..\..\src\ControlledValues\PinJackStruct.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\ValueControllerUserModes.hpp" />
     <ClInclude Include="..\..\src\ControlledValues\VariableController.hpp" />
     <ClInclude Include="Resource.h" />

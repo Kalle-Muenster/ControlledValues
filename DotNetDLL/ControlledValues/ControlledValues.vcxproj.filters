@@ -167,6 +167,9 @@
     <ClInclude Include="..\..\inc\namespacer\namespacer.h">
       <Filter>native\inc\namespacer</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\ControlledValues\PinJackStruct.hpp">
+      <Filter>native\src\Values</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\ControlledValues\dnwrap\Stepflow.cpp">

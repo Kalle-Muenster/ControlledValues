@@ -13,13 +13,8 @@
 #define THREADSAFE_CONTROLLER
 
 #ifndef log_wait_state
-#if defined(_DEBUG) && defined(ENABLED_LOG_OUTPUT)
-#define log_wait_state(cyc) LOG_MESSAGE_STREAM(__FUNCTION__)->Out("(): not got lock! retry in ")->Out(cyc*THREAD_WAITCYCLE_TIME)->Out(" milliseconds!\n");
-#define log_lock_state(msg) LOG_MESSAGE_STREAM(__FUNCTION__)->Out("(): ")->Out(msg)->Out(" lock state is ")->Out(locked)->Out("\n");
-#else
 #define log_lock_state(msg)
 #define log_wait_state(cyc)
-#endif
 #endif
 #define do_wait_cycles(cycles) { log_wait_state(cycles) THREAD_WAITCYCLE_FUNC(cycles*THREAD_WAITCYCLE_TIME); }
 #define enter_locked_scope(cond,incr) do if( this->locked cond 0 ) { incr##this->locked;

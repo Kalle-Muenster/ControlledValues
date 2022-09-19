@@ -9,9 +9,6 @@
   <ItemGroup>
     <ClInclude Include="Resource.h" />
     <ClInclude Include="settings.h" />
-    <ClInclude Include=".\..\..\..\src\ControlledValues\dnwrap\ConstStruct.hpp">
-      <Filter>dotnetwrap</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\inc\ControlledValues.h">
       <Filter>nativesource\inc</Filter>
     </ClInclude>
@@ -22,9 +19,6 @@
       <Filter>nativesource\inc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\inc\Stepflow.hpp">
-      <Filter>nativesource\inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\inc\StepflowUtils.hpp">
       <Filter>nativesource\inc</Filter>
     </ClInclude>
     <ClInclude Include="..\..\inc\StepLists.h">
@@ -96,18 +90,6 @@
     <ClInclude Include="..\..\src\ControlledValues\Macros\TypesDefiner.h">
       <Filter>nativesource\src\essentials</Filter>
     </ClInclude>
-    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\BandFilter.hpp">
-      <Filter>nativesource\src\additives</Filter>
-    </ClInclude>
-    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\BandSplit.hpp">
-      <Filter>nativesource\src\additives</Filter>
-    </ClInclude>
-    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\Capacitor.hpp">
-      <Filter>nativesource\src\additives</Filter>
-    </ClInclude>
-    <ClInclude Include=".\..\..\..\src\ControlledValues\AdditionalModeClasses\ControlledPointer.hpp">
-      <Filter>nativesource\src\additives</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ControlledValues\AdditionalTypes.h">
       <Filter>nativesource\src</Filter>
     </ClInclude>
@@ -149,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\Stepflow.h">
       <Filter>dotnetwrap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ControlledValues\PinJackStruct.hpp">
+      <Filter>nativesource\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
