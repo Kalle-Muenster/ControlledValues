@@ -46,7 +46,7 @@ public:
         else try// instantiating a variable of the ListMembertype by using it's standard constructor, for using it as NULL-sign..
         {
             if (typeid(TYPE).hash_code() == typeid(ElmID).hash_code()) {
-                BASE::Nulled = TYPE((const char*)(size_t)EMPTY_(ElmID));
+                BASE::Nulled = TYPE(EMPTY_(ElmID));
             }
             else {
                 BASE::Nulled = TYPE();
