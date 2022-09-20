@@ -64,7 +64,7 @@ public:
             BASE::list[i] = BASE::Nulled;
     }
 
-    DynamicListType(const TYPE& nuller, unsigned capacity)
+    DynamicListType( const TYPE& nuller, unsigned capacity )
     {
         MAXIMUM_SIZE = capacity;
 		byte* l = (byte*)(new TYPE[MAXIMUM_SIZE]);
@@ -77,7 +77,6 @@ public:
 #else
             BASE::MembersArePointers = Utility::StringCompareRecursive(typeid(TYPE).name(), "class ") >= 6;
 #endif
-
         for(int i=0;i<MAXIMUM_SIZE;i++)
             BASE::list[i] = nuller;
         BASE::Nulled = nuller;
@@ -87,11 +86,12 @@ public:
 		: DynamicListType::DynamicListType(4)
 	{};
 
+
 	virtual ~DynamicListType(void)
 	{
 		if (BASE::MemberArePointer())
 			Clear(true);
-		delete BASE::list;
+		delete [] (TYPE*)BASE::list;
 	}
 
 
@@ -111,8 +111,8 @@ public:
         Clear(false);
         BASE::highestSlotNumberInUse = tempLast;
         BASE::numberOfMember = tempCount;
-        delete (byte*)BASE::list;
-        setDataArray(neu);
+        delete [] (TYPE*)BASE::list;
+        setDataArray( neu );
         return newSize - MAXIMUM_SIZE;
     }
 
@@ -139,7 +139,7 @@ public:
 				memcpy(&neu[cmpct*typeSize], &alt[cmpct*typeSize], typeSize);
                 cmpct++;
             }
-			setDataArray((TYPE*)&neu[0]);            
+			setDataArray( (TYPE*)&neu[0] );            
             BASE::highestSlotNumberInUse=(BASE::numberOfMember-1);
             delete &alt[0];
 			return typeSize*(MAXIMUM_SIZE=BASE::numberOfMember);

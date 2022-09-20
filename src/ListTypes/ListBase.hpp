@@ -172,6 +172,9 @@
             //fast forward until finding next used slot or reaching it's end
             while(list[++current] == Nulled);
 
+            if (current >= this->getMaximumSize())
+                current = EMPTY;
+
             //and return it's position.
             return (ElmID)current;
         }
