@@ -16,7 +16,7 @@ BEGIN_STEPFLOW_NAMESPACE
 
 #define MAX_FUNCTIONS_COUNT (10)
 
-typedef unsigned int uint;
+//typedef unsigned int uint;
 
     template< typename elementType=void*, template< typename eT = elementType >class baseType = ListBase >
     class AbstractActivative : public baseType<elementType>
