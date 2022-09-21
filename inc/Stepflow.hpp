@@ -69,9 +69,13 @@
 #define THREAD_WAITCYCLE_FUNC( ms ) \
 System::Threading::Thread::CurrentThread->Sleep( ms )
 
+#ifndef DEFAULT_DEBUG_LOGGER
+#define DEFAULT_DEBUG_LOGGER Console::WriteLine
+#endif
+
 #if defined(_DEBUG) && defined(ENABLED_LOG_OUTPUT)
-#define log_wait_state(cyc) Stepflow::MessageLogger::Stream(__FUNCTION__)->Out("(): not got lock! retry in ")->Out(cyc*THREAD_WAITCYCLE_TIME)->Out(" milliseconds!\n");
-#define log_lock_state(msg) Stepflow::MessageLogger::Stream(__FUNCTION__)->Out("(): ")->Out(msg)->Out(" lock state is ")->Out(locked)->Out("\n");
+#define log_wait_state(cyc) DEFAULT_DEBUG_LOGGER("{0}(): not got lock! retry in {1} milliseconds!\n",__FUNCTION__,(cyc*THREAD_WAITCYCLE_TIME));
+#define log_lock_state(msg) DEFAULT_DEBUG_LOGGER("{0}(): {1} lock state is {2}\n",__FUNCTION__,msg,locked);
 #endif
 
 // if it seem to be a Qt framework managed (CPP) project
@@ -87,7 +91,7 @@ QThread::currentThread()->msleep( ms )
 #define THREAD_WAITCYCLE_FUNC(ms) \
 std::this_thread::sleep_for( std::chrono::milliseconds( ms ) )
 
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(ENABLED_LOG_OUTPUT)
 #define log_wait_state(cyc) std::cout << __FUNCTION__ << "(): not got lock! retry in " << (cyc*THREAD_WAITCYCLE_TIME) << " milliseconds!\n";
 #define log_lock_state(msg) std::cout << __FUNCTION__ << "(): " << msg << " lock state is " << locked << "\n";
 #endif

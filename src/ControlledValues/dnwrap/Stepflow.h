@@ -8,41 +8,19 @@
 #ifndef _ControlledValues_hpp_
 #define _ControlledValues_hpp_
 
-// explicite include sellection:
-#define STEPFLOW_MINI_CONFIG
-#define WITH_ELEMENT_MODE
-#define WITH_RAMP_FORM_MODE
-#define WITH_PULS_FORM_MODE
-#define WITH_SINE_FORM_MODE
-#define WITH_BANDFILTER_MODE
-#define WITH_PEAKFINDER_MODE
-#define WITH_MULTISTOP_MODE
-#define WITH_SAW_STACK_MODE
-#define WITH_CAPACITOR_MODE
-
-#include "..\..\..\inc\ControlledValues.h"
+#include "ProjectHeader.hpp"
+#include <Stepflow.hpp>
 
 #using   <System.Core.Dll>
 #include "ConstStruct.hpp"
 #include "CreationMacro.hpp"
 #include "MessageLogger.hpp"
-
 #include <typeinfo>
-#ifdef USE_GLM_SINUS
-#if    USE_GLM_SINUS
-#include <glm.hpp>
-#endif
-#endif
-
-
 
 using namespace System;
 using namespace System::Runtime::InteropServices;
+namespace Stepflow { ref class Int24Controller; ref class UInt24Controller; }
 
-namespace Stepflow {
-    ref class Int24Controller;
-    ref class UInt24Controller;
-}
 
 #include <ControllerAccess.h>
 namespace stepflow {
@@ -130,9 +108,11 @@ namespace stepflow {
         virtual void Init(void) {
             PIN_COUNT += 2;
             BASEPTR = GetBaseCallFunction();
-            controller->SetMIN( INT24_MIN );
-            controller->SetMAX( INT24_MAX );
-            controller->SetMOV( 1 );
+            controller->SetMIN( std::numeric_limits<NT>::min() );
+            controller->SetMAX( std::numeric_limits<NT>::max() );
+            controller->SetVAL( std::numeric_limits<NT>::db0() );
+            controller->SetMOV( std::numeric_limits<NT>::epsilon()
+                              ? std::numeric_limits<NT>::epsilon() : 1 );
         }
         virtual NT checkVALUE( NT* value ) {
             return (NT)FUNCPTR( *reinterpret_cast<MT*>(value),
@@ -182,9 +162,11 @@ namespace stepflow {
         virtual void Init(void) {
             PIN_COUNT += 2;
             BASEPTR = GetBaseCallFunction();
-            controller->SetMIN( UINT24_MIN );
-            controller->SetMAX( UINT24_MAX );
-            controller->SetMOV( 1 );
+            controller->SetMIN( std::numeric_limits<NT>::min() );
+            controller->SetMAX( std::numeric_limits<NT>::max() );
+            controller->SetVAL( std::numeric_limits<NT>::db0() );
+            controller->SetMOV( std::numeric_limits<NT>::epsilon()
+                              ? std::numeric_limits<NT>::epsilon() : 1 );
         }
         virtual NT checkVALUE( NT* value ) {
             return (NT)FUNCPTR( *reinterpret_cast<MT*>(value),
@@ -226,7 +208,7 @@ namespace Stepflow {
         template< typename cT > void createMode(
             stepflow::PinFieldController<cT>* onController,
             Stepflow::ControlMode modeCode, Stepflow::TypeCode typeCode
-                                                );
+                                                   );
         void* mod(void) {
             return umode.ToPointer();
                            }
