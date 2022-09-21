@@ -16,16 +16,21 @@
 #define log_lock_state(msg)
 #define log_wait_state(cyc)
 #endif
+
 #define do_wait_cycles(cycles) { log_wait_state(cycles) THREAD_WAITCYCLE_FUNC(cycles*THREAD_WAITCYCLE_TIME); }
 #define enter_locked_scope(cond,incr) do if( this->locked cond 0 ) { incr##this->locked;
-#define close_locked_scope(waittimer) } else do_wait_cycles(waittimer) while(true);
+#define close_locked_scope(decr,re,t) decr this->locked; re; } else do_wait_cycles(t) while(true);
 #define outer_locked_scope enter_locked_scope(>=,++) log_lock_state("outer")
 #define inner_locked_scope enter_locked_scope(<=,--) log_lock_state("inner")
+#define outer_scope_return(time,rtrn) close_locked_scope(--,return rtrn,time)
+#define inner_scope_return(time,rtrn) close_locked_scope(++,return rtrn,time)
 #else
-#define log_lock_state(msg)
+//#define log_lock_state(msg)
 #define do_wait_cycles(cycles)
 #define enter_locked_scope(cond,incr)
-#define close_locked_scope(waittimer)
+#define close_locked_scope(decr,re,t)
+#define outer_scope_return(time,rtrn)
+#define inner_scope_return(time,rtrn)
 #define outer_locked_scope
 #define inner_locked_scope
 #endif
@@ -150,16 +155,17 @@ protected:
         for( int d = DL; d > 0; --d) {
             state.dls[d] = state.dls[ d-1 ];
         } state.dls[0] = inputSumm;
-        locked = 0;
+     //   locked = 0;
 
         // return value is the untouched original sample from input DELAY frames ago
         // which can be used by the calling Inheriting Filter controller for passing
         // through unfiltered, bypassed signal but with delay correction applied to. 
-        return (cT)(delayedInp * ConversionFactor);
-    close_locked_scope( 2 ) }
+      //  return (cT)(delayedInp * ConversionFactor);
+        inner_scope_return( 2, (cT)(delayedInp * ConversionFactor) );
+    }
 
     // onStateReset() is called when controller instance
-    // is signaling 'Activate' on SetActive(true) calls
+    // is signaling 'Activate' on SetActive(trueOrFalse)
     // It will set the implementing filter into 'ByPass'
     // state when SetActive(false) is called rather then
     // letting the controller to get completly dectivated
@@ -167,19 +173,17 @@ protected:
     // will set it ByPassed but not deactivated to keep
     // the filters caused latency of count on poles-1
     // samples staying intact. otherwise, the filter on
-    // deactivation would 'eat' these last samples passed
+    // deactivation would 'eat' these last passed samples
     int onStateReset(void) { 
-        do if ( locked >= 0 ) {
-              ++locked;
-           log_lock_state("outer")
+        outer_locked_scope
            bool active = (bool)BASE::controller->Active;
            if ( active ) {
                 BASE::CLAMP = BASE::CLAMP &~ 0x01;
                 update = true;
            } else {
-                BASE::CLAMP = BASE::CLAMP | 0x01;
-           } return true;
-        } else do_wait_cycles(2) while( locked < 0 );
+               BASE::CLAMP = BASE::CLAMP | 0x01;
+           } //return true;
+        close_locked_scope( return 0 <, , 2 )
         return 0;
     }
 
@@ -214,7 +218,7 @@ public:
                default: { --locked; return BASE::Pin(pin, idx - (BANDS + 2)); }
               }
           }
-        close_locked_scope(5)
+        outer_scope_return( 5, nullptr )
     }
 
 #ifdef THREADSAFE_CONTROLLER
@@ -228,8 +232,7 @@ public:
     virtual bool lock( bool setState ) {
        do if(locked == 0 || locked == 127) {
        locked = setState ? 127 : 0; 
-       return locked == 127;
-       close_locked_scope(3)
+       close_locked_scope( return 127 ==, , 3 )
     }
     virtual bool lockSupport() const {
         return true;
@@ -278,7 +281,7 @@ public:
     // is assumed comming in then (or just get 
     // actual set samplerate by not passing a
     // samplerate as 'rate' parameter)
-    uint SampleRate( uint rate = EMPTY_(uint) ) {
+    uint sampleRate( uint rate = EMPTY_(uint) ) {
         if ( enum_utils::is_val(rate) ) {
             if ( rate != srt ) {
                 srt = rate;

@@ -19,7 +19,7 @@ namespace Stepflow {
             public:
                 static const byte ByPass = (byte)NATIVE::BYPASS;
                 static const double SampleRate = (double)NATIVE::RATE;
-                static const cT Ratio = cT(NATIVE::MAIN_RATIO);
+                static const cT Ratio = NATIVE::MAIN_RATIO;
                 static const cT OutputPeak = cT(NATIVE::OUTPUT_PEAK);
                 value class  Band {
                 public:

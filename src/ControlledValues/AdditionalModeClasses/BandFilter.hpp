@@ -59,12 +59,13 @@ zero on filter state reset by 'resetState()' */
 #define ByPass           (BASE::CLAMP & 0x01)
 #define Compression      (BASE::CLAMP & 0x80)
 #define PreCompress      ( (BASE::CLAMP & 0x82) == 0x82 )
-#define PostCmpress      ( (BASE::CLAMP & 0x80) && (!(BASE::CLAMP & 0x02)) )
+#define PostCmpress      ( (BASE::CLAMP & 0x82) == 0x80 )
 #define ConversionFactor BASE::stm
 #define PIN_INVALID      void(*INVALID)(void)
 #define FILTER_PINS      ( GAINS + GAINS + SPLIT )
 #define InGainConversion ( BASE::stm / gain[EQFilterPindices<bC>::IN_GAIN].read() )
 
+enum COMPRESSO : byte { PRE = 0x82, OFF = 0x02, POST = 0x80 };
 
 template<const unsigned bC>
 struct EQFilterPindices {
@@ -80,11 +81,11 @@ struct EQFilterPindices {
 
     const static int LOSPLIT = OUTPEAK + 1;
     static int SPLT(int n) { return int(n + OUTPEAK); }
-    const static int HISPLIT = LOSPLIT + (bC - 1);
+    const static int HISPLIT = LOSPLIT + (bC - 2);
 
     const static int LO_BAND = HISPLIT + 1;
     static int BAND(int n) { return int(n + HISPLIT); };
-    const static int HI_BAND = LO_BAND + bC;
+    const static int HI_BAND = LO_BAND + (bC - 1);
 
     const static int SmplFrq = HI_BAND + 1;
     const static size_t INVALID = SmplFrq+1;
@@ -161,7 +162,7 @@ protected:
         } else {
             --this->locked;
         return BASE::Pin( pin, idx - FILTER_PINS ); }
-      close_locked_scope(2)
+      outer_scope_return( 2, nullptr )
     }
     virtual ModeCodeVal modeCodeBase(void) const {
         return (bC | pC << 4) + *(ModeCodeVal*)"BAND";
@@ -188,11 +189,16 @@ protected:
             splt[i] = prcT( f * i );
         } splt[0] = FilterSplitPin( (ulong)(void*)this );
         splt[0] = prcT( f / 10 );
-        BASE::SampleRate( 44100 );
-        MIN = cT( std::numeric_limits<cT>::max() * 0.5f );
-        MAX = 100;
-        MOV = cT( 100.0f / 3.0f );
-        BASE::Init();
+        BASE::sampleRate( 44100 );
+        if (std::numeric_limits<cT>::is_integer) {
+            MIN = cT(std::numeric_limits<cT>::max() * 0.5f);
+            MAX = 100;
+            MOV = cT(100.0f/3.0f);
+        } else {
+            MIN = 0.5f;
+            MAX = 1.0f;
+            MOV = cT(1.0f/3.0f);
+        } BASE::Init();
         BASE::CLAMP = 0x82;
     }
     virtual cT checkVALUE( cT* pVALUE ) {
@@ -208,16 +214,18 @@ protected:
                     // ..., store peak level per each band
                     peak[b].set( ampl );
                 } // ...and store peak level of output summ
-                peak[bC].set( out );
                 if ( PostCmpress ) {
                     *pVALUE = cT( out * MIN );
                     val = BASE::checkMODE( Compress );
+                    peak[bC].set(prcT(val)/InGainConversion);
                 } else {
+                    peak[bC].set(out);
                     val = cT( out * ConversionFactor );
-                }
-            } this->locked = 0;
-            return *pVALUE = val;
-        close_locked_scope(2)
+                } 
+            }// this->locked = 0;
+            //return *pVALUE = val;
+        inner_scope_return( 2, *pVALUE = val )
+        //close_locked_scope(2)
     }
     virtual void onActivate( bool active ) {
         BASE::resetState();
@@ -229,8 +237,7 @@ public:
     void setGain( prcT val, int idx ) {
       outer_locked_scope
         gain[idx].value = val;
-        return;
-      close_locked_scope(2)
+      outer_scope_return(2, )
     }
     prcT getPeak(int idx) {
         return  peak[idx].value;
@@ -238,8 +245,7 @@ public:
     void setPeak(prcT val, int idx) {
       outer_locked_scope
         peak[idx].value = val;
-        return;
-      close_locked_scope(2)
+      outer_scope_return(2, )
     }
     prcT getSplit( int idx ) {
         return splt[idx].value;
@@ -247,12 +253,24 @@ public:
     void setSplit( prcT val, int idx ) {
       outer_locked_scope
         splt[idx].value = val;
-        return;
-      close_locked_scope(2)
+      outer_scope_return(2, )
     }
     PROPLIST( prcT, Gain, GAINS );
     PROPLIST( prcT, Peak, GAINS );
     PROPLIST( prcT,Split, SPLIT );
+
+    
+    // get/set compression setting value to 
+    // either enable PRE filter compression
+    // or POST filter compression or to OFF 
+    // to not apply any kind of compression
+    COMPRESSO compression( COMPRESSO c = COMPRESSO(0) ) {
+        if (c) {
+        outer_locked_scope
+            CLAMP = (c | (CLAMP & 0x01));
+        outer_scope_return( 2, c )
+        } return COMPRESSO(CLAMP & ~0x01);
+    }
 };
 
 #undef close_locked_scope

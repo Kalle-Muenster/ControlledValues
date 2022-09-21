@@ -67,7 +67,7 @@ BEGIN_STEPFLOW(VALUES)
                 MIN = cT(1);
                 MAX = cT(1.0/3.0);
             } MOV = cT(0);
-            BASE::SampleRate(44100);
+            BASE::sampleRate(44100);
             for (int i = 0; i < BANDS; ++i) {
                 cmp[i].SetUp(pT(0.75*MIN),pT(MAX),0,pT(MIN)/0.75f,CtrlMode::Compress);
                 cmp[i].SetVariable( &BASE::bnd[i] );
@@ -77,7 +77,7 @@ BEGIN_STEPFLOW(VALUES)
 
                 cmp[i].Active = true;
                 if( i < SPLITS )
-                    frq[i] = ( (BASE::SampleRate()/2.0) / (BANDS-1) ) * (i+1);
+                    frq[i] = ( (BASE::sampleRate()/2.0) / (BANDS-1) ) * (i+1);
             } BASE::PIN_COUNT += BANDS;
             BASE::Init();
         }
