@@ -195,8 +195,8 @@ protected:
             MAX = 100;
             MOV = cT(100.0f/3.0f);
         } else {
-            MIN = 0.5f;
-            MAX = 1.0f;
+            MIN = (cT)0.5f;
+            MAX = (cT)1.0f;
             MOV = cT(1.0f/3.0f);
         } BASE::Init();
         BASE::CLAMP = 0x82;
