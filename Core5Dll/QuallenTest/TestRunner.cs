@@ -42,9 +42,14 @@ namespace TestQualle
             AddTestCase("Ending the Test", QuallenTest_EndTestrun);
         }
 
+        protected override void OnStartUp()
+        {
+            TimesStamps = true;
+        }
+
         private void QuallenTest_EndTestrun()
         {
-            InfoStep("Ending Testrun");
+            StepInfo("Ending Testrun");
             testobject.beending = true;
         }
 
@@ -78,12 +83,12 @@ namespace TestQualle
             Stepflow.ControlMode lastMode = testobject.movement.Mode;
             measuredX = testobject.centerX;
             measuredY = testobject.centerY;
-            InfoStep( "Object is located at X:{0}, Y:{1}", measuredX, measuredY);
+            StepInfo( "Object is located at X:{0}, Y:{1}", measuredX, measuredY);
 
             positionX = measuredX - 50;
             positionY = measuredY - 50;
             ConTrol.Mouse( ConTrol.Move.Absolute, positionX, positionY );
-            InfoStep("Mouse Pointer placed at X:{0}, Y:{1}", positionX, positionY);
+            StepInfo("Mouse Pointer placed at X:{0}, Y:{1}", positionX, positionY);
             Thread.Sleep(250);
 
             testobject.Lock();
@@ -94,7 +99,7 @@ namespace TestQualle
             positionX -= 100;
             positionY -= 50;
             ConTrol.Mouse( ConTrol.Move.Absolute, positionX, positionY );
-            InfoStep("Mouse Pointer moved to X:{0}, Y:{1}", positionX, positionY );
+            StepInfo("Mouse Pointer moved to X:{0}, Y:{1}", positionX, positionY );
 
             QuallenTest_ObjectMovesByOwnIntention();
 
