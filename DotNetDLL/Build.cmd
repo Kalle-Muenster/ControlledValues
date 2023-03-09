@@ -1,4 +1,4 @@
-@echo off
+@if "%ECHO_STATE%"=="" (@echo off) else (@echo %ECHO_STATE%)
 
 set _name_=ControlledValues
 set _call_=%CD%
@@ -18,6 +18,9 @@ set ConsolaBinRoot=%_root_%\..\Consola\bin\%DotNetVersionString%
 )
 if "%Int24TypesBinRoot%"=="" (
 set Int24TypesBinRoot=%_root_%\..\Int24Types\bin\%DotNetVersionString%
+)
+if "%Float16TypeBinRoot%"=="" (
+set Float16TypeBinRoot=%_root_%\..\Float16Type\bin\%DotNetVersionString%
 )
 
 :: Set parameters and solution files

@@ -216,8 +216,8 @@ namespace TestQualle
                 movement.MAX = new Point(8 / usedScreenSize.X, 4.5 / usedScreenSize.Y);
                 break;
                 case "PingPong":
-                movement.Mode = ControlMode.PingPong;
-                movement.MOV = new Point(( 16.0 / ( usedScreenSize.X * 180.0 ) ), ( 9.0 / ( usedScreenSize.Y * 180.0 ) ));
+                movement.Mode = ControlMode.Stack;
+                movement.MOV = new Point(( 8.0 / ( usedScreenSize.X * 180.0 ) ), ( 4.5 / ( usedScreenSize.Y * 180.0 ) ));
                 movement.MIN = new Point(-8 / usedScreenSize.X, -4.5 / usedScreenSize.Y);
                 movement.MAX = new Point(8 / usedScreenSize.X, 4.5 / usedScreenSize.Y);
                 break;
@@ -380,9 +380,9 @@ namespace TestQualle
                                             : mousenMode.ToString(), virtualScreenScale.ToString(),
                                               quallenServerHost, quallenServerPort.ToString() }));
 #endif
-            setMousingEnabled(mousenMode == ControlMode.Element);
-            controllerReConfiguration(mousenMode == ControlMode.Delegate
-                                     ? "Follow" : movementMode.ToString());
+            setMousingEnabled( mousenMode == ControlMode.Element );
+            controllerReConfiguration( mousenMode == ControlMode.Delegate
+                                     ? "Follow" : movementMode.ToString() );
         }
 
 
@@ -583,7 +583,7 @@ namespace TestQualle
 
         private void btn_reloadImages_Click( object sender, RoutedEventArgs e )
         {
-            setImageLocation(cbx_resourceLocations.Content as string);
+            setImageLocation( cbx_resourceLocations.Content as string );
         }
 
         private void window_MouseEnter( object sender, MouseEventArgs e )
@@ -591,7 +591,7 @@ namespace TestQualle
 #if DEBUG
             std.Out.WriteLine("Trying to avoid Mousing!");
 #endif
-            mousen.VAL = e.GetPosition((Window)sender);
+            mousen.VAL = e.GetPosition( (Window)sender );
             mousen.MOV = Zero;
             mousen.ControllerActive = true;
             this.MouseEnter -= window_MouseEnter;

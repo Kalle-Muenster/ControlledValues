@@ -1,13 +1,12 @@
 #include "Stepflow.h"
 #include "PinPatchStruct.hpp"
 
-template<class UMode, class Cntrl> static
-System::IntPtr allocateAndAttach(Cntrl* controller)
+template<typename UMode, typename Cntrl> static
+System::IntPtr allocateAndAttach( Cntrl* controller )
 {
-    System::IntPtr instance = System::IntPtr( new UMode() );
-    UMode* derNeue = (UMode*)instance.ToPointer();
-    controller->Mode( derNeue );
-    return instance;
+    UMode* newmode = new UMode();
+    controller->Mode( newmode );
+    return System::IntPtr( newmode );
 }
 
 namespace Stepflow {
@@ -54,18 +53,20 @@ template<typename cT> void
 Stepflow::ControllerBase::createMode( stepflow::PinFieldController<cT>* onController,
                                       Stepflow::ControlMode modeCode, Stepflow::TypeCode typeCode ) {   
     switch (typeCode) {
-    case TypeCode::Byte:   {umode =   setMode<Stepflow::Byte>( modeCode,   reinterpret_cast<stepflow::PinFieldController<Stepflow::Byte>*>(onController)); } break;
-    case TypeCode::Int8:   {umode =   setMode<Stepflow::Int8>( modeCode,   reinterpret_cast<stepflow::PinFieldController<Stepflow::Int8>*>(onController)); } break;
-    case TypeCode::Int16:  {umode =  setMode<Stepflow::Int16>( modeCode,  reinterpret_cast<stepflow::PinFieldController<Stepflow::Int16>*>(onController)); } break;
-    case TypeCode::Int24:  {umode =  setMode<        ::Int24>( modeCode,  reinterpret_cast<stepflow::PinFieldController<        ::Int24>*>(onController)); } break;
-    case TypeCode::Int32:  {umode =  setMode<Stepflow::Int32>( modeCode,  reinterpret_cast<stepflow::PinFieldController<Stepflow::Int32>*>(onController)); } break;
-    case TypeCode::Int64:  {umode =  setMode<Stepflow::Int64>( modeCode,  reinterpret_cast<stepflow::PinFieldController<Stepflow::Int64>*>(onController)); } break;
-    case TypeCode::UInt16: {umode = setMode<Stepflow::UInt16>( modeCode, reinterpret_cast<stepflow::PinFieldController<Stepflow::UInt16>*>(onController)); } break;
-    case TypeCode::UInt24: {umode = setMode<        ::UInt24>( modeCode, reinterpret_cast<stepflow::PinFieldController<        ::UInt24>*>(onController)); } break;
-    case TypeCode::UInt32: {umode = setMode<Stepflow::UInt32>( modeCode, reinterpret_cast<stepflow::PinFieldController<Stepflow::UInt32>*>(onController)); } break;
-    case TypeCode::UInt64: {umode = setMode<Stepflow::UInt64>( modeCode, reinterpret_cast<stepflow::PinFieldController<Stepflow::UInt64>*>(onController)); } break;
-    case TypeCode::Float32:{umode = setMode<Stepflow::Float32>( modeCode,reinterpret_cast<stepflow::PinFieldController<Stepflow::Float32>*>(onController)); } break;
-    case TypeCode::Float64:{umode = setMode<Stepflow::Float64>( modeCode,reinterpret_cast<stepflow::PinFieldController<Stepflow::Float64>*>(onController)); } break;
+    
+    case Stepflow::TypeCode::Int8:   {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Int8>*>(onController)); } break;
+    case Stepflow::TypeCode::Int16:  {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Int16>*>(onController)); } break;
+    case Stepflow::TypeCode::Int24:  {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Int24>*>(onController)); } break;
+    case Stepflow::TypeCode::Int32:  {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Int32>*>(onController)); } break;
+    case Stepflow::TypeCode::Int64:  {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Int64>*>(onController)); } break;
+    case Stepflow::TypeCode::UInt8:  {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::UInt8>*>(onController)); } break;
+    case Stepflow::TypeCode::UInt16: {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::UInt16>*>(onController)); } break;
+    case Stepflow::TypeCode::UInt24: {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::UInt24>*>(onController)); } break;
+    case Stepflow::TypeCode::UInt32: {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::UInt32>*>(onController)); } break;
+    case Stepflow::TypeCode::UInt64: {umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::UInt64>*>(onController)); } break;
+    case Stepflow::TypeCode::Float16:{umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Float16>*>(onController)); } break;
+    case Stepflow::TypeCode::Float32:{umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Float32>*>(onController)); } break;
+    case Stepflow::TypeCode::Float64:{umode = setMode( modeCode, reinterpret_cast<stepflow::PinFieldController<::Float64>*>(onController)); } break;
                    default: umode = System::IntPtr::Zero; }
 }
 

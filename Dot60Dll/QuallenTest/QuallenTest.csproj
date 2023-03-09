@@ -46,6 +46,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="audios\blub.wav" />
     <None Remove="Config.xml" />
     <None Remove="images\button1_1_hover.png" />
     <None Remove="images\button1_2_normal.png" />
@@ -98,6 +99,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="audios\blub.wav" />
     <Resource Include="favicon.ico" />
   </ItemGroup>
 
@@ -110,6 +112,25 @@
     <Reference Include="Consola.Test">
       <HintPath>$(ConsolaBinRoot)\$(PlatformTarget)\$(Configuration)\Consola.Test.dll</HintPath>
     </Reference>
+	<Reference Include="Int24Types">
+	  <HintPath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
+	  <Private>True</Private>
+	  <EmbedInteropTypes>False</EmbedInteropTypes>
+	</Reference>
+	<Reference Include="Float16Type">
+	  <HintPath>$(Float16TypeBinRoot)\$(PlatformTarget)\$(Configuration)\Float16Type.dll</HintPath>
+	  <Private>True</Private>
+	  <EmbedInteropTypes>False</EmbedInteropTypes>
+	</Reference>
+	<Reference Include="TaskAssist">
+	  <HintPath>$(MotorsportBinRoot)\$(PlatformTarget)\$(Configuration)\TaskAssist.dll</HintPath>
+	  <Private>True</Private>
+	  <EmbedInteropTypes>False</EmbedInteropTypes>
+	</Reference>
+	<Reference Include="WaveFileHandling">
+	  <HintPath>C:\LIBRARIES\WaveLib\core5\$(PlatformTarget)\$(Configuration)\WaveFileHandling.dll</HintPath>
+	  <Private>True</Private>
+	</Reference>
     <Reference Include="ControlledValues">
       <HintPath>$(BaseOutputPath)\$(PlatformTarget)\$(Configuration)\ControlledValues.dll</HintPath>
       <Private>True</Private>

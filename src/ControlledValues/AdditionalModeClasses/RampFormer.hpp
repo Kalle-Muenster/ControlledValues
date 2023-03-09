@@ -54,9 +54,9 @@
             //   the NEXT sawstack sample level is ANTI proportional to the UPPER half range (above FORM).
             if ( WAVE > FORM ) {
                  cT urg = MAX - FORM;
-                *pVALUE = MIN + (cT)(((double)(urg - (WAVE - FORM)) / urg)*(MAX - MIN));
+                *pVALUE = MIN + (cT)(((CONTROLER_INTERNAL_PRECISION)(urg - (WAVE - FORM)) / urg)*(MAX - MIN));
             } else {
-                *pVALUE = MIN + (cT)(((double)(WAVE - MIN) / (FORM - MIN))*(MAX - MIN));
+                *pVALUE = MIN + (cT)(((CONTROLER_INTERNAL_PRECISION)(WAVE - MIN) / (FORM - MIN))*(MAX - MIN));
             } return BASE::checkMODE( Clamp );
         }
     };

@@ -4,12 +4,30 @@
 
 using namespace System::Runtime::InteropServices;
 
+    typedef System::SByte           Int8;
+    typedef System::Byte            UInt8;
+    typedef System::UInt16          UInt16;
+    typedef System::Int16           Int16;
+    typedef stepflow::UINT_24BIT    UInt24;
+    typedef stepflow::INT_24BIT     Int24;
+    typedef System::UInt32          UInt32;
+    typedef System::Int32           Int32;
+    typedef System::UInt64          UInt64;
+    typedef System::Int64           Int64;
+    typedef half_float::half        Float16;
+    typedef System::Single          Float32;
+    typedef System::Double          Float64;
+
+
 namespace Stepflow
 {
     template<typename cT> ref class ValueController;
+    template<typename mT,typename nT> ref class StructController;
+
+    
 
     typedef System::SByte           Int8;
-    typedef System::Byte            Byte;
+    typedef System::Byte            UInt8;
     typedef System::UInt16          UInt16;
     typedef System::Int16           Int16;
     typedef System::UInt32          UInt32;
@@ -59,11 +77,12 @@ namespace Stepflow
         Int24   = (int)stepflow::TypeCode::Int24,
         Int32   = (int)System::TypeCode::Int32,
         Int64   = (int)System::TypeCode::Int64,
-        Byte    = (int)System::TypeCode::Byte,
+        UInt8   = (int)System::TypeCode::Byte,
         UInt16  = (int)System::TypeCode::UInt16,
         UInt24  = (int)stepflow::TypeCode::UInt24,
         UInt32  = (int)System::TypeCode::UInt32,
         UInt64  = (int)System::TypeCode::UInt64,
+        Float16 = (int)stepflow::TypeCode::Float16,
         Float32 = (int)System::TypeCode::Single,
         Float64 = (int)System::TypeCode::Double,
     };
@@ -82,11 +101,8 @@ namespace Stepflow
             MAX = stepflow::ValenceFieldState::MAX_EXTERN,
             MOV = stepflow::ValenceFieldState::MOV_EXTERN
         };
-        property bool default[ValenceFieldState::Flags] {
-        public:
-        	bool get( Flags index ) {
-				return (*data & (byte)index) > 0;
-			}
+        bool operator[](ValenceFieldState::Flags index) {
+            return (*data & (byte)index) > 0;
         }
         void Clear() {
             *data &= (byte)( Flags::VAL | Flags::MIN

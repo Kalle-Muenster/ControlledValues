@@ -180,6 +180,13 @@ enum ControllerStateFlags
                    : true );
         }
 
+        // SetActive(bool) If set "true", the Value will be checked and updated
+        // every time it's red or written. ...useful for Clamping or Inverting
+        // If set to "false", it's Value won't be checked and won't be updated
+        // unless you call "Check()" on it manually. ...usefull for MovingValues
+        // like pingpong or cycle. it than can be updated once per frame in an
+        // update-loop for example, to let its Value stay the same during the
+        // whole frame-cycle.
         virtual void SetActive( bool activate )
         {
             if( activate != IControllerBase::Active.operator bool() ) {
@@ -320,7 +327,7 @@ enum ControllerStateFlags
         virtual void SetMOV(cT val) { *getMOVpt() = val; }
 
         //Set the value to the value pointed by 'val'.
-        virtual void SetVAL(cT* val) { SetValue(*val); }
+        virtual void SetVAL( cT* val ) { SetValue( *val ); }
 
         // declare 'MIN' property
         DECLPROP(cT, MIN);

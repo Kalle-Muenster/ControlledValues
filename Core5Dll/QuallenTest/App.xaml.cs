@@ -16,28 +16,28 @@ namespace TestQualle
         internal protected bool   zoom = true;
         internal protected Mode   maus = Mode.None;
         internal protected Mode   mode = Mode.PingPong;
+        internal protected Test   test;
 
-        internal protected TestResults test = TestResults.NONE;
-        internal protected Test       task;
-        internal protected MainWindow qualle;
+        internal protected TestResults flags = TestResults.NONE;
+        internal protected MainWindow  qualle;
 
         private Test testrunfunction()
         {
-            return new TestQualle.QuallenTest(qualle, test).Run();
+            return new TestQualle.QuallenTest( qualle, flags ).Run();
         }
 
         private void testrunner()
         {
-            task = testrunfunction();
+            test = testrunfunction();
         }
 
         public void ApplicationStarted( MainWindow self )
         {
-            if( test != TestResults.NONE ) {
+            if( flags != TestResults.NONE ) {
                 qualle = self;
-                System.Threading.ThreadStart starter = new System.Threading.ThreadStart(testrunner);
-                System.Threading.Thread thread = new System.Threading.Thread(starter);
-                thread.SetApartmentState(System.Threading.ApartmentState.STA);
+                System.Threading.ThreadStart starter = new System.Threading.ThreadStart( testrunner );
+                System.Threading.Thread thread = new System.Threading.Thread( starter );
+                thread.SetApartmentState( System.Threading.ApartmentState.STA );
                 thread.Start();
             }
         }
@@ -92,7 +92,7 @@ namespace TestQualle
 
         private void Application_Startup( object sender, StartupEventArgs e )
         {
-            test = TestResults.TextOutput;
+            this.flags = TestResults.TextOutput;
             bool isTestrun = false;
             string[] args = e.Args;
             if( args.Length > 0 ) {
@@ -120,7 +120,7 @@ namespace TestQualle
                             break;
                             case "test":
                             isTestrun = true;
-                            test |= argum.Tests;
+                            this.flags |= argum.Tests;
                             break;
                             case "maus":
                             if( argum.Value.ToLower() == "follow" ) {
@@ -136,21 +136,21 @@ namespace TestQualle
 
             CreationFlags flags = CreationFlags.TryConsole;
             if( !isTestrun ) {
-                test = TestResults.NONE;
+                this.flags = TestResults.NONE;
             } else {
                 flags |= CreationFlags.CreateLog | CreationFlags.NoInputLog;
+                StdStream.Init( flags );
             }
-            StdStream.Init(flags);
         }
 
         private void Application_Exit( object sender, ExitEventArgs e )
         {
-            if( task is null ) return;
-            switch( task.Results ) {
+            if( test is null ) return;
+            switch( test.Results ) {
                 case TestResults.PASS: { StdStream.Out.WriteLine("    ...all tests PASSED"); } break;
-                case TestResults.FAIL: { StdStream.Err.WriteLine("    ...{0} tests FAILED", task.getFailures()); } break;
+                case TestResults.FAIL: { StdStream.Err.WriteLine("    ...{0} tests FAILED", test.getFailures()); } break;
                 case TestResults.NONE: {
-                        string[] exceptions = task.getErrors();
+                        string[] exceptions = test.getErrors();
                         StdStream.Err.WriteLine("    --- test CRASHED ---");
                         foreach( string msg in exceptions ) StdStream.Err.WriteLine(msg);
                         StdStream.Err.WriteLine("    ...{0} ERRORS", exceptions.Length);

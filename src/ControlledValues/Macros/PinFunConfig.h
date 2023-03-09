@@ -8,17 +8,17 @@
 
 #ifdef READONLY_PINS
   #undef PIN_JACT
- #define PIN_JACT(t,v) return v;
+ #define PIN_JACT(t,v) return v.find();
   #undef PIN_ACT
  #define PIN_ACT(t,v) return &v;
 #elif defined( WRITEONLY_PINS )
   #undef PIN_JACT
- #define PIN_JACT(t,v) if (pin) v = (t*)pin; return nullptr;
+ #define PIN_JACT(t,v) if (pin) v.write( *(t*)pin ); return nullptr;
   #undef PIN_ACT
  #define PIN_ACT(t,v) v = pin ? *(t*)pin : v; return nullptr;
 #else
   #undef PIN_JACT
- #define PIN_JACT(t,v) if (pin) v = (t*)pin; return v;
+ #define PIN_JACT(t,v) if (pin) v.point( (t*)pin ); return v.find();
   #undef PIN_ACT
  #define PIN_ACT(t,v) if (pin) v = *(t*)pin; return &v;
 #endif

@@ -2,6 +2,7 @@
 #define STEPFLOW_NO_TYPEDEFS
 
 #include <WaveLib.inl\int24bittypes.hpp>
+#include <WaveLib.inl\half.hpp>
 
 #ifndef COMMANDLINER_ESCENTIALS_DEFINED
 typedef unsigned long long int  ulong;
@@ -21,7 +22,6 @@ typedef unsigned short          word;
 		VERSION_NUMBER_PART(0x##min),'.',\
 		VERSION_NUMBER_PART(0x##bld),'\0'\
 }
-
 #define CONTROLLED_VALUES_VERSION_NUMBER CONTROLLED_VALUES_VERSIONNUMBER_BUILDER(00,00,00,03)
 #define CONTROLLED_VALUES_VERSION_STRING CONTROLLED_VALUES_VERSIONSTRING_BUILDER(00,00,00,03)
 #else
@@ -53,13 +53,10 @@ enum TypeCode : uint {
     Float32 = 13,
     Float64 = 14,
     UInt24  = 24,
+    Float16 = uint(-16),
     Int24   = uint(-24)
 };
 
-
-// these both are replacement dummies for types which not have implementation yet
-typedef unsigned char  mini;
-typedef unsigned short half;
 typedef unsigned char ControlMode;
 typedef unsigned int  ModeCodeVal;
 

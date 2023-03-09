@@ -85,7 +85,7 @@ protected:
     volatile int locked;
     prcT         bnd[BANDS];
     virtual prcT getSplitPoint( int idx ) = 0;
-    virtual void onParameterUpdate(void) = 0;
+    virtual void onParameterUpdate( void ) = 0;
     void         parametersDirty() { update = true; }
 
     // call this from within the checkVALUE() function of filter implementations
@@ -127,7 +127,7 @@ protected:
                 } bnd[f] = state.pol[f][LP];
             }
 
-            //// store each band level to it's related bnd[] pin:
+            // store each band level to it's related bnd[] pin:
             prcT lastLowPass = bnd[0];
             for ( int num = 1; num < SP; ++num ) {
                 const prcT lpInverted = -lastLowPass;

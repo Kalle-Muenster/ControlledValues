@@ -128,8 +128,8 @@ protected:
             this->external( true );
             return *this;
         }
-        FilterPeaktPin& operator =( prcT set ) {
-            this->write( set );
+        FilterPeaktPin& operator =( prcT value ) {
+            this->write( value );
             return *this;
         }
         void set( prcT value ) {
@@ -190,14 +190,14 @@ protected:
         } splt[0] = FilterSplitPin( (ulong)(void*)this );
         splt[0] = prcT( f / 10 );
         BASE::sampleRate( 44100 );
-        if (std::numeric_limits<cT>::is_integer) {
-            MIN = cT(std::numeric_limits<cT>::max() * 0.5f);
-            MAX = 100;
+        if( std::numeric_limits<cT>::is_integer ) {
+            MIN = cT(std::numeric_limits<cT>::max()/2);
+            MAX = cT(100);
             MOV = cT(100.0f/3.0f);
         } else {
-            MIN = (cT)0.5f;
-            MAX = (cT)1.0f;
-            MOV = cT(1.0f/3.0f);
+            MIN = (cT)0.5;
+            MAX = (cT)1.0;
+            MOV = cT(1.0/3.0);
         } BASE::Init();
         BASE::CLAMP = 0x82;
     }
@@ -209,7 +209,7 @@ protected:
             if( !ByPass ) { // If not ByPassed: mix output...
                 prcT out = 0;
                 for( int b = 0; b < bC; ++b ) {
-                    const prcT ampl = BASE::bnd[b] * gain[b].value;
+                    const prcT ampl = (BASE::bnd[b] * gain[b].read());
                     out += ampl;
                     // ..., store peak level per each band
                     peak[b].set( ampl );
@@ -232,27 +232,27 @@ protected:
     }
 public:
     prcT getGain( int idx ) {
-        return  gain[idx].value;
+        return  gain[idx].Val;
     }
     void setGain( prcT val, int idx ) {
       outer_locked_scope
-        gain[idx].value = val;
+        gain[idx].Val = val;
       outer_scope_return(2, )
     }
     prcT getPeak(int idx) {
-        return  peak[idx].value;
+        return  peak[idx].Val;
     }
     void setPeak(prcT val, int idx) {
       outer_locked_scope
-        peak[idx].value = val;
+        peak[idx].Val = val;
       outer_scope_return(2, )
     }
     prcT getSplit( int idx ) {
-        return splt[idx].value;
+        return splt[idx].Val;
     }
     void setSplit( prcT val, int idx ) {
       outer_locked_scope
-        splt[idx].value = val;
+        splt[idx].Val = val;
       outer_scope_return(2, )
     }
     PROPLIST( prcT, Gain, GAINS );

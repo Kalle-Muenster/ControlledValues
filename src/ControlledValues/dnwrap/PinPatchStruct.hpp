@@ -13,45 +13,54 @@ namespace Stepflow {
                 VAL, MIN, MAX, MOV
             };
 
-            template<typename cT>
+            template<typename CtrlrType>
             public ref class SixBandCompPin {
-                typedef stepflow::MultiComp<short,6,Preci> NATIVE;
+                typedef stepflow::MultiComp<CtrlrType,6,Preci> NATIVE;
+                typedef stepflow::pins::MultiBandPin<6>        PINNUM;
             public:
-                static const byte ByPass = (byte)NATIVE::BYPASS;
-                static const double SampleRate = (double)NATIVE::RATE;
-                static const cT Ratio = NATIVE::MAIN_RATIO;
-                static const cT OutputPeak = cT(NATIVE::OUTPUT_PEAK);
+                static const byte  ByPass = (byte)PINNUM::BYPASS;
+                static const uint  SampleRate = PINNUM::SAMPLE_RATE;
+                static const Preci MainRatio = (Preci)PINNUM::COMPRESSI;
+                static const Preci InputGain = (Preci)PINNUM::INPUT_GAIN;
+                static const Preci OutputGain = (Preci)PINNUM::OUTPUT_GAIN;
+                static const CtrlrType OutputPeak = CtrlrType(PINNUM::OUTPUT_PEAK);
                 value class  Band {
                 public:
                     const int bandex;
                     Band( int index ) : bandex( index ) {}
                     property Preci Threshold {
-                        Preci get(void) { return (Preci)(bandex + NATIVE::BAND_WAIGHT); }
+                        Preci get(void) { return (Preci)PINNUM::WAIGHT( bandex ); }
                     }
                     property Preci GainLevel {
-                        Preci get(void) { return (Preci)(bandex + NATIVE::BAND_MIXERS); }
+                        Preci get(void) { return (Preci)PINNUM::MIXERS( bandex ); }
                     }
                     property Preci Compresso {
-                        Preci get(void) { return (Preci)(bandex + NATIVE::BAND_RATIOS); }
+                        Preci get(void) { return (Preci)PINNUM::RATIOS( bandex ); }
                     }
-                    property uint   Frequency {
-                          uint get(void) { return (uint)(bandex + NATIVE::BAND_SPLITS); }
+                    property Preci LevelValue {
+                        Preci get( void ) { return (Preci)PINNUM::LEVELS( bandex ); }
                     }
                 };
-                const static Band Band0 = Band(0);
                 const static Band Band1 = Band(1);
                 const static Band Band2 = Band(2);
                 const static Band Band3 = Band(3);
                 const static Band Band4 = Band(4);
                 const static Band Band5 = Band(5);
-                const static cT VAL = NATIVE::INPUT_GAIN - 1;
+                const static Band Band6 = Band(6);
+                const static uint Split1 = PINNUM::SPLITS( 1 );
+                const static uint Split2 = PINNUM::SPLITS( 2 );
+                const static uint Split3 = PINNUM::SPLITS( 3 );
+                const static uint Split4 = PINNUM::SPLITS( 4 );
+                const static uint Split5 = PINNUM::SPLITS( 5 );
+                const static CtrlrType VAL = CtrlrType( PINNUM::THRESHOLD - 1 );
             };
 
-            public ref class CP6BandShort : public SixBandCompPin<stepflow::s16> {};
-            public ref class CP6Band24Bit : public SixBandCompPin<Stepflow::Int24> {};
-            public ref class CP6BandInt32 : public SixBandCompPin<stepflow::s32> {};
-            public ref class CP6BandFloat : public SixBandCompPin<stepflow::f32> {};
-            public ref class CP6BandDoubl : public SixBandCompPin<stepflow::f64> {};
+            public ref class CP6BandShort : public SixBandCompPin<Stepflow::Int16> {};
+          //  public ref class CP6Band24Bit : public SixBandCompPin<Controlled::Int24> {};
+            public ref class CP6BandInt32 : public SixBandCompPin<Stepflow::Int32> {};
+          //  public ref class CP6BandHalf  : public SixBandCompPin<Stepflow::Float16> {};
+            public ref class CP6BandFloat : public SixBandCompPin<Stepflow::Float32> {};
+            public ref class CP6BandDoubl : public SixBandCompPin<Stepflow::Float64> {};
 
 
             public enum class DelegateMode {
@@ -171,13 +180,13 @@ namespace Stepflow {
             };
 
 
-#define CreateStepLengthCalculationFunction(cT) \
+#define CreateStepLengthCalculationFunction( cT ) \
 static Stepflow:: ## cT FromFrequency( cT frequency, Preci carrier, Controlled:: ## cT ## ^ controller ) \
-{ return (cT)(0.5 + ((Preci)(controller->MAX - controller->MIN) / (carrier / frequency))); }
+{ return cT( 0.5 + ( (Preci)( controller->MAX - controller->MIN ) / ( carrier / (Preci)frequency) ) ); }
 
             public ref class StepLength {
             public:
-                static Stepflow::Byte FromFrequency( int frequency, Preci carrierwave, Controlled::Byte^ controller )
+                static Stepflow::UInt8 FromFrequency( int frequency, Preci carrierwave, Controlled::UInt8^ controller )
                 {
                     return (byte)(0.5 + ((double)(controller->MAX - controller->MIN) / (carrierwave / frequency)));
                 }
@@ -196,6 +205,7 @@ static Stepflow:: ## cT FromFrequency( cT frequency, Preci carrier, Controlled::
                 CreateStepLengthCalculationFunction(UInt32)
                 CreateStepLengthCalculationFunction(UInt64)
                 
+                CreateStepLengthCalculationFunction(Float16)
                 CreateStepLengthCalculationFunction(Float32)
                 CreateStepLengthCalculationFunction(Float64)
 

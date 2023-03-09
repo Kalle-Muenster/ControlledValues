@@ -3,7 +3,10 @@ using System.Media;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-
+using Stepflow;
+using Stepflow.Audio;
+using Stepflow.Audio.FileIO;
+using Stepflow.Audio.FrameTypes;
 
 namespace TestQualle
 {
@@ -91,13 +94,12 @@ namespace TestQualle
 
             private void Media_Loade( object sender, RoutedEventArgs e )
             {
-                
                 ( sender as MediaElement ).Play();
             }
             private void Media_Ended( object sender, RoutedEventArgs e )
-            {
-                
+            { 
                 media.Position = new TimeSpan(0);
             }
-        };
+    };
+
 }

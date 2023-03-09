@@ -412,7 +412,7 @@ namespace TestQualle
 
             if( first ) {
                 first = false;
-                if( App.test != Consola.Test.TestResults.NONE ) {
+                if( App.flags != Consola.Test.TestResults.NONE ) {
                     Point p = Center;
                     centerX = (int)p.X;
                     centerY = (int)p.Y;

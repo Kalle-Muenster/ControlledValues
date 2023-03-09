@@ -58,50 +58,25 @@ void* Pin(void*pin,int idx) { \
 
 
 #define DeclareJackPin( pinTyp, pinNam ) protected: \
- PinJack<pinTyp> MERGE(pinNam)JACK; public: \
- pinTyp ADD_PREFIX(pinNam,get)(void) { return ADD_SUFFIX(pinNam,JACK).ext ? *MERGE(pinNam)JACK.pin.ptr : MERGE(pinNam)JACK.pin.var;  } \
- void ADD_PREFIX(pinNam,set)(pinTyp v) { if ( ADD_SUFFIX(pinNam,JACK).ext ) *MERGE(pinNam)JACK.pin.ptr = v; \
-                                         else ADD_SUFFIX(pinNam,JACK).pin.val = v; } \
-__declspec( property( get = ADD_PREFIX(pinNam,get), put = ADD_PREFIX(pinNam,set) ) ) pinTyp pinNam; \
- virtual void* Pin(void*pin, int idx) { \
-    if(idx) return BASE::Pin(pin,idx-1); \
-    if(pin) pinNam = (pinTyp*)pin; \
-    return  pinNam; \
+ PinJack<pinTyp> pinNam; public: \
+ virtual void* Pin( void*pin, int idx ) { \
+    if(idx) return BASE::Pin( pin, idx-1 ); \
+    if(pin) pinNam.point( (pinTyp*)pin ); \
+    return  pinNam.find(); \
 }
-
 
 #define DeclareJackPinArray( pinTyp, pinNam, pinCnt ) protected: \
- PinJack<pinTyp> MERGE(pinNam)JACK[pinCnt]; public: \
- pinTyp ADD_PREFIX(pinNam,get)(int num) { return ADD_SUFFIX(pinNam,JACK[num]).ext ? *MERGE(pinNam)JACK[num].pin.ptr : MERGE(pinNam)JACK[num].pin.var;  } \
- void ADD_PREFIX(pinNam,set)(int num,pinTyp v) { if ( ADD_SUFFIX(pinNam,JACK[num]).ext ) *MERGE(pinNam)JACK[num].pin.ptr = v; \
-                                                 else ADD_SUFFIX(pinNam,JACK[num]).pin.val = v; } \
-__declspec(property(get = ADD_PREFIX(pinNam,get), put = ADD_PREFIX(pinNam,set) )) pinTyp pinNam[pinCnt]; \
+ PinJack<pinTyp> pinNam[pinCnt]; public: \
 virtual void* Pin(void*pin, int idx) { \
     if(idx>=pinCnt) return BASE::Pin(pin,idx-pinCnt); \
-    if(pin) pinNam[idx] = (pinTyp*)pin; \
-    return  pinNam[idx]; \
+    if(pin) pinNam[idx].point( (pinTyp*)pin ); \
+    return  pinNam[idx].find(); \
 }
 
-/*
-#define MakePinJackProperty( jTy, jNm ) \
- jTy ADD_PREFIX( jNm, get )(void) { \
-     return ADD_SUFFIX( jNm, JACK ).ext \
-          ? ADD_SUFFIX(*jNm, JACK ).pin.ptr \
-          : ADD_SUFFIX( jNm, JACK ).pin.var; \
- } \
- void ADD_PREFIX( jNm, set )( jTy v ) { \
-      if ( ADD_SUFFIX( jNm, JACK ).ext ) \
-          *ADD_SUFFIX( jNm, JACK ).pin.ptr = v; \
-      else ADD_SUFFIX( jNm, JACK ).pin.val = v; \
- } \
- __declspec( property( get = ADD_PREFIX( jNm, get ), put = ADD_PREFIX( jNm, set ) ) ) jTy jNm;
-
 #define DeclareJackPinTwinBay( jackTA, jackNA, jackTB, jackNB, pinTC, pinNC, pinTD, pinND ) protected: \
- PinJack<jackTA> MERGE(jackNA)JACK; \
- PinJack<jackTB> MERGE(jackNB)JACK; \
+ PinJack<jackTA> jackNA; \
+ PinJack<jackTB> jackNB; \
  pinTC pinNC; pinTD pinND; public: \
- MakePinJackProperty( jackTA, jackNA ) \
- MakePinJackProperty( jackTB, jackNB ) \
  virtual void* Pin( void* pin, int idx ) { \
  switch( idx ) { \
     case 0: PIN_JACT( jackTB, jackNB ) \
@@ -111,5 +86,5 @@ virtual void* Pin(void*pin, int idx) { \
     default: return BASE::Pin( pin, idx-4 ); \
  } \
 }
-*/
+
 #endif

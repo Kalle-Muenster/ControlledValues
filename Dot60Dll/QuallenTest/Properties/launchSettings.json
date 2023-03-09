@@ -2,7 +2,6 @@
   "profiles": {
     "QuallenTest": {
       "commandName": "Project",
-      "commandLineArgs": "--testrun --verbose --xmllogs",
       "workingDirectory": "$(OutDir)",
       "nativeDebugging": true
     }

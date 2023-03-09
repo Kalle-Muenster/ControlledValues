@@ -19,10 +19,23 @@ namespace TestQualle
 
         private Dictionary<string,MethodInfo> privateApi;
 
+        private bool ReflectPrivateMethod( string method )
+        {
+            MethodInfo funcptr = testobject.GetType().GetMethod( method, BindingFlags.NonPublic | BindingFlags.Instance );
+            if( funcptr != null ) { privateApi.Add(method, funcptr); return true; }
+            return false;
+        }
 
+        private void CallPrivat( string methodname, params object[] parmeters )
+        {
+            testobject.Lock();
+            privateApi[methodname].Invoke(testobject, parmeters);
+            testobject.Unlock();
+        }
 
         public QuallenTest( MainWindow qualle, TestResults flags ) : base(flags)
         {
+            privateApi = new Dictionary<string, MethodInfo>();
             positionX = 0;
             positionY = 0;
             measuredX = 0;
@@ -30,16 +43,21 @@ namespace TestQualle
             timeout = TimeSpan.FromSeconds(2);
             testobject = qualle;
 
-            privateApi = new Dictionary<string,MethodInfo>();
-            privateApi.Add("controllerReConfiguration",qualle.GetType().GetMethod("controllerReConfiguration", BindingFlags.NonPublic|BindingFlags.Instance));
+            ReflectPrivateMethod("controllerReConfiguration");
+
 
             AddTestCase("Object is Moving", QuallenTest_ObjectMovesByOwnIntention);
             AddTestCase("Switching to Sinus mode", QuallenTest_SwitchingControlModeToSinus);
             AddTestCase("Switching to Pulse mode", QuallenTest_SwitchingControlModeToPulse);
             AddTestCase("Switching to PingPong mode", QuallenTest_SwitchingControlModeToPingPong);
             AddTestCase("Switching to Delegates", QuallenTest_SwitchingControlModeToDelegate);
-            
+
             AddTestCase("Ending the Test", QuallenTest_EndTestrun);
+        }
+
+        protected override void OnStartUp()
+        {
+            TimesStamps = true;
         }
 
         private void QuallenTest_EndTestrun()
@@ -52,9 +70,7 @@ namespace TestQualle
         {
             Thread.Sleep(10000);
             Stepflow.ControlMode lastMode = testobject.movement.Mode;
-            testobject.Lock();
-            privateApi["controllerReConfiguration"].Invoke(testobject, new object[] { "Sinus" });
-            testobject.Unlock();
+            CallPrivat("controllerReConfiguration", "Sinus");
             Stepflow.ControlMode newMode = testobject.movement.Mode;
             CheckStep(newMode != lastMode, "Change ControlMode to '{0}'", newMode);
             QuallenTest_ObjectMovesByOwnIntention();
@@ -64,9 +80,7 @@ namespace TestQualle
         private void QuallenTest_SwitchingControlModeToPulse()
         {
             Stepflow.ControlMode lastMode = testobject.movement.Mode;
-            testobject.Lock();
-            privateApi["controllerReConfiguration"].Invoke(testobject, new object[] { "Pulse" });
-            testobject.Unlock();
+            CallPrivat("controllerReConfiguration", "Pulse");
             Stepflow.ControlMode newMode = testobject.movement.Mode;
             CheckStep(newMode != lastMode, "Change ControlMode to '{0}'", newMode);
             QuallenTest_ObjectMovesByOwnIntention();
@@ -78,23 +92,21 @@ namespace TestQualle
             Stepflow.ControlMode lastMode = testobject.movement.Mode;
             measuredX = testobject.centerX;
             measuredY = testobject.centerY;
-            StepInfo( "Object is located at X:{0}, Y:{1}", measuredX, measuredY);
+            StepInfo("Object is located at X:{0}, Y:{1}", measuredX, measuredY);
 
-            positionX = measuredX - 50;
-            positionY = measuredY - 50;
-            ConTrol.Mouse( ConTrol.Move.Absolute, positionX, positionY );
-            StepInfo("Mouse Pointer placed at X:{0}, Y:{1}", positionX, positionY);
+            positionX = measuredX - 30;
+            positionY = measuredY - 30;
+            ConTrol.Mouse(ConTrol.Move.Absolute, positionX, positionY);
+            StepInfo("Mouse Pointer placed to X:{0}, Y:{1}", positionX, positionY);
             Thread.Sleep(250);
 
-            testobject.Lock();
-            privateApi["controllerReConfiguration"].Invoke(testobject, new object[] { "Follow" });
-            testobject.Unlock();
+            CallPrivat("controllerReConfiguration", "Follow");
             Stepflow.ControlMode newMode = testobject.movement.Mode;
-            CheckStep(newMode != lastMode, "Change ControlMode to '{0}'", newMode);
-            positionX -= 100;
-            positionY -= 50;
-            ConTrol.Mouse( ConTrol.Move.Absolute, positionX, positionY );
-            StepInfo("Mouse Pointer moved to X:{0}, Y:{1}", positionX, positionY );
+            CheckStep(newMode != lastMode, "Changed ControlMode to '{0}'", newMode);
+            positionX -= 200;
+            positionY -= 100;
+            ConTrol.Mouse(ConTrol.Move.Absolute, positionX, positionY);
+            StepInfo("Mouse Pointer placed at X:{0}, Y:{1}", positionX, positionY);
 
             QuallenTest_ObjectMovesByOwnIntention();
 
@@ -102,20 +114,19 @@ namespace TestQualle
 
             measuredX = testobject.centerX;
             measuredY = testobject.centerY;
-            int dist = Math.Abs(positionX - measuredX);
+
+            int dist = Math.Abs( positionX - measuredX );
             CheckStep(dist < 200, "Object distance to mouse X {0} pixels", dist);
             dist = Math.Abs(positionY - measuredY);
-            CheckStep(dist < 200, "Object distance to mouse Y {0} pixels", dist);
+            CheckStep(dist < 100, "Object distance to mouse Y {0} pixels", dist);
         }
 
         private void QuallenTest_SwitchingControlModeToPingPong()
         {
             Stepflow.ControlMode lastMode = testobject.movement.Mode;
-            testobject.Lock();
-            privateApi["controllerReConfiguration"].Invoke(testobject, new object[] { "PingPong" });
-            testobject.Unlock();
+            CallPrivat("controllerReConfiguration", "PingPong");
             Stepflow.ControlMode newMode = testobject.movement.Mode;
-            CheckStep(newMode != lastMode, "Change ControlMode to '{0}'", newMode);
+            CheckStep(newMode != lastMode, "Changed ControlMode to '{0}'", newMode);
             QuallenTest_ObjectMovesByOwnIntention();
             Thread.Sleep(5000);
         }
@@ -124,19 +135,20 @@ namespace TestQualle
         {
             // prepare
             System.Windows.Point point = new System.Windows.Point( testobject.centerX, testobject.centerY );
-            testobject.LocationChanged += Testobject_LocationChanged;
             positionX = measuredX = (int)point.X;
             positionY = measuredY = (int)point.Y;
             DateTime lastmeasure = DateTime.Now;
 
             // measure
-            while( ( measuredX == positionX || measuredY == positionY ) && ( ( DateTime.Now - lastmeasure ) < timeout ) ) {
-                Thread.Sleep(100);
-            } testobject.LocationChanged -= Testobject_LocationChanged;
+            testobject.LocationChanged += Testobject_LocationChanged;
+            do {
+                Thread.Sleep(200);
+            } while( ( measuredX == positionX || measuredY == positionY ) && ( ( DateTime.Now - lastmeasure ) < timeout ) );
+            testobject.LocationChanged -= Testobject_LocationChanged;
 
             // results
             int movement = positionX - measuredX;
-            int distance = Math.Abs(movement);
+            int distance = Math.Abs( movement );
             CheckStep(distance > 0, "Object has moved {0} pixels {1}", distance, movement == 0 ? string.Empty : movement < 0 ? "LEFT" : "RIGHT");
 
             movement = positionY - measuredY;

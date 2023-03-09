@@ -23,10 +23,10 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{57301112-2bff-44a9-a8fd-9e0d324a5199}</ProjectGuid>
     <RootNamespace>ControlledValues</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <TargetFrameworkVersion>
     </TargetFrameworkVersion>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -82,31 +82,40 @@
     <CopyLocalProjectReference>false</CopyLocalProjectReference>
     <CopyLocalDebugSymbols>false</CopyLocalDebugSymbols>
     <ManagedAssembly>true</ManagedAssembly>
-    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;.\..\..\..\Int24Types\src;..\..\..\Float16Type\Float16Type\src;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\bin\dot60\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
-    <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)</ReferencePath>
+    <ReferencePath>
+    </ReferencePath>
+    <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
+    <LinkDelaySign>false</LinkDelaySign>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;.\..\..\..\Int24Types\src;..\..\..\Float16Type\Float16Type\src;$(IncludePath)</IncludePath>
     <ManagedAssembly>true</ManagedAssembly>
     <OutDir>$(ProjectDir)..\..\bin\dot60\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)</ReferencePath>
+    <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
+    <LinkDelaySign>false</LinkDelaySign>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;.\..\..\..\Int24Types\src;..\..\..\Float16Type\Float16Type\src;$(IncludePath)</IncludePath>
     <ManagedAssembly>true</ManagedAssembly>
     <OutDir>$(ProjectDir)..\..\bin\dot60\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)</ReferencePath>
+    <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
+    <LinkDelaySign>false</LinkDelaySign>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);C:\CMD\CCommands;..\..\etc;..\..\inc;..\..\src\ControlledValues\dnwrap;.\..\..\..\Int24Types\src;..\..\..\Float16Type\Float16Type\src;$(IncludePath)</IncludePath>
     <ManagedAssembly>true</ManagedAssembly>
     <OutDir>$(ProjectDir)..\..\bin\dot60\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(PlatformTarget)\$(Configuration)\</IntDir>
     <ReferencePath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)</ReferencePath>
+    <LinkKeyFile>$(ProjectDir)..\..\src\ControlledValues.snk</LinkKeyFile>
+    <LinkDelaySign>false</LinkDelaySign>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -128,6 +137,9 @@
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
       <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>ControllenValues, Version=$(ControlledVersionString), Culture=neutral, PublicKeyToken=02368ae74123a494, processorArchitecture=x86</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -153,6 +165,9 @@
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
       <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>ControllenValues, Version=$(ControlledVersionString), Culture=neutral, PublicKeyToken=02368ae74123a494, processorArchitecture=x86</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -174,6 +189,9 @@
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
       <CLRThreadAttribute>STAThreadingAttribute</CLRThreadAttribute>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>ControllenValues, Version=$(ControlledVersionString), Culture=neutral, PublicKeyToken=02368ae74123a494, processorArchitecture=AMD64</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -199,6 +217,9 @@
       <Version>$(ControlledVersionNumber)</Version>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <Manifest>
+      <AssemblyIdentity>ControllenValues, Version=$(ControlledVersionString), Culture=neutral, PublicKeyToken=02368ae74123a494, processorArchitecture=AMD64</AssemblyIdentity>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\ControlledValues\dnwrap\ConstStruct.hpp" />
@@ -224,6 +245,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Float16Type">
+      <HintPath>$(Float16TypeBinRoot)\$(PlatformTarget)\$(Configuration)\Float16Type.dll</HintPath>
+    </Reference>
     <Reference Include="Int24Types">
       <HintPath>$(Int24TypesBinRoot)\$(PlatformTarget)\$(Configuration)\Int24Types.dll</HintPath>
     </Reference>

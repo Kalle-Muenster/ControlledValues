@@ -120,13 +120,6 @@ public:
     typedef cT TYPE;
     virtual uint controllerCode() const { return 0; }
 
-    //If set "true", the Value will be checked and updated
-    //every time it's red or written. ...useful for Clamping or Inverting
-    //If set to "false", it's Value won't be checked and won't be updated
-    //unless you call "Check()" on it manually. ...usefull for MovingValues
-    //like pingpong or cycle. it than can be updated once per frame in an
-    //update-loop for example, to let its Value stay the same during the
-    //whole frame-cycle.
     cT VAL, MIN, MAX, MOV;
 
     //constructor...

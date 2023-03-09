@@ -58,8 +58,7 @@ struct PinJack
     } ext;
 
     PinJack& operator =( pT* assignPointer ) {
-        pin.ptr = assignPointer;
-        external( assignPointer );
+        point( assignPointer );
         return *this;
     }
 
@@ -73,7 +72,7 @@ struct PinJack
     }
 
     operator pT* (void) {
-        return ext.flg < 0 ? pin.ptr : &pin.var;
+        return find();
     }
 
     template< typename U = stepflow::UserModeControl<pT> > U* umode(void) {
@@ -96,16 +95,23 @@ struct PinJack
         pin = copy.pin;
         ext = copy.ext;
     }
-    virtual void write( pT value ) {
-        if (ext.flg < 0) *pin.ptr = value;
-        else pin.var = value;
+    void point( pT* assignPointer ) {
+        pin.ptr = assignPointer;
+        external( assignPointer );
+    }
+    pT* find( void ) {
+        return ext.flg < 0 ? pin.ptr : &pin.var;
+    }
+
+    virtual void write( pT val ) {
+        if (ext.flg < 0) *pin.ptr = val;
+        else pin.var = val;
     }
     virtual pT read( void ) {
         return ext.flg < 0 ? *pin.ptr : pin.var;
     }
-
-    __declspec(property(get = read, put = write)) pT value;
-
+    __declspec( property( get = read, put = write ) ) pT Val;
+    __declspec( property( get = find, put = point ) ) pT* Ptr;
 };
 
 ENDOF_STEPFLOW_NAMESPACE

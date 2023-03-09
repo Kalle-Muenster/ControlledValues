@@ -26,7 +26,7 @@
         // output between a rgular Sine wave (at FORM = 0DB) to different kind of
         // wave forms:
         // - as closer FORM gets to (MIN) the more triangle characteristics the sine will gain
-        // - as closer FORM gets to (MAX) the more impulse characteristics the sine will gain
+        // - as closer FORM gets to (MAX) the more sawstack characteristics the sine will gain
         // the generated wave form gains.
         : public UserModeControl<cT>
     {
@@ -52,7 +52,7 @@
     public:
         virtual cT checkVALUE(cT* pVALUE)
         {
-            cT halbRange = (MAX - MIN) / 2;
+            cT halbRange = (MAX - MIN) / cT(2);
 
             WAVE += (MAX * MOV) / (MAX - MIN);
             WAVE  = WAVE >= halbRange

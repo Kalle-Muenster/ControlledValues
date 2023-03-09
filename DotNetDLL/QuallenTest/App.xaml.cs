@@ -140,7 +140,8 @@ namespace Qualle
                 test = TestResults.NONE;
             } else {
                 flags |= CreationFlags.CreateLog|CreationFlags.NoInputLog;
-            } StdStream.Init( flags );
+                StdStream.Init( flags );
+            } 
         }
 
         private void Application_Exit( object sender, ExitEventArgs e )
